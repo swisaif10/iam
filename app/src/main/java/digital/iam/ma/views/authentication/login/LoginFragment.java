@@ -1,0 +1,198 @@
+package digital.iam.ma.views.authentication.login;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.concurrent.Executor;
+
+import digital.iam.ma.databinding.FragmentLoginBinding;
+import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
+import digital.iam.ma.models.login.LoginData;
+import digital.iam.ma.models.updatepassword.UpdatePasswordData;
+import digital.iam.ma.utilities.Constants;
+import digital.iam.ma.utilities.Resource;
+import digital.iam.ma.utilities.Utilities;
+import digital.iam.ma.viewmodels.AuthenticationViewModel;
+import digital.iam.ma.views.authentication.AuthenticationActivity;
+import digital.iam.ma.views.authentication.discover.DiscoverOffersFragment;
+import digital.iam.ma.views.dashboard.DashboardActivity;
+
+public class LoginFragment extends Fragment {
+
+    private FragmentLoginBinding fragmentBinding;
+    private AuthenticationViewModel viewModel;
+    private PreferenceManager preferenceManager;
+    private Boolean isFirstLogin = true;
+    private String recoveredEmail;
+
+    public LoginFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(AuthenticationViewModel.class);
+        viewModel.getLoginLiveData().observe(this, this::handleLoginData);
+        viewModel.getResetPasswordLiveData().observe(this, this::handleResetPasswordData);
+
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        fragmentBinding = FragmentLoginBinding.inflate(inflater, container, false);
+        return fragmentBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        init();
+    }
+
+    private void init() {
+        fragmentBinding.forgottenPasswordBtn.setOnClickListener(v -> Utilities.showResetPasswordDialog(requireContext(), this::resetPassword));
+        fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(requireContext(), requireView()));
+        fragmentBinding.loginBtn.setOnClickListener(v -> login(fragmentBinding.username.getText().toString(), fragmentBinding.password.getText().toString()));
+        fragmentBinding.biometricBtn.setOnClickListener(v -> enableTouchID());
+
+        if (!preferenceManager.getValue(Constants.EMAIL, "").equalsIgnoreCase("")
+                && !preferenceManager.getValue(Constants.PASSWORD, "").equalsIgnoreCase("")) {
+            BiometricManager biometricManager = BiometricManager.from(requireContext());
+            if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS)
+                fragmentBinding.biometricBtn.setVisibility(View.VISIBLE);
+            isFirstLogin = false;
+        }
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentBinding.loginBtn.setEnabled(checkInputs());
+            }
+        };
+
+        fragmentBinding.username.addTextChangedListener(textWatcher);
+        fragmentBinding.password.addTextChangedListener(textWatcher);
+
+        fragmentBinding.discoverOffersBtn.setOnClickListener(v -> ((AuthenticationActivity) requireActivity()).addFragment(new DiscoverOffersFragment()));
+    }
+
+    private Boolean checkInputs() {
+        return !fragmentBinding.username.getText().toString().equalsIgnoreCase("") && !fragmentBinding.password.getText().toString().equalsIgnoreCase("");
+    }
+
+    private void login(String username, String password) {
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        viewModel.login(username, password, false, "fr");
+    }
+
+    private void handleLoginData(Resource<LoginData> responseData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        switch (responseData.status) {
+            case SUCCESS:
+                preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getData().getToken());
+                if (isFirstLogin) {
+                    preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
+                    preferenceManager.putValue(Constants.PASSWORD, fragmentBinding.password.getText().toString());
+                }
+                preferenceManager.putValue(Constants.IS_LOGGED_IN, true);
+                Intent intent = new Intent(requireActivity(), DashboardActivity.class);
+                intent.putExtra("is_first_login", isFirstLogin);
+                startActivity(intent);
+                requireActivity().finish();
+                break;
+            case LOADING:
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
+    }
+
+    private void enableTouchID() {
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Connexion biométrique")
+                .setSubtitle("Connectez-vous à l’aide de vos informations d’identification biométriques")
+                .setNegativeButtonText("Annuler")
+                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+                .build();
+
+
+        Executor executor = ContextCompat.getMainExecutor(requireContext());
+        BiometricPrompt biometricPrompt = new BiometricPrompt(requireActivity(),
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                login(preferenceManager.getValue(Constants.EMAIL, ""), preferenceManager.getValue(Constants.PASSWORD, ""));
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+
+        biometricPrompt.authenticate(promptInfo);
+
+    }
+
+    private void resetPassword(String email) {
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        recoveredEmail = email;
+        viewModel.resetPassword(email, "fr");
+    }
+
+    private void handleResetPasswordData(Resource<UpdatePasswordData> responseData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        switch (responseData.status) {
+            case SUCCESS:
+                Utilities.showErrorPopup(requireContext(), "Veuillez vérifier votre boite mail.");
+                preferenceManager.putValue(Constants.RECOVERED_EMAIL, recoveredEmail);
+                break;
+            case LOADING:
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
+    }
+
+}

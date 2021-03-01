@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "526419686567",
+    "project_id": "iam-digital-cc6ca",
+    "storage_bucket": "iam-digital-cc6ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526419686567:android:50e3b88504d3dcf6d41782",
+        "android_client_info": {
+          "package_name": "digital.iam.ma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526419686567-qq7k1lp12n10goegs0slsa949j97q1kl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC76O9ZB0NAJN1BxqkCU9wXWapbLT7HuRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526419686567-qq7k1lp12n10goegs0slsa949j97q1kl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "526419686567-gmqeq632fkgrlcvjt86l6dquteuv2kmu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mobiblanc.IAM"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
