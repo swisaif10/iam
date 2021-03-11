@@ -1,6 +1,6 @@
 package digital.iam.ma.views.dashboard.bundles;
 
-import android.content.res.ColorStateList;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,20 +8,23 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.lifecycle.ViewModelProviders;
 
-import java.util.ArrayList;
-
-import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentBundlesBinding;
-import digital.iam.ma.models.BundleItem;
+import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
+import digital.iam.ma.models.mybundle.MyBundleData;
+import digital.iam.ma.models.mybundle.MyBundleResponse;
+import digital.iam.ma.utilities.Constants;
+import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
+import digital.iam.ma.viewmodels.BundlesViewModel;
 
 public class BundlesFragment extends Fragment {
 
     private FragmentBundlesBinding fragmentBinding;
+    private BundlesViewModel viewModel;
+    private PreferenceManager preferenceManager;
 
     public BundlesFragment() {
         // Required empty public constructor
@@ -30,6 +33,13 @@ public class BundlesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(BundlesViewModel.class);
+        viewModel.getMyBundleLiveData().observe(this, this::handleMyBundleDetailsData);
+
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
 
     }
 
@@ -44,79 +54,32 @@ public class BundlesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        init();
+        getMyBundleDetails();
     }
 
-    private void init() {
+    private void init(MyBundleResponse myBundleResponse) {
+        fragmentBinding.bundleName.setText(String.format("%s\n%s", myBundleResponse.getBundle().getLabel(), myBundleResponse.getBundle().getDetails()));
+        fragmentBinding.msisdn.setText(myBundleResponse.getMsisdn());
+        fragmentBinding.date.setText(String.format("%s\n%s", myBundleResponse.getDate().getStart(), myBundleResponse.getDate().getExpire()));
 
-        ArrayList<BundleItem> list1 = new ArrayList<BundleItem>() {{
-            add(new BundleItem("12GO", "59 dh / mois", false));
-            add(new BundleItem("20GO", "99 dh / mois", true));
-            add(new BundleItem("30GO", "159 dh / mois", false));
-            add(new BundleItem("50GO", "199 dh / mois", false));
-        }};
+    }
 
-        ArrayList<BundleItem> list2 = new ArrayList<BundleItem>() {{
-            add(new BundleItem("30GO", "220 dh / mois", false));
-            add(new BundleItem("12GO", "220 dh / mois", true));
-            add(new BundleItem("14GO", "220 dh / mois", false));
-            add(new BundleItem("30GO", "220 dh / mois", false));
-        }};
+    private void getMyBundleDetails() {
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        viewModel.getMyBundleDetails(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+    }
 
-        ArrayList<BundleItem> list3 = new ArrayList<BundleItem>() {{
-            add(new BundleItem("10GO", "", false));
-            add(new BundleItem("20GO", "", true));
-            add(new BundleItem("30GO", "", false));
-            add(new BundleItem("50GO", "", false));
-            add(new BundleItem("10GO", "", false));
-            add(new BundleItem("20GO", "", false));
-            add(new BundleItem("30GO", "", false));
-            add(new BundleItem("50GO", "", false));
-        }};
-
-        fragmentBinding.bundlesRecycler.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        fragmentBinding.bundlesRecycler.setAdapter(new BundlesAdapter(requireContext(), list1));
-        fragmentBinding.bundlesRecycler.setNestedScrollingEnabled(false);
-
-        fragmentBinding.bundle1Btn.setOnClickListener(v -> {
-            fragmentBinding.bundle1Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey1)));
-            fragmentBinding.bundle2Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey5)));
-            fragmentBinding.bundle3Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey5)));
-
-
-            fragmentBinding.bundlesRecycler.setAdapter(new BundlesAdapter(requireContext(), list1));
-        });
-        fragmentBinding.bundle2Btn.setOnClickListener(v -> {
-            fragmentBinding.bundle1Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey5)));
-            fragmentBinding.bundle2Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey1)));
-            fragmentBinding.bundle3Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey5)));
-
-            fragmentBinding.bundlesRecycler.setAdapter(new BundlesAdapter(requireContext(), list2));
-        });
-        fragmentBinding.bundle3Btn.setOnClickListener(v -> {
-            fragmentBinding.bundle1Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey5)));
-            fragmentBinding.bundle2Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey5)));
-            fragmentBinding.bundle3Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey1)));
-
-            fragmentBinding.bundlesRecycler.setAdapter(new BundlesAdapter(requireContext(), list3));
-        });
-
-        fragmentBinding.changeBundleBtn.setOnClickListener(v -> Utilities.showPurchaseDialog(requireContext(), v1 -> {
-            fragmentBinding.bundle1Btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.grey1)));
-            fragmentBinding.bundlesList.setAlpha(1.0f);
-            fragmentBinding.bundlesDetails.setAlpha(1.0f);
-        }));
-
-        fragmentBinding.bundleDetailsBtn.setOnClickListener(v -> Utilities.showBundleDetailsDialog(requireContext()));
-
-        /*fragmentBinding.limitedBtn.setOnClickListener(v -> {
-            fragmentBinding.limitedBtn.setBackgroundResource(R.drawable.selected_bundle_background);
-            fragmentBinding.unlimitedBtn.setBackgroundResource(R.drawable.unselected_bundle_background);
-        });
-
-        fragmentBinding.unlimitedBtn.setOnClickListener(v -> {
-            fragmentBinding.limitedBtn.setBackgroundResource(R.drawable.unselected_bundle_background);
-            fragmentBinding.unlimitedBtn.setBackgroundResource(R.drawable.selected_bundle_background);
-        });*/
+    private void handleMyBundleDetailsData(Resource<MyBundleData> responseData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        switch (responseData.status) {
+            case SUCCESS:
+                init(responseData.data.getMyBundleResponse());
+                break;
+            case LOADING:
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
     }
 }

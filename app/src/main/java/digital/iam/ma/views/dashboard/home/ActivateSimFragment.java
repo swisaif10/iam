@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import digital.iam.ma.databinding.FragmentActivateSimBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.utilities.Constants;
+import digital.iam.ma.utilities.NumericKeyBoardTransformationMethod;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.HomeViewModel;
@@ -61,8 +63,11 @@ public class ActivateSimFragment extends Fragment {
 
     private void init() {
         fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
-
+        fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(requireContext(), requireView()));
         fragmentBinding.validateBtn.setOnClickListener(v -> activateSim());
+
+        fragmentBinding.code.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        fragmentBinding.code.setTransformationMethod(new NumericKeyBoardTransformationMethod());
     }
 
     private void activateSim() {

@@ -30,7 +30,7 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return 8;
+        return 4;
     }
 
 
@@ -44,7 +44,7 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
         }
 
         private void bind() {
-            if (getAdapterPosition() == 7)
+            if (getAdapterPosition() == 3)
                 itemBinding.separator.setVisibility(View.GONE);
         }
     }

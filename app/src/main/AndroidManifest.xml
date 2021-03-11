@@ -27,7 +27,6 @@
             </intent-filter>
 
             <intent-filter>
-                <!--                <data android:scheme="com.mobiblanc.gray.web" />-->
                 <data
                     android:host="web.gray.mobiblanc.com"
                     android:pathPrefix="/reset"
@@ -42,7 +41,8 @@
         <activity
             android:name="digital.iam.ma.views.dashboard.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name="digital.iam.ma.views.authentication.AuthenticationActivity"
             android:screenOrientation="portrait"

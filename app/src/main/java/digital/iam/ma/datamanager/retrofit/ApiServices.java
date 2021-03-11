@@ -1,7 +1,13 @@
 package digital.iam.ma.datamanager.retrofit;
 
+import digital.iam.ma.models.bundles.BundlesData;
+import digital.iam.ma.models.cart.add.AddItemData;
+import digital.iam.ma.models.cart.get.GetItemsData;
 import digital.iam.ma.models.commons.ResponseData;
+import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.login.LoginData;
+import digital.iam.ma.models.logout.LogoutData;
+import digital.iam.ma.models.mybundle.MyBundleData;
 import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
 import retrofit2.Call;
@@ -48,5 +54,38 @@ public interface ApiServices {
     @POST(ApiEndpoints.GET_SERVICES_URL)
     Call<ServicesData> getServices(@Field("token") String token,
                                    @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.GET_MY_BUNDLE_URL)
+    Call<MyBundleData> getMyBundle(@Field("token") String token,
+                                   @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.LOGOUT_URL)
+    Call<LogoutData> logout(@Field("token") String token,
+                            @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.GET_MY_CONSUMPTION_URL)
+    Call<MyConsumptionData> getMyConsumption(@Field("token") String token,
+                                             @Path("locale") String lang);
+
+    //********************************************************
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.GET_BUNDLES_URL)
+    Call<BundlesData> getBundles(@Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.ADD_ITEM_URL)
+    Call<AddItemData> addItem(@Field("token") String token,
+                              @Field("sku") String sku,
+                              @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.GET_ITEMS_URL)
+    Call<GetItemsData> getItems(@Field("token") String token,
+                               @Field("quote_id") String quoteId,
+                               @Path("locale") String lang);
 
 }

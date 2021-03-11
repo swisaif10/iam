@@ -261,7 +261,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
                     android:drawablePadding="5dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center"
@@ -270,21 +269,37 @@
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_phone" />
 
-                <TextView
+                <RelativeLayout
                     android:id="@+id/logoutBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:gravity="center"
-                    android:text="@string/logout_btn_label"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    app:drawableStartCompat="@drawable/ic_deconnect" />
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="@string/logout_btn_label"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        app:drawableStartCompat="@drawable/ic_deconnect" />
+                </RelativeLayout>
             </LinearLayout>
 
         </RelativeLayout>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/loader"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/loader"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

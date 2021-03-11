@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -15,7 +16,11 @@ import java.util.ArrayList;
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.ActivityDashboardBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
+import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.utilities.Constants;
+import digital.iam.ma.utilities.Resource;
+import digital.iam.ma.utilities.Utilities;
+import digital.iam.ma.viewmodels.DashboardViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.base.BaseActivity;
 import digital.iam.ma.views.dashboard.bundles.BundlesFragment;
@@ -34,6 +39,7 @@ public class DashboardActivity extends BaseActivity {
     private ArrayList<Fragment> fragments;
     private Boolean menuIsVisible = false;
     private PreferenceManager preferenceManager;
+    private DashboardViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,10 @@ public class DashboardActivity extends BaseActivity {
         preferenceManager = new PreferenceManager.Builder(this, Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
+
+        viewModel = ViewModelProviders.of(this).get(DashboardViewModel.class);
+        viewModel.getLogoutLiveData().observe(this, this::handleLogoutData);
+
 
         init();
     }
@@ -145,9 +155,8 @@ public class DashboardActivity extends BaseActivity {
         activityBinding.cartBtn.setOnClickListener(v -> addFragment(new CartFragment()));
 
         activityBinding.logoutBtn.setOnClickListener(v -> {
-            preferenceManager.clearValue(Constants.IS_LOGGED_IN);
-            startActivity(new Intent(DashboardActivity.this, AuthenticationActivity.class));
-            finishAffinity();
+            closeSideMenu();
+            logout();
         });
 
     }
@@ -156,5 +165,26 @@ public class DashboardActivity extends BaseActivity {
         activityBinding.slideMenu.animate().translationX(activityBinding.slideMenu.getWidth());
         menuIsVisible = false;
         activityBinding.closeMenu.setVisibility(View.GONE);
+    }
+
+    private void logout() {
+        activityBinding.loader.setVisibility(View.VISIBLE);
+        viewModel.logout(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+    }
+
+    private void handleLogoutData(Resource<LogoutData> responseData) {
+        activityBinding.loader.setVisibility(View.GONE);
+        switch (responseData.status) {
+            case SUCCESS:
+                preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                startActivity(new Intent(DashboardActivity.this, AuthenticationActivity.class));
+                finishAffinity();
+                break;
+            case LOADING:
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(this, responseData.message);
+                break;
+        }
     }
 }

@@ -13,16 +13,16 @@ import java.util.List;
 
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.BundlesItemLayoutBinding;
-import digital.iam.ma.models.BundleItem;
+import digital.iam.ma.models.bundles.Bundle;
 
 public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHolder> {
 
     private final Context context;
-    private List<BundleItem> bundleItemList;
+    private List<Bundle> bundles;
 
-    public BundlesAdapter(Context context, List<BundleItem> bundleItemList) {
+    public BundlesAdapter(Context context, List<Bundle> bundles) {
         this.context = context;
-        this.bundleItemList = bundleItemList;
+        this.bundles = bundles;
     }
 
     @NonNull
@@ -36,12 +36,12 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(bundleItemList.get(position));
+        holder.bind(bundles.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return bundleItemList.size();
+        return bundles.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,8 +53,8 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
             this.itemBinding = itemBinding;
         }
 
-        private void bind(BundleItem bundleItem) {
-            itemBinding.title.setText(bundleItem.getTitle());
+        private void bind(Bundle bundle) {
+          /*  itemBinding.title.setText(bundleItem.getTitle());
             if (bundleItem.getSubtitle().equalsIgnoreCase(""))
                 itemBinding.subtitle.setVisibility(View.GONE);
             else
@@ -83,7 +83,7 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
                     bundleItemList.get(getAdapterPosition()).setSelected(true);
                 }
                 notifyDataSetChanged();
-            });
+            });*/
         }
     }
 }
