@@ -14,5 +14,6 @@ public interface ApiEndpoints {
     String GET_MY_BUNDLE_URL = "api/{locale}/forfaits/mine";
     String LOGOUT_URL = "api/{locale}/logout";
     String GET_MY_CONSUMPTION_URL = "api/{locale}/consumption";
-
+    String GET_ORDERS_URL = "api/{locale}/store/order/history";
+    String LINE_STATUS_URL = "api/{locale}/line-status";
 }

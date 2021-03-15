@@ -13,9 +13,11 @@ import digital.iam.ma.models.cart.add.AddItemData;
 import digital.iam.ma.models.cart.get.GetItemsData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.linestatus.LineStatusData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.mybundle.MyBundleData;
+import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
 import digital.iam.ma.utilities.Resource;
@@ -204,6 +206,63 @@ public class ApiManager {
         });
     }
 
+    public void getOrders(String token, String lang, MutableLiveData<Resource<GetOrdersData>> mutableLiveData) {
+        Call<GetOrdersData> call = RetrofitClient.getInstance().endpoint().getOrders(token, lang);
+        call.enqueue(new Callback<GetOrdersData>() {
+            @Override
+            public void onResponse(@NonNull Call<GetOrdersData> call, @NonNull Response<GetOrdersData> response) {
+                assert response.body() != null;
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetOrdersData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void getLineStatus(String token, String lang, MutableLiveData<Resource<LineStatusData>> mutableLiveData) {
+        Call<LineStatusData> call = RetrofitClient.getInstance().endpoint().getLineStatus(token, lang);
+        call.enqueue(new Callback<LineStatusData>() {
+            @Override
+            public void onResponse(@NonNull Call<LineStatusData> call, @NonNull Response<LineStatusData> response) {
+                assert response.body() != null;
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<LineStatusData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void getItems(String token, String lang, MutableLiveData<Resource<GetItemsData>> mutableLiveData) {
+        Call<GetItemsData> call = RetrofitClient.getInstance().endpoint().getItems(token, lang);
+        call.enqueue(new Callback<GetItemsData>() {
+            @Override
+            public void onResponse(@NonNull Call<GetItemsData> call, @NonNull Response<GetItemsData> response) {
+                assert response.body() != null;
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetItemsData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
     //**********************************************************************************************
 
     public void getBundles(String lang, MutableLiveData<Resource<BundlesData>> mutableLiveData) {
@@ -243,24 +302,4 @@ public class ApiManager {
             }
         });
     }
-
-    public void getItems(String token, String quoteId, String lang, MutableLiveData<Resource<GetItemsData>> mutableLiveData) {
-        Call<GetItemsData> call = RetrofitClient.getInstance().endpoint().getItems(token, quoteId, lang);
-        call.enqueue(new Callback<GetItemsData>() {
-            @Override
-            public void onResponse(@NonNull Call<GetItemsData> call, @NonNull Response<GetItemsData> response) {
-                assert response.body() != null;
-                if (response.body().getHeader().getCode() == 200)
-                    mutableLiveData.setValue(Resource.success(response.body()));
-                else
-                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<GetItemsData> call, @NonNull Throwable t) {
-                HandleThrowableException(t, mutableLiveData);
-            }
-        });
-    }
-
 }

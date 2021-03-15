@@ -80,6 +80,8 @@ public class ServicesFragment extends Fragment {
         availableServicesAdapter = new ServicesAdapter(availableServices);
         fragmentBinding.availableServicesRecycler.setAdapter(availableServicesAdapter);
         fragmentBinding.availableServicesRecycler.setNestedScrollingEnabled(false);
+
+        fragmentBinding.body.setVisibility(View.VISIBLE);
     }
 
     private void getServices() {

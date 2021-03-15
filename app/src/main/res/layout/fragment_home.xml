@@ -8,12 +8,14 @@
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background"
             android:fillViewport="true"
             android:overScrollMode="never"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"

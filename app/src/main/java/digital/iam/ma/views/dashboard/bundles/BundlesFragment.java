@@ -61,7 +61,10 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.bundleName.setText(String.format("%s\n%s", myBundleResponse.getBundle().getLabel(), myBundleResponse.getBundle().getDetails()));
         fragmentBinding.msisdn.setText(myBundleResponse.getMsisdn());
         fragmentBinding.date.setText(String.format("%s\n%s", myBundleResponse.getDate().getStart(), myBundleResponse.getDate().getExpire()));
+        fragmentBinding.total.setText(myBundleResponse.getTotal().getAmount());
+        fragmentBinding.unit.setText(String.format("%s\n/%s", myBundleResponse.getTotal().getCurrency(), myBundleResponse.getTotal().getPeriod()));
 
+        fragmentBinding.body.setVisibility(View.VISIBLE);
     }
 
     private void getMyBundleDetails() {
@@ -73,6 +76,7 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.loader.setVisibility(View.GONE);
         switch (responseData.status) {
             case SUCCESS:
+                assert responseData.data != null;
                 init(responseData.data.getMyBundleResponse());
                 break;
             case LOADING:

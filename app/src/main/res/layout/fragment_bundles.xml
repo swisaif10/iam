@@ -12,9 +12,11 @@
         android:scrollbars="none">
 
         <LinearLayout
+            android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/title"
@@ -166,9 +168,9 @@
                         android:fontFamily="@font/montserrat_semibold"
                         android:gravity="end"
                         android:includeFontPadding="false"
-                        android:text="249"
                         android:textColor="@color/black"
-                        android:textSize="30sp" />
+                        android:textSize="30sp"
+                        tools:text="249" />
 
                     <TextView
                         android:id="@+id/unit"

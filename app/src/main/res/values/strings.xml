@@ -73,4 +73,5 @@
     <string name="flurry_key">48H6FGXR3FWGPNH4J9RZ</string>
     <string name="Bundles_title">Mes forfaits</string>
     <string name="update_bundle_btn_label">changer mon forfait</string>
+    <string name="buy_bundle_btn_label">payer ce forfait</string>
 </resources>

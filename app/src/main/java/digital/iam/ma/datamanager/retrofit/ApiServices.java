@@ -5,9 +5,11 @@ import digital.iam.ma.models.cart.add.AddItemData;
 import digital.iam.ma.models.cart.get.GetItemsData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.linestatus.LineStatusData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.mybundle.MyBundleData;
+import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
 import retrofit2.Call;
@@ -70,6 +72,21 @@ public interface ApiServices {
     Call<MyConsumptionData> getMyConsumption(@Field("token") String token,
                                              @Path("locale") String lang);
 
+    @FormUrlEncoded
+    @POST(ApiEndpoints.GET_ORDERS_URL)
+    Call<GetOrdersData> getOrders(@Field("token") String token,
+                                  @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.LINE_STATUS_URL)
+    Call<LineStatusData> getLineStatus(@Field("token") String token,
+                                       @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.GET_ITEMS_URL)
+    Call<GetItemsData> getItems(@Field("token") String token,
+                                @Path("locale") String lang);
+
     //********************************************************
 
     @FormUrlEncoded
@@ -81,11 +98,5 @@ public interface ApiServices {
     Call<AddItemData> addItem(@Field("token") String token,
                               @Field("sku") String sku,
                               @Path("locale") String lang);
-
-    @FormUrlEncoded
-    @POST(ApiEndpoints.GET_ITEMS_URL)
-    Call<GetItemsData> getItems(@Field("token") String token,
-                               @Field("quote_id") String quoteId,
-                               @Path("locale") String lang);
 
 }

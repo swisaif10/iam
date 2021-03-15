@@ -7,11 +7,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import digital.iam.ma.databinding.PaymentItemLayoutBinding;
+import digital.iam.ma.models.orders.Order;
 
 public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHolder> {
 
-    public PaymentsAdapter() {
+    private final List<Order> orders;
+
+    public PaymentsAdapter(List<Order> orders) {
+        this.orders = orders;
     }
 
     @NonNull
@@ -25,12 +31,12 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind();
+        holder.bind(orders.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return orders.size();
     }
 
 
@@ -43,8 +49,13 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
             this.itemBinding = itemBinding;
         }
 
-        private void bind() {
-            if (getAdapterPosition() == 3)
+        private void bind(Order order) {
+            itemBinding.title.setText(order.getOrderTitle());
+            itemBinding.subtitle.setText(order.getOrderStatus());
+            itemBinding.msisdn.setText("0000000000");
+            itemBinding.price.setText(order.getOrderTotal());
+
+            if (getAdapterPosition() == (orders.size() - 1))
                 itemBinding.separator.setVisibility(View.GONE);
         }
     }

@@ -21,6 +21,9 @@ import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.consumption.MyConsumptionResponse;
+import digital.iam.ma.models.linestatus.LineStatusData;
+import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.orders.GetOrdersResponse;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
@@ -72,6 +75,8 @@ public class HomeFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         viewModel.getMyConsumptionLiveData().observe(this, this::handleMyConsumptionData);
+        viewModel.getGetOrdersLiveData().observe(this, this::handleGetOrdersData);
+        viewModel.getLineStatusLiveData().observe(this, this::handleLineStatusData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -88,8 +93,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        getMyConsumption();
+        init();
+        getLineStatus();
     }
 
     @Override
@@ -101,12 +106,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void init(MyConsumptionResponse response) {
-
-        fragmentBinding.paymentsList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter());
-        fragmentBinding.paymentsList.setNestedScrollingEnabled(false);
-
+    private void init() {
         fragmentBinding.activateSimBtn.setOnClickListener(v -> Utilities.showActivateSimDialog(requireContext(), v1 -> {
             ActivateSimFragment addNewAddressFragment = new ActivateSimFragment();
             addNewAddressFragment.setTargetFragment(HomeFragment.this, REQUEST_CODE);
@@ -114,7 +114,9 @@ public class HomeFragment extends Fragment {
         }));
 
         fragmentBinding.rechargeBtn.setOnClickListener(v -> Utilities.showRechargeDialog(requireContext(), v12 -> Utilities.showConfirmRechargeDialog(requireContext())));
+    }
 
+    private void initConsumption(MyConsumptionResponse response) {
         fragmentBinding.dataConsumptionReview.setValue(Float.parseFloat(response.getMyConsumption().getInternet().getPercent()));
         fragmentBinding.percentData.setText(String.format("%s%%", response.getMyConsumption().getInternet().getPercent()));
         fragmentBinding.consumedData.setText(String.format("%sGO", response.getMyConsumption().getInternet().getConsumed()));
@@ -124,16 +126,63 @@ public class HomeFragment extends Fragment {
         fragmentBinding.consumedVoice.setText(String.format("%sh", response.getMyConsumption().getVoice().getConsumed()));
     }
 
-    private void getMyConsumption() {
+    private void initOrders(GetOrdersResponse response) {
+        fragmentBinding.paymentsList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter(response.getOrders()));
+        fragmentBinding.paymentsList.setNestedScrollingEnabled(false);
+
+        fragmentBinding.body.setVisibility(View.VISIBLE);
+    }
+
+    private void getLineStatus() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
+        viewModel.getLineStatus(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+    }
+
+    private void handleLineStatusData(Resource<LineStatusData> responseData) {
+        switch (responseData.status) {
+            case SUCCESS:
+                if (responseData.data.getResponse().getData().getStatus().equalsIgnoreCase("1"))
+                    fragmentBinding.activateSimBtn.setVisibility(View.GONE);
+                getMyConsumption();
+                break;
+            case LOADING:
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
+    }
+
+    private void getMyConsumption() {
         viewModel.getMyConsumption(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
     }
 
     private void handleMyConsumptionData(Resource<MyConsumptionData> responseData) {
+        switch (responseData.status) {
+            case SUCCESS:
+                assert responseData.data != null;
+                initConsumption(responseData.data.getMyConsumptionResponse());
+                getOrders();
+                break;
+            case LOADING:
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
+    }
+
+    private void getOrders() {
+        viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+    }
+
+    private void handleGetOrdersData(Resource<GetOrdersData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
         switch (responseData.status) {
             case SUCCESS:
-                init(responseData.data.getMyConsumptionResponse());
+                assert responseData.data != null;
+                initOrders(responseData.data.getResponse());
                 break;
             case LOADING:
                 break;

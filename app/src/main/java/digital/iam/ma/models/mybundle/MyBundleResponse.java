@@ -12,6 +12,8 @@ public class MyBundleResponse {
     private Bundle forfait;
     @Expose
     private String msisdn;
+    @Expose
+    private Total total;
 
     public Date getDate() {
         return date;
@@ -37,4 +39,11 @@ public class MyBundleResponse {
         this.msisdn = msisdn;
     }
 
+    public Total getTotal() {
+        return total;
+    }
+
+    public void setTotal(Total total) {
+        this.total = total;
+    }
 }
