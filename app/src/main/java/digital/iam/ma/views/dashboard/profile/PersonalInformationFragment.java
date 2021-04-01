@@ -60,6 +60,8 @@ public class PersonalInformationFragment extends Fragment {
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(requireContext(), requireView()));
 
         fragmentBinding.updatePasswordBtn.setOnClickListener(v -> Utilities.showUpdatePasswordDialog(requireContext(), this::updatePassword));
+
+        fragmentBinding.womenBtn.setChecked(true);
     }
 
     private void updatePassword(String currentPassword, String newPassword) {

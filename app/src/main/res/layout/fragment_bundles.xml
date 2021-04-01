@@ -3,477 +3,487 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
         android:fillViewport="true"
         android:overScrollMode="never"
         android:scrollbars="none">
 
-        <LinearLayout
-            android:id="@+id/body"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_semibold"
-                android:includeFontPadding="false"
-                android:text="@string/Bundles_title"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
             <LinearLayout
+                android:id="@+id/body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/white_background"
                 android:orientation="vertical"
-                android:padding="10dp">
-
-                <ImageView
-                    android:id="@+id/editBundleBtn"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="end"
-                    android:src="@drawable/ic_edit" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/bundle_label"
-                        android:textColor="@color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/bundleName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:gravity="end"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        tools:text="Intennet 30 GO\nAppels, SMS illimités" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/number_label"
-                        android:textColor="@color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/msisdn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:gravity="end"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        tools:text="06 55 64 04 11" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/date_label"
-                        android:textColor="@color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:gravity="end"
-                        android:includeFontPadding="false"
-                        android:text="Débute le 21/01/2021\nExpire le 22/01/2021"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
-
-                </RelativeLayout>
-
-                <View
-                    android:id="@+id/separator"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#3300004D" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:includeFontPadding="false"
-                        android:text="@string/total_label"
-                        android:textAllCaps="true"
-                        android:textColor="@color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@id/unit"
-                        android:fontFamily="@font/montserrat_semibold"
-                        android:gravity="end"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        android:textSize="30sp"
-                        tools:text="249" />
-
-                    <TextView
-                        android:id="@+id/unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:fontFamily="@font/montserrat_extrabold"
-                        android:gravity="end"
-                        android:includeFontPadding="false"
-                        android:text="DH\n/ mois"
-                        android:textColor="@color/black"
-                        android:textSize="7sp" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/changeBundleBtn"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginHorizontal="40dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="@color/grey1"
-                android:fontFamily="@font/montserrat_extrabold"
-                android:text="@string/update_bundle_btn_label"
-                app:cornerRadius="7dp" />
-
-            <RelativeLayout
-                android:id="@+id/bundlesList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:alpha="0.4"
-                android:background="@drawable/white_background"
-                android:backgroundTint="@color/grey9"
                 android:visibility="gone">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/bundlesRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2"
-                    tools:itemCount="6"
-                    tools:listitem="@layout/bundles_item_layout" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/bundlesDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:alpha="0.4"
-                android:background="@drawable/white_background"
-                android:elevation="10dp"
-                android:orientation="vertical"
-                android:paddingVertical="20dp"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/montserrat_extrabold"
-                        android:includeFontPadding="false"
-                        android:text="249"
-                        android:textColor="@color/black"
-                        android:textSize="72sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:includeFontPadding="false"
-                        android:text="DH\n/ mois"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginVertical="20dp"
-                    android:background="#44707070" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:fontFamily="@font/montserrat_light"
-                        android:includeFontPadding="false"
-                        android:text="Internet"
-                        android:textColor="@color/black"
-                        android:textSize="22sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/montserrat_semibold"
-                        android:includeFontPadding="false"
-                        android:text="30 GO"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginVertical="20dp"
-                    android:background="#44707070" />
-
                 <TextView
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/montserrat_light"
+                    android:fontFamily="@font/montserrat_semibold"
                     android:includeFontPadding="false"
-                    android:text="Appels, SMS illimités"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginVertical="20dp"
-                    android:background="#44707070" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/montserrat_light"
-                    android:includeFontPadding="false"
-                    android:text="Sans engagement"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/montserrat_light"
-                    android:includeFontPadding="false"
-                    android:text="Sans frais de mise en service"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/montserrat_light"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="Plafonnées, avec possibilité de recharger en ligne"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:text="@string/Bundles_title"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blue"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
                     android:background="@drawable/white_background"
-                    android:backgroundTint="@color/grey9"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/limitedBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/selected_bundle_background"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:gravity="center"
-                            android:includeFontPadding="false"
-                            android:text="3 Heures"
-                            android:textColor="@color/white"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/montserrat_light"
-                            android:gravity="center"
-                            android:includeFontPadding="false"
-                            android:text="Vers le national"
-                            android:textColor="@color/white"
-                            android:textSize="10sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/unlimitedBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:gravity="center"
-                            android:includeFontPadding="false"
-                            android:text="Illimité"
-                            android:textColor="@color/grey8"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/montserrat_light"
-                            android:gravity="center"
-                            android:includeFontPadding="false"
-                            android:text="Voix et SMS vers le national"
-                            android:textColor="@color/grey8"
-                            android:textSize="10sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/bundleDetailsBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="17dp"
-                        android:background="@drawable/ic_profile"
-                        android:src="@drawable/ic_goright"
-                        app:tint="@color/white" />
+                        android:id="@+id/editBundleBtn"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_edit" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:includeFontPadding="false"
+                            android:text="@string/bundle_label"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/bundleName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:gravity="end"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            tools:text="Intennet 30 GO\nAppels, SMS illimités" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:includeFontPadding="false"
+                            android:text="@string/number_label"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/msisdn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:gravity="end"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            tools:text="06 55 64 04 11" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:includeFontPadding="false"
+                            android:text="@string/date_label"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:gravity="end"
+                            android:includeFontPadding="false"
+                            android:text="Débute le 21/01/2021\nExpire le 22/01/2021"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/separator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#3300004D" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:includeFontPadding="false"
+                            android:text="@string/total_label"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toStartOf="@id/unit"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:gravity="end"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/orange"
+                            android:textSize="30sp"
+                            tools:text="249" />
+
+                        <TextView
+                            android:id="@+id/unit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/montserrat_extrabold"
+                            android:gravity="end"
+                            android:includeFontPadding="false"
+                            android:text="DH\n/ mois"
+                            android:textColor="@color/orange"
+                            android:textSize="7sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/changeBundleBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/orange_bg"
+                    android:fontFamily="@font/montserrat_extrabold"
+                    android:text="@string/update_bundle_btn_label"
+                    android:textColor="@color/white" />
+
+                <RelativeLayout
+                    android:id="@+id/bundlesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:alpha="0.4"
+                    android:background="@drawable/white_background"
+                    android:backgroundTint="@color/grey9"
+                    android:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/bundlesRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2"
+                        tools:itemCount="6"
+                        tools:listitem="@layout/bundles_item_layout" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/bundlesDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:alpha="0.4"
+                    android:background="@drawable/white_background"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:paddingVertical="20dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/montserrat_extrabold"
+                            android:includeFontPadding="false"
+                            android:text="249"
+                            android:textColor="@color/black"
+                            android:textSize="72sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:includeFontPadding="false"
+                            android:text="DH\n/ mois"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="20dp"
+                        android:background="#44707070" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/montserrat_light"
+                            android:includeFontPadding="false"
+                            android:text="Internet"
+                            android:textColor="@color/black"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:includeFontPadding="false"
+                            android:text="30 GO"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="20dp"
+                        android:background="#44707070" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/montserrat_medium"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/montserrat_light"
+                        android:includeFontPadding="false"
+                        android:text="Appels, SMS illimités"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="20dp"
+                        android:background="#44707070" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/montserrat_light"
+                        android:includeFontPadding="false"
+                        android:text="Sans engagement"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/montserrat_light"
+                        android:includeFontPadding="false"
+                        android:text="Sans frais de mise en service"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/montserrat_light"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="Voir en détail"
-                        android:textColor="#646464"
-                        android:textSize="13sp" />
+                        android:text="Plafonnées, avec possibilité de recharger en ligne"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/white_background"
+                        android:backgroundTint="@color/grey9"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/limitedBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/selected_bundle_background"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:text="3 Heures"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/montserrat_light"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:text="Vers le national"
+                                android:textColor="@color/white"
+                                android:textSize="10sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/unlimitedBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:text="Illimité"
+                                android:textColor="@color/grey8"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/montserrat_light"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:text="Voix et SMS vers le national"
+                                android:textColor="@color/grey8"
+                                android:textSize="10sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bundleDetailsBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:background="@drawable/ic_profile"
+                            android:src="@drawable/ic_goright"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="Voir en détail"
+                            android:textColor="#646464"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/commandBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="65dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="20dp"
+                        android:backgroundTint="@color/grey1"
+                        android:fontFamily="@font/montserrat_extrabold"
+                        android:text="Commander"
+                        app:cornerRadius="7dp" />
                 </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/commandBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="65dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="20dp"
-                    android:backgroundTint="@color/grey1"
-                    android:fontFamily="@font/montserrat_extrabold"
-                    android:text="Commander"
-                    app:cornerRadius="7dp" />
             </LinearLayout>
 
-        </LinearLayout>
-
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/loader"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/loader"
-            android:visibility="gone" />
-    </RelativeLayout>
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/loader"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/loader"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

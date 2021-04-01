@@ -42,7 +42,7 @@
                 android:includeFontPadding="false"
                 android:text="code à insérer afin d’activer\nla ligne"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/backBtn"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,19 +59,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title">
 
-                <RelativeLayout
+                <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/white_background"
-                    android:backgroundTint="@color/black">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="20dp"
-                        android:src="@drawable/ic_qr" />
-                </RelativeLayout>
+                    android:layout_margin="20dp"
+                    android:src="@drawable/qr" />
 
                 <EditText
                     android:id="@+id/code"
@@ -85,15 +78,15 @@
                     android:textColorHint="@color/black"
                     android:textSize="12sp" />
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/validateBtn"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="50dp"
-                    android:backgroundTint="@color/grey1"
+                    android:background="@drawable/orange_bg"
                     android:fontFamily="@font/montserrat_extrabold"
                     android:text="valider"
-                    app:cornerRadius="7dp" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 

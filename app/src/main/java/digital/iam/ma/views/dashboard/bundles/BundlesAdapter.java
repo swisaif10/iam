@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import digital.iam.ma.R;
 import digital.iam.ma.databinding.BundlesItemLayoutBinding;
-import digital.iam.ma.models.bundles.Bundle;
+import digital.iam.ma.models.BundleItem;
+import digital.iam.ma.R;
 
 public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHolder> {
 
     private final Context context;
-    private List<Bundle> bundles;
+    private List<BundleItem> bundleItemList;
 
-    public BundlesAdapter(Context context, List<Bundle> bundles) {
+    public BundlesAdapter(Context context, List<BundleItem> bundleItemList) {
         this.context = context;
-        this.bundles = bundles;
+        this.bundleItemList = bundleItemList;
     }
 
     @NonNull
@@ -36,12 +36,12 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(bundles.get(position));
+        holder.bind(bundleItemList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return bundles.size();
+        return bundleItemList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,8 +53,8 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
             this.itemBinding = itemBinding;
         }
 
-        private void bind(Bundle bundle) {
-          /*  itemBinding.title.setText(bundleItem.getTitle());
+        private void bind(BundleItem bundleItem) {
+            itemBinding.title.setText(bundleItem.getTitle());
             if (bundleItem.getSubtitle().equalsIgnoreCase(""))
                 itemBinding.subtitle.setVisibility(View.GONE);
             else
@@ -66,7 +66,7 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
                 itemBinding.verticalSeparator.setVisibility(View.GONE);
 
             if (bundleItem.getSelected()) {
-                itemBinding.container.setBackgroundResource(R.drawable.selected_bundle_background);
+                itemBinding.container.setBackgroundResource(R.drawable.orange_bg);
                 itemBinding.title.setTextColor(ContextCompat.getColor(context, R.color.white));
                 itemBinding.subtitle.setTextColor(ContextCompat.getColor(context, R.color.white));
             } else {
@@ -83,7 +83,8 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
                     bundleItemList.get(getAdapterPosition()).setSelected(true);
                 }
                 notifyDataSetChanged();
-            });*/
+            });
         }
     }
+
 }

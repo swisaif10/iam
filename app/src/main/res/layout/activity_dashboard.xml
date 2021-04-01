@@ -10,15 +10,13 @@
         android:background="@color/background"
         tools:context=".views.dashboard.DashboardActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/montserrat_black"
-            android:text="Gray"
-            android:textColor="@color/grey3"
-            android:textSize="22sp"
+            android:src="@drawable/logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,8 +28,9 @@
             android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/logo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@id/logo">
 
             <ImageView
                 android:id="@+id/cartBtn"
@@ -45,15 +44,13 @@
                 android:layout_width="20dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_notification" />
+                android:src="@drawable/ic_notif" />
 
             <ImageView
                 android:id="@+id/profileBtn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_profile" />
-
-
+                android:src="@drawable/user" />
         </LinearLayout>
 
         <FrameLayout
@@ -80,13 +77,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:tabBackground="@drawable/tab_color_selector"
             app:tabGravity="fill"
-            app:tabIconTint="@color/black"
+            app:tabIconTint="@color/blue"
             app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/grey4"
+            app:tabSelectedTextColor="@color/blue"
             app:tabTextAppearance="@style/tab_text_appearance"
-            app:tabTextColor="@color/grey4" />
+            app:tabTextColor="@color/blue" />
 
         <LinearLayout
             android:id="@+id/notificationLayout"
@@ -152,7 +149,7 @@
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="@string/close_label"
-                android:textColor="@color/black"
+                android:textColor="@color/orange"
                 android:textSize="18sp" />
 
             <LinearLayout
@@ -167,10 +164,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="10dp"
+                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
                     android:text="@string/info_label"
-                    android:textColor="@color/black"
+                    android:textColor="@color/blue"
                     android:textSize="13sp"
                     app:drawableStartCompat="@drawable/ic_infos" />
 
@@ -179,10 +177,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:drawablePadding="15dp"
+                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
                     android:text="@string/contracts_label"
-                    android:textColor="@color/black"
+                    android:textColor="@color/blue"
                     android:textSize="13sp"
                     app:drawableStartCompat="@drawable/ic_contrats" />
 
@@ -192,10 +191,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:drawablePadding="15dp"
+                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
                     android:text="@string/help_label"
-                    android:textColor="@color/black"
+                    android:textColor="@color/blue"
+                    android:textSize="13sp"
+                    app:drawableStartCompat="@drawable/ic_question" />
+
+                <TextView
+                    android:id="@+id/offersBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:drawablePadding="15dp"
+                    android:drawableTint="@color/blue"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:gravity="center_vertical"
+                    android:text="Offres"
+                    android:textColor="@color/blue"
                     android:textSize="13sp"
                     app:drawableStartCompat="@drawable/ic_question" />
 
@@ -219,16 +233,6 @@
                         android:layout_weight="0.3"
                         android:fontFamily="@font/nunito_semibold"
                         android:gravity="center"
-                        android:text="@string/english_label"
-                        android:textColor="@color/lightGrey"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:gravity="center"
                         android:text="@string/arabic_label"
                         android:textColor="@color/lightGrey"
                         android:textSize="13sp" />
@@ -240,7 +244,7 @@
                         android:fontFamily="@font/nunito_semibold"
                         android:gravity="center"
                         android:text="@string/french_label"
-                        android:textColor="@color/black"
+                        android:textColor="@color/orange"
                         android:textSize="12sp" />
 
 
@@ -251,10 +255,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:drawablePadding="5dp"
+                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center"
                     android:text="@string/phone_string"
-                    android:textColor="@color/black"
+                    android:textColor="@color/blue"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_phone" />
 
@@ -262,10 +267,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
+                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center"
                     android:text="@string/phone_string"
-                    android:textColor="@color/black"
+                    android:textColor="@color/blue"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_phone" />
 
@@ -279,9 +285,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:drawablePadding="10dp"
+                        android:drawableTint="@color/blue"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="@string/logout_btn_label"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="13sp"
                         app:drawableStartCompat="@drawable/ic_deconnect" />
                 </RelativeLayout>

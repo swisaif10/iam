@@ -28,7 +28,7 @@ import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.AuthenticationViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
-import digital.iam.ma.views.authentication.discover.DiscoverOffersFragment;
+import digital.iam.ma.views.authentication.offers.DiscoverOffersFragment;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class LoginFragment extends Fragment {
@@ -121,6 +121,7 @@ public class LoginFragment extends Fragment {
         switch (responseData.status) {
             case SUCCESS:
                 preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getData().getToken());
+                System.out.println("Token : " + responseData.data.getResponse().getData().getToken());
                 if (isFirstLogin) {
                     preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
                     preferenceManager.putValue(Constants.PASSWORD, fragmentBinding.password.getText().toString());

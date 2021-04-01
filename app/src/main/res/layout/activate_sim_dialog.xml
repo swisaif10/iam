@@ -4,7 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CC000000">
+    android:background="#CCFFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:fontFamily="@font/montserrat_extrabold"
             android:text="Avez-vous reçu votre\ncarte SIM ?"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <TextView
@@ -37,38 +37,40 @@
             android:fontFamily="@font/montserrat_medium"
             android:text="Une fois votre SIM récupérée et afin d’activer votre ligne, vous avez besoin d’activer votre ligne depuis votre espace client"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/yesBtn"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="45dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/background"
+                android:background="@drawable/orange_bg"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="OUI"
-                android:textColor="@color/grey8" />
+                android:textColor="@color/white" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/noBtn"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/background"
+                android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Non"
                 android:textAllCaps="false"
-                android:textColor="@color/grey8" />
+                android:textColor="@color/orange"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
         </LinearLayout>
 
 

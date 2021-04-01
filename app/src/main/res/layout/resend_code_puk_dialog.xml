@@ -29,7 +29,7 @@
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="@string/close_label"
-            android:textColor="@color/grey2"
+            android:textColor="@color/orange"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
             android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/montserrat_extrabold"
             android:text="Renvoyer le code PUK"
-            android:textColor="@color/grey2" />
+            android:textColor="@color/blue" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,20 +63,20 @@
             android:inputType="phone"
             android:paddingStart="20dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/lightGrey"
+            android:textColorHint="#333333"
             android:textSize="14sp" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/okBtn"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginHorizontal="70dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:backgroundTint="@color/grey1"
+            android:background="@drawable/orange_bg"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Afficher" />
+            android:text="Afficher"
+            android:textColor="@color/white" />
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

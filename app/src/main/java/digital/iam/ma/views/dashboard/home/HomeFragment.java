@@ -108,9 +108,9 @@ public class HomeFragment extends Fragment {
 
     private void init() {
         fragmentBinding.activateSimBtn.setOnClickListener(v -> Utilities.showActivateSimDialog(requireContext(), v1 -> {
-            ActivateSimFragment addNewAddressFragment = new ActivateSimFragment();
-            addNewAddressFragment.setTargetFragment(HomeFragment.this, REQUEST_CODE);
-            ((DashboardActivity) requireActivity()).addFragment(addNewAddressFragment);
+            ActivateSimFragment activateSimFragment = new ActivateSimFragment();
+            activateSimFragment.setTargetFragment(HomeFragment.this, REQUEST_CODE);
+            ((DashboardActivity) requireActivity()).addFragment(activateSimFragment);
         }));
 
         fragmentBinding.rechargeBtn.setOnClickListener(v -> Utilities.showRechargeDialog(requireContext(), v12 -> Utilities.showConfirmRechargeDialog(requireContext())));

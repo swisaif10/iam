@@ -10,9 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+
+import java.util.ArrayList;
 
 import digital.iam.ma.databinding.FragmentBundlesBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
+import digital.iam.ma.models.BundleItem;
 import digital.iam.ma.models.mybundle.MyBundleData;
 import digital.iam.ma.models.mybundle.MyBundleResponse;
 import digital.iam.ma.utilities.Constants;
@@ -65,6 +69,23 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.unit.setText(String.format("%s\n/%s", myBundleResponse.getTotal().getCurrency(), myBundleResponse.getTotal().getPeriod()));
 
         fragmentBinding.body.setVisibility(View.VISIBLE);
+
+        ArrayList<BundleItem> list = new ArrayList<BundleItem>() {{
+            add(new BundleItem("30GO", "220 dh / mois", false));
+            add(new BundleItem("12GO", "220 dh / mois", true));
+            add(new BundleItem("14GO", "220 dh / mois", false));
+            add(new BundleItem("30GO", "220 dh / mois", false));
+            add(new BundleItem("50GO", "220 dh / mois", false));
+            add(new BundleItem("100GO", "220 dh / mois", false));
+        }};
+
+
+        fragmentBinding.bundlesRecycler.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        fragmentBinding.bundlesRecycler.setAdapter(new BundlesAdapter(requireContext(), list));
+        fragmentBinding.bundlesRecycler.setNestedScrollingEnabled(false);
+
+        fragmentBinding.changeBundleBtn.setOnClickListener(v -> Utilities.showPurchaseDialog(requireContext(), v1 -> fragmentBinding.bundlesList.setAlpha(1.0f)));
+
     }
 
     private void getMyBundleDetails() {

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
             android:includeFontPadding="false"
-            android:textColor="@color/grey2"
+            android:textColor="#333333"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Urgence &amp; dépannage" />
@@ -30,7 +30,8 @@
             android:src="@drawable/ic_goright"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

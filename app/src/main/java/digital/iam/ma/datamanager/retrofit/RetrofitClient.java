@@ -28,7 +28,6 @@ public class RetrofitClient {
             return chain.proceed(request);
         });
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BuildConfig.BASEURL)

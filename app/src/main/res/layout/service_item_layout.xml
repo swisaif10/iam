@@ -11,7 +11,7 @@
             android:id="@+id/checkbox"
             android:layout_width="45dp"
             android:layout_height="25dp"
-            android:buttonTint="@color/black"
+            android:buttonTint="@color/orange"
             android:checked="false"
             android:scaleX="0.70"
             android:scaleY="0.70"
@@ -39,7 +39,8 @@
             android:src="@drawable/ic_info"
             app:layout_constraintBottom_toBottomOf="@id/checkbox"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blue" />
 
         <View
             android:id="@+id/separator"

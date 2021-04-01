@@ -1,4 +1,3 @@
-
 package digital.iam.ma.models.logout;
 
 import com.google.gson.annotations.Expose;

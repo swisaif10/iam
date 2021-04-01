@@ -1,4 +1,3 @@
-
 package digital.iam.ma.models.mybundle;
 
 import com.google.gson.annotations.Expose;

@@ -6,7 +6,6 @@ import digital.iam.ma.datamanager.ApiManager;
 import digital.iam.ma.models.bundles.BundlesData;
 import digital.iam.ma.models.cart.add.AddItemData;
 import digital.iam.ma.models.mybundle.MyBundleData;
-import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.utilities.Resource;
 
 public class BundlesRepository {

@@ -1,8 +1,9 @@
 package digital.iam.ma.models.cart.get;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 import digital.iam.ma.models.cart.Item;
 

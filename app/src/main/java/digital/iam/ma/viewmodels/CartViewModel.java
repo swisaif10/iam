@@ -7,9 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.models.cart.get.GetItemsData;
-import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.repository.CartRepository;
-import digital.iam.ma.repository.ServicesRepository;
 import digital.iam.ma.utilities.Resource;
 
 public class CartViewModel extends AndroidViewModel {

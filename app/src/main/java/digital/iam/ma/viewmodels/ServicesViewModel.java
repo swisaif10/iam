@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.repository.ServicesRepository;
 import digital.iam.ma.utilities.Resource;

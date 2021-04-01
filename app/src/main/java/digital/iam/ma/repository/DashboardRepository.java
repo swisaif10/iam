@@ -3,7 +3,6 @@ package digital.iam.ma.repository;
 import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.datamanager.ApiManager;
-import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.utilities.Resource;
 

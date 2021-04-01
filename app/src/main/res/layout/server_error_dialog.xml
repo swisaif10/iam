@@ -32,20 +32,19 @@
             android:textSize="12sp"
             tools:text="test" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/okBtn"
             android:layout_width="180dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/grey1"
+            android:background="@drawable/orange_bg"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
             android:text="OK"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="13sp"
-            app:cornerRadius="7dp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

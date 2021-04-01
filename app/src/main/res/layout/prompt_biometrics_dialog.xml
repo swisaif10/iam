@@ -41,31 +41,34 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancelBtn"
                 android:layout_width="0dp"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/grey1"
+                android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Annuler"
                 android:textAllCaps="false"
+                android:textColor="@color/orange"
                 android:textSize="11sp"
-                app:cornerRadius="7dp" />
+                app:cornerRadius="7dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.03" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/settingsBtn"
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/grey1"
+                android:background="@drawable/orange_bg"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Paramétres"
                 android:textAllCaps="false"
-                android:textSize="11sp"
-                app:cornerRadius="7dp" />
+                android:textColor="@color/white"
+                android:textSize="11sp" />
 
         </LinearLayout>
 

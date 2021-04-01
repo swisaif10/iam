@@ -52,7 +52,7 @@
             android:fontFamily="@font/montserrat_semibold"
             android:includeFontPadding="false"
             android:text="199 dh"
-            android:textColor="@color/grey5"
+            android:textColor="@color/orange"
             android:textSize="14sp" />
 
         <View

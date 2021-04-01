@@ -22,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.9">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_extrabold"
                 android:text="Acheter une recharge"
-                android:textColor="@color/black" />
+                android:textColor="@color/blue" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,15 +91,16 @@
         </LinearLayout>
 
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buyBtn"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="10dp"
-            android:backgroundTint="@color/grey1"
+            android:background="@drawable/orange_bg"
             android:fontFamily="@font/montserrat_extrabold"
-            android:text="acheter" />
+            android:text="acheter"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

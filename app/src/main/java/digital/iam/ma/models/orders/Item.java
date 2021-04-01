@@ -19,19 +19,19 @@ public class Item {
         this.bundle = bundle;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public String getPrice() {
         return price;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getSku() {
         return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 }

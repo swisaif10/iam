@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.datamanager.ApiManager;
 import digital.iam.ma.models.cart.get.GetItemsData;
-import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.utilities.Resource;
 
 public class CartRepository {

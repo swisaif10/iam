@@ -9,10 +9,9 @@
     <application
         android:name="digital.iam.ma.Gray"
         android:allowBackup="false"
-        android:icon="@mipmap/app_icon"
+        android:icon="@mipmap/appicone"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_traffic_config"
-        android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.IAM"
         tools:targetApi="n">

@@ -29,7 +29,7 @@
             android:includeFontPadding="false"
             android:text="199  dh"
             android:textAlignment="center"
-            android:textColor="@color/grey7"
+            android:textColor="@color/orange"
             android:textSize="13sp" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:includeFontPadding="false"
             android:text="En cours"
             android:textAlignment="center"
-            android:textColor="@color/grey7"
+            android:textColor="@color/blue"
             android:textSize="13sp" />
 
     </LinearLayout>

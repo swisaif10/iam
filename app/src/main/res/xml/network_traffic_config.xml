@@ -3,6 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">apigray.mobiblanc.com</domain>
         <domain includeSubdomains="true">web.gray.mobiblanc.com</domain>
+        <domain includeSubdomains="true">webgray.mobiblanc.com</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>

@@ -1,10 +1,17 @@
-package digital.iam.ma.views.authentication.discover;
+package digital.iam.ma.views.authentication.offers;
 
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.HttpAuthHandler;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -21,6 +28,16 @@ import okhttp3.Credentials;
 public class DiscoverOffersFragment extends Fragment {
 
     private FragmentDiscoverOffersBinding fragmentBinding;
+    private Boolean fromDashboard = false;
+
+
+    public static DiscoverOffersFragment newInstance(Boolean fromDashboard) {
+        DiscoverOffersFragment fragment = new DiscoverOffersFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("fromDashboard", fromDashboard);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public DiscoverOffersFragment() {
         // Required empty public constructor
@@ -30,6 +47,8 @@ public class DiscoverOffersFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null)
+            fromDashboard = getArguments().getBoolean("fromDashboard", false);
     }
 
     @Override
@@ -47,23 +66,37 @@ public class DiscoverOffersFragment extends Fragment {
     }
 
     private void init() {
+        if (fromDashboard) {
+            fragmentBinding.title.setVisibility(View.VISIBLE);
+            fragmentBinding.backBtn.setVisibility(View.GONE);
+        }
+
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
         fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
-        //fragmentBinding.webView.getSettings().setJavaScriptEnabled(true);
         String AUTHORIZATION = Credentials.basic("iam", "gray");
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", AUTHORIZATION);
+
         fragmentBinding.webView.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
+            public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+                handler.proceed("iam", "gray");
+            }
+
+            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                fragmentBinding.loader.setVisibility(View.GONE);
             }
         });
-        fragmentBinding.webView.loadUrl("http://web.gray.mobiblanc.com/", headers);
+        fragmentBinding.webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        fragmentBinding.webView.loadUrl("https://webgray.mobiblanc.com/buy-package/choose");
 
     }
 
