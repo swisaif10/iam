@@ -67,8 +67,4 @@ dependencies {
 
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
     implementation "androidx.biometric:biometric:1.2.0-alpha02"
-    implementation("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1") {
-        exclude group: 'org.apache.oltu.oauth2', module: 'org.apache.oltu.oauth2.common'
-    }
-
 }

@@ -1,16 +1,11 @@
 package digital.iam.ma.views.authentication.offers;
 
 import android.graphics.Bitmap;
-import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.HttpAuthHandler;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -73,10 +68,11 @@ public class DiscoverOffersFragment extends Fragment {
 
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
-        String AUTHORIZATION = Credentials.basic("iam", "gray");
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Authorization", AUTHORIZATION);
-
+        fragmentBinding.webView.getSettings().setJavaScriptEnabled(true);
+        fragmentBinding.webView.getSettings().setAllowContentAccess(true);
+        fragmentBinding.webView.getSettings().setAllowFileAccess(true);
+        fragmentBinding.webView.getSettings().setDatabaseEnabled(false);
+        fragmentBinding.webView.getSettings().setDomStorageEnabled(true);
         fragmentBinding.webView.setWebViewClient(new WebViewClient() {
 
             @Override
