@@ -24,9 +24,9 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/montserrat_extrabold"
-            android:text="Avez-vous reçu votre\ncarte SIM ?"
+            android:text="@string/sim_received_dialog_title"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/blue"
             android:textSize="18sp" />
 
         <TextView
@@ -34,11 +34,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Une fois votre SIM récupérée et afin d’activer votre ligne, vous avez besoin d’activer votre ligne depuis votre espace client"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="@string/sim_received_dialog_description"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
 
         <LinearLayout
@@ -55,7 +55,7 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/orange_bg"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="OUI"
+                android:text="@string/yes_hint"
                 android:textColor="@color/white" />
 
             <com.google.android.material.button.MaterialButton
@@ -66,7 +66,7 @@
                 android:layout_weight="0.5"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Non"
+                android:text="@string/no_hint"
                 android:textAllCaps="false"
                 android:textColor="@color/orange"
                 app:strokeColor="@color/orange"

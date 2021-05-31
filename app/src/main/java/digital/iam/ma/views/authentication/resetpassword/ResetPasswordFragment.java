@@ -111,7 +111,7 @@ public class ResetPasswordFragment extends Fragment {
             case SUCCESS:
                 goToLogin();
                 break;
-            case LOADING:
+            case INVALID_TOKEN:
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);

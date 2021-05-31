@@ -1,18 +1,28 @@
 package digital.iam.ma.models.consumption;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class MyConsumptionResponse {
 
     @Expose
-    private MyConsumption consumption;
+    private Item internet;
+    @SerializedName("voix")
+    private Item calls;
 
-    public MyConsumption getMyConsumption() {
-        return consumption;
+    public Item getInternet() {
+        return internet;
     }
 
-    public void setMyConsumption(MyConsumption myConsumption) {
-        this.consumption = myConsumption;
+    public void setInternet(Item internet) {
+        this.internet = internet;
     }
 
+    public Item getCalls() {
+        return calls;
+    }
+
+    public void setCalls(Item calls) {
+        this.calls = calls;
+    }
 }

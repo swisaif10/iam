@@ -1,6 +1,7 @@
 package digital.iam.ma.views.dashboard.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.CartViewModel;
+import digital.iam.ma.views.authentication.AuthenticationActivity;
 
 public class CartFragment extends Fragment {
 
@@ -78,7 +80,11 @@ public class CartFragment extends Fragment {
             case SUCCESS:
 
                 break;
-            case LOADING:
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);

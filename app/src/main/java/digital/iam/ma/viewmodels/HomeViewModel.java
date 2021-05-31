@@ -6,10 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
-import digital.iam.ma.models.linestatus.LineStatusData;
 import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.recharge.RechargeListData;
 import digital.iam.ma.repository.HomeRepository;
 import digital.iam.ma.utilities.Resource;
 
@@ -19,7 +20,8 @@ public class HomeViewModel extends AndroidViewModel {
     private final MutableLiveData<Resource<ResponseData>> activateSIMLiveData;
     private final MutableLiveData<Resource<MyConsumptionData>> myConsumptionLiveData;
     private final MutableLiveData<Resource<GetOrdersData>> getOrdersLiveData;
-    private final MutableLiveData<Resource<LineStatusData>> lineStatusLiveData;
+    private final MutableLiveData<Resource<RechargeListData>> rechargeListLiveData;
+    private final MutableLiveData<Resource<CMIPaymentData>> renewBundleLiveData;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -28,7 +30,8 @@ public class HomeViewModel extends AndroidViewModel {
         activateSIMLiveData = new MutableLiveData<>();
         myConsumptionLiveData = new MutableLiveData<>();
         getOrdersLiveData = new MutableLiveData<>();
-        lineStatusLiveData = new MutableLiveData<>();
+        rechargeListLiveData = new MutableLiveData<>();
+        renewBundleLiveData = new MutableLiveData<>();
     }
 
     public MutableLiveData<Resource<ResponseData>> getActivateSIMLiveData() {
@@ -43,23 +46,31 @@ public class HomeViewModel extends AndroidViewModel {
         return getOrdersLiveData;
     }
 
-    public MutableLiveData<Resource<LineStatusData>> getLineStatusLiveData() {
-        return lineStatusLiveData;
+    public MutableLiveData<Resource<RechargeListData>> getRechargeListLiveData() {
+        return rechargeListLiveData;
+    }
+
+    public MutableLiveData<Resource<CMIPaymentData>> getRenewBundleLiveData() {
+        return renewBundleLiveData;
     }
 
     public void activateSIM(String token, String code, String lang) {
         repository.activateSIM(token, code, lang, activateSIMLiveData);
     }
 
-    public void getMyConsumption(String token, String lang) {
-        repository.getMyConsumption(token, lang, myConsumptionLiveData);
+    public void getMyConsumption(String token, String msisdn, String lang) {
+        repository.getMyConsumption(token, msisdn, lang, myConsumptionLiveData);
     }
 
     public void getOrders(String token, String lang) {
         repository.getOrders(token, lang, getOrdersLiveData);
     }
 
-    public void getLineStatus(String token, String lang) {
-        repository.getLineStatus(token, lang, lineStatusLiveData);
+    public void getRechargesList(String lang) {
+        repository.getRechargesList(lang, rechargeListLiveData);
+    }
+
+    public void renewBundle(String token, String msisdn, String lang) {
+        repository.renewBundle(token, msisdn, lang, renewBundleLiveData);
     }
 }

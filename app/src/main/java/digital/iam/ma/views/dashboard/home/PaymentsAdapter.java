@@ -15,9 +15,11 @@ import digital.iam.ma.models.orders.Order;
 public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHolder> {
 
     private final List<Order> orders;
+    private final String msisdn;
 
-    public PaymentsAdapter(List<Order> orders) {
+    public PaymentsAdapter(List<Order> orders, String msisdn) {
         this.orders = orders;
+        this.msisdn = msisdn;
     }
 
     @NonNull
@@ -36,7 +38,7 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return orders.size();
+        return Math.min(orders.size(), 4);
     }
 
 
@@ -52,10 +54,10 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
         private void bind(Order order) {
             itemBinding.title.setText(order.getOrderTitle());
             itemBinding.subtitle.setText(order.getOrderStatus());
-            itemBinding.msisdn.setText("0000000000");
+            itemBinding.msisdn.setText(msisdn);
             itemBinding.price.setText(order.getOrderTotal());
 
-            if (getAdapterPosition() == (orders.size() - 1))
+            if (getAdapterPosition() == (getItemCount() - 1))
                 itemBinding.separator.setVisibility(View.GONE);
         }
     }

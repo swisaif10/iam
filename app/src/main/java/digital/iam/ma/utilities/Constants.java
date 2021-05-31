@@ -6,5 +6,8 @@ public interface Constants {
     String EMAIL = "EMAIL";
     String PASSWORD = "PASSWORD";
     String IS_LOGGED_IN = "IS_LOGGED_IN";
+    String MSISDN = "MSISDN";
     String RECOVERED_EMAIL = "RECOVERED_EMAIL";
+    String IS_LINE_ACTIVATED = "IS_LINE_ACTIVATED";
+    String LINE_DETAILS = "LINE_DETAILS";
 }

@@ -14,11 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import digital.iam.ma.databinding.FragmentDiscoverOffersBinding;
-import okhttp3.Credentials;
 
 public class DiscoverOffersFragment extends Fragment {
 
@@ -26,16 +22,16 @@ public class DiscoverOffersFragment extends Fragment {
     private Boolean fromDashboard = false;
 
 
+    public DiscoverOffersFragment() {
+        // Required empty public constructor
+    }
+
     public static DiscoverOffersFragment newInstance(Boolean fromDashboard) {
         DiscoverOffersFragment fragment = new DiscoverOffersFragment();
         Bundle args = new Bundle();
         args.putBoolean("fromDashboard", fromDashboard);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public DiscoverOffersFragment() {
-        // Required empty public constructor
     }
 
     @Override

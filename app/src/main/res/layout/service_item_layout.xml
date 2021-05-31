@@ -4,19 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="30dp">
-
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="45dp"
-            android:layout_height="25dp"
-            android:buttonTint="@color/orange"
-            android:checked="false"
-            android:scaleX="0.70"
-            android:scaleY="0.70"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/title"
@@ -26,29 +17,24 @@
             android:includeFontPadding="false"
             android:textColor="@color/grey7"
             android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="@id/checkbox"
-            app:layout_constraintStart_toEndOf="@id/checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/switcher"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Service recharge internet mobile" />
 
-        <ImageView
-            android:id="@+id/infoBtn"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_info"
-            app:layout_constraintBottom_toBottomOf="@id/checkbox"
+        <it.beppi.tristatetogglebutton_library.TriStateToggleButton
+            android:id="@+id/switcher"
+            android:layout_width="35dp"
+            android:layout_height="18dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue" />
-
-        <View
-            android:id="@+id/separator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="10dp"
-            android:background="#2200004D"
-            app:layout_constraintTop_toBottomOf="@id/checkbox" />
+            app:tbIsMidSelectable="false"
+            app:tbOffBorderColor="#E1E6EE"
+            app:tbOffColor="#E1E6EE"
+            app:tbOnColor="@color/blue"
+            app:tbSpotColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,11 @@ public class LoginFragment extends Fragment {
     private void init() {
         fragmentBinding.forgottenPasswordBtn.setOnClickListener(v -> Utilities.showResetPasswordDialog(requireContext(), this::resetPassword));
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(requireContext(), requireView()));
-        fragmentBinding.loginBtn.setOnClickListener(v -> login(fragmentBinding.username.getText().toString(), fragmentBinding.password.getText().toString()));
+        fragmentBinding.loginBtn.setOnClickListener(v -> {
+            if (!fragmentBinding.username.getText().toString().equalsIgnoreCase("")
+                    && !fragmentBinding.password.getText().toString().equalsIgnoreCase(""))
+                login(fragmentBinding.username.getText().toString(), fragmentBinding.password.getText().toString());
+        });
         fragmentBinding.biometricBtn.setOnClickListener(v -> enableTouchID());
 
         if (!preferenceManager.getValue(Constants.EMAIL, "").equalsIgnoreCase("")
@@ -83,6 +88,15 @@ public class LoginFragment extends Fragment {
                 fragmentBinding.biometricBtn.setVisibility(View.VISIBLE);
             isFirstLogin = false;
         }
+
+        fragmentBinding.showPassword.setOnClickListener(v -> {
+            if (fragmentBinding.password.getTransformationMethod() instanceof PasswordTransformationMethod) {
+                fragmentBinding.password.setTransformationMethod(null);
+            } else {
+                fragmentBinding.password.setTransformationMethod(new PasswordTransformationMethod());
+            }
+            fragmentBinding.password.setSelection(fragmentBinding.password.getText().length());
+        });
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -121,6 +135,9 @@ public class LoginFragment extends Fragment {
         switch (responseData.status) {
             case SUCCESS:
                 preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getData().getToken());
+                preferenceManager.putValue(Constants.LINE_DETAILS, responseData.data.getResponse().getData().getLines().get(0));
+                preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, responseData.data.getResponse().getData().getLines().get(0).getStatus());
+                preferenceManager.putValue(Constants.MSISDN, responseData.data.getResponse().getData().getLines().get(0).getMsisdn());
                 System.out.println("Token : " + responseData.data.getResponse().getData().getToken());
                 if (isFirstLogin) {
                     preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
@@ -132,7 +149,7 @@ public class LoginFragment extends Fragment {
                 startActivity(intent);
                 requireActivity().finish();
                 break;
-            case LOADING:
+            case INVALID_TOKEN:
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);
@@ -188,7 +205,7 @@ public class LoginFragment extends Fragment {
                 Utilities.showErrorPopup(requireContext(), "Veuillez vérifier votre boite mail.");
                 preferenceManager.putValue(Constants.RECOVERED_EMAIL, recoveredEmail);
                 break;
-            case LOADING:
+            case INVALID_TOKEN:
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);

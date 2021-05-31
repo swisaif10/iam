@@ -1,6 +1,7 @@
 package digital.iam.ma.views.dashboard.services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +20,11 @@ import digital.iam.ma.databinding.FragmentServicesBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.services.Service;
 import digital.iam.ma.models.services.ServicesData;
-import digital.iam.ma.models.services.ServicesResponseData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.ServicesViewModel;
+import digital.iam.ma.views.authentication.AuthenticationActivity;
 
 public class ServicesFragment extends Fragment {
 
@@ -66,27 +67,9 @@ public class ServicesFragment extends Fragment {
         getServices();
     }
 
-    private void init(ServicesResponseData responseData) {
-
-        fragmentBinding.affectedServicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        affectedServices = new ArrayList<>();
-        affectedServices = responseData.getServices();
-        affectedServicesAdapter = new ServicesAdapter(affectedServices);
-        fragmentBinding.affectedServicesRecycler.setAdapter(affectedServicesAdapter);
-        fragmentBinding.affectedServicesRecycler.setNestedScrollingEnabled(false);
-
-        fragmentBinding.availableServicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        availableServices = new ArrayList<>();
-        availableServicesAdapter = new ServicesAdapter(availableServices);
-        fragmentBinding.availableServicesRecycler.setAdapter(availableServicesAdapter);
-        fragmentBinding.availableServicesRecycler.setNestedScrollingEnabled(false);
-
-        fragmentBinding.body.setVisibility(View.VISIBLE);
-    }
-
     private void getServices() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getServices(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+        viewModel.getServices(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), "fr");
     }
 
     private void handleServicesData(Resource<ServicesData> responseData) {
@@ -96,12 +79,34 @@ public class ServicesFragment extends Fragment {
                 assert responseData.data != null;
                 init(responseData.data.getResponse());
                 break;
-            case LOADING:
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);
                 break;
         }
+    }
+
+    private void init(List<Service> services) {
+
+        fragmentBinding.affectedServicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        affectedServices = new ArrayList<>();
+        affectedServices = services;
+        affectedServicesAdapter = new ServicesAdapter(requireContext(), affectedServices);
+        fragmentBinding.affectedServicesRecycler.setAdapter(affectedServicesAdapter);
+        fragmentBinding.affectedServicesRecycler.setNestedScrollingEnabled(false);
+
+        fragmentBinding.availableServicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        availableServices = new ArrayList<>();
+        availableServicesAdapter = new ServicesAdapter(requireContext(), availableServices);
+        fragmentBinding.availableServicesRecycler.setAdapter(availableServicesAdapter);
+        fragmentBinding.availableServicesRecycler.setNestedScrollingEnabled(false);
+
+        fragmentBinding.body.setVisibility(View.VISIBLE);
     }
 
 }

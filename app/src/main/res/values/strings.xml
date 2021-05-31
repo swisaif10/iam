@@ -12,7 +12,7 @@
     <string name="french_label">Français</string>
     <string name="help_label">Assistance</string>
     <string name="contracts_label">Mes contrats</string>
-    <string name="info_label">Infos personnelles</string>
+    <string name="info_label">Mon compte</string>
     <string name="close_label">X</string>
     <string name="cart_title">Panier</string>
     <string name="bundle_label">Forfait</string>
@@ -74,4 +74,10 @@
     <string name="Bundles_title">Mes forfaits</string>
     <string name="update_bundle_btn_label">changer mon forfait</string>
     <string name="buy_bundle_btn_label">payer ce forfait</string>
+    <string name="no_hint">Non</string>
+    <string name="yes_hint">Oui</string>
+    <string name="purchase_btn_label">Commander</string>
+    <string name="offers_label">Offres</string>
+    <string name="sim_received_dialog_title">Avez-vous reçu votre\ncarte SIM ?</string>
+    <string name="sim_received_dialog_description">Une fois votre SIM récupérée et afin d’activer votre ligne, vous avez besoin d’activer votre ligne depuis votre espace client</string>
 </resources>

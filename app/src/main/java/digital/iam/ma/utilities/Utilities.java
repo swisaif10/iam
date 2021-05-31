@@ -1,14 +1,18 @@
 package digital.iam.ma.utilities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Html;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,8 +22,13 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import digital.iam.ma.R;
+import digital.iam.ma.listener.OnDialogButtonsClickListener;
+import digital.iam.ma.listener.OnRechargeSelectedListener;
 import digital.iam.ma.listener.OnResetPasswordDialogClickListener;
 import digital.iam.ma.listener.OnUpdatePasswordDialogClickListener;
+import digital.iam.ma.models.recharge.RechargeItem;
+import digital.iam.ma.models.recharge.RechargeListResponse;
+import digital.iam.ma.models.recharge.RechargeSubItem;
 
 public interface Utilities {
 
@@ -34,6 +43,36 @@ public interface Utilities {
         } catch (Exception e) {
             Log.e("", e.getMessage());
         }
+    }
+
+    static void showUpdateDialog(Context context, String message, String status, OnDialogButtonsClickListener onDialogButtonsClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.version_update_dialog, null, false);
+        Button update = view.findViewById(R.id.updateBtn);
+        Button cancel = view.findViewById(R.id.cancelBtn);
+        TextView msg = view.findViewById(R.id.message);
+
+        msg.setText(Html.fromHtml(message));
+
+        if (status.equalsIgnoreCase("402"))
+            cancel.setVisibility(View.GONE);
+
+        update.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.firstChoice();
+        });
+        cancel.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.secondChoice();
+        });
+        dialog.setContentView(view);
+        dialog.show();
     }
 
     static void showResetPasswordDialog(Context context, OnResetPasswordDialogClickListener onResetPasswordDialogClickListener) {
@@ -83,7 +122,8 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showRechargeDialog(Context context, View.OnClickListener onClickListener) {
+    @SuppressLint("ClickableViewAccessibility")
+    static void showRechargeDialog(Context context, String msisdn, RechargeListResponse response, OnRechargeSelectedListener onRechargeSelectedListener) {
 
         if (context == null) {
             return;
@@ -94,11 +134,39 @@ public interface Utilities {
         View view = LayoutInflater.from(context).inflate(R.layout.buy_recharge_dialog, null, false);
         Button buy = view.findViewById(R.id.buyBtn);
         ConstraintLayout container = view.findViewById(R.id.container);
+        TextView msisdnTv = view.findViewById(R.id.msisdn);
+        AutoCompleteTextView rechargeDropDown = view.findViewById(R.id.rechargeDropDown);
+        AutoCompleteTextView rechargeChildrenDropDown = view.findViewById(R.id.rechargeChildrenDropDown);
+        final RechargeItem[] rechargeItem = new RechargeItem[1];
+        final RechargeSubItem[] rechargeSubItem = new RechargeSubItem[1];
+
+        msisdnTv.setText(msisdn);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_dropdown_item_layout, response.getRechargesNames());
+        rechargeDropDown.setAdapter(adapter);
+        rechargeDropDown.setOnTouchListener((v, event) -> {
+            rechargeDropDown.showDropDown();
+            return false;
+        });
+
+        rechargeDropDown.setOnItemClickListener((parent, view1, position, id) -> {
+            rechargeItem[0] = response.getRecharges().get(position);
+            ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(context, R.layout.custom_dropdown_item_layout, rechargeItem[0].getType().getRechargesNames());
+            rechargeChildrenDropDown.setText("");
+            rechargeChildrenDropDown.setAdapter(citiesAdapter);
+            rechargeChildrenDropDown.setOnTouchListener((v, event) -> {
+                rechargeChildrenDropDown.showDropDown();
+                return false;
+            });
+        });
+
+        rechargeChildrenDropDown.setOnItemClickListener((parent, view12, position, id) -> rechargeSubItem[0] = rechargeItem[0].getType().getChildren().get(position));
 
         buy.setOnClickListener(v -> {
             dialog.dismiss();
-            onClickListener.onClick(v);
+            onRechargeSelectedListener.onRechargeSelected(rechargeItem[0], rechargeSubItem[0]);
         });
+
         container.setOnClickListener(v -> dialog.dismiss());
         dialog.setContentView(view);
         dialog.show();
@@ -290,6 +358,33 @@ public interface Utilities {
         dialog.show();
     }
 
+    static void showErrorPopupWithClick(Context context, String message, View.OnClickListener onClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.server_error_dialog, null, false);
+        Button ok = view.findViewById(R.id.okBtn);
+        TextView msg = view.findViewById(R.id.message);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        msg.setText(message);
+
+        ok.setOnClickListener(v -> {
+            onClickListener.onClick(v);
+            dialog.dismiss();
+        });
+        container.setOnClickListener(v -> {
+            onClickListener.onClick(v);
+            dialog.dismiss();
+        });
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
     static void showBiometricsPromptPopup(Context context, String message, View.OnClickListener onClickListener) {
 
         if (context == null) {
@@ -312,4 +407,55 @@ public interface Utilities {
         dialog.setContentView(view);
         dialog.show();
     }
+
+    static void showConfirmRenewPopup(Context context, View.OnClickListener onClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.confirm_renew_dialog, null, false);
+        Button cancel = view.findViewById(R.id.cancelBtn);
+        Button confirm = view.findViewById(R.id.confirmBtn);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        cancel.setOnClickListener(v -> dialog.dismiss());
+        confirm.setOnClickListener(v -> {
+            dialog.dismiss();
+            onClickListener.onClick(v);
+        });
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    static void showLogoutDialog(Context context, String message, OnDialogButtonsClickListener onDialogButtonsClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.logout_dialog, null, false);
+        Button confirm = view.findViewById(R.id.confirmBtn);
+        Button cancel = view.findViewById(R.id.cancelBtn);
+        TextView msg = view.findViewById(R.id.message);
+
+        msg.setText(Html.fromHtml(message));
+
+        confirm.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.firstChoice();
+        });
+        cancel.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.secondChoice();
+        });
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
 }

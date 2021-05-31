@@ -11,18 +11,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import digital.iam.ma.databinding.BundlesItemLayoutBinding;
-import digital.iam.ma.models.BundleItem;
 import digital.iam.ma.R;
+import digital.iam.ma.databinding.BundlesItemLayoutBinding;
+import digital.iam.ma.listener.OnBundleSelectedListener;
+import digital.iam.ma.models.bundles.BundleItem;
 
 public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHolder> {
 
     private final Context context;
-    private List<BundleItem> bundleItemList;
+    private final List<BundleItem> bundleItemList;
+    private final OnBundleSelectedListener onBundleSelectedListener;
 
-    public BundlesAdapter(Context context, List<BundleItem> bundleItemList) {
+    public BundlesAdapter(Context context, List<BundleItem> bundleItemList, OnBundleSelectedListener onBundleSelectedListener) {
         this.context = context;
         this.bundleItemList = bundleItemList;
+        this.onBundleSelectedListener = onBundleSelectedListener;
     }
 
     @NonNull
@@ -54,16 +57,15 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
         }
 
         private void bind(BundleItem bundleItem) {
-            itemBinding.title.setText(bundleItem.getTitle());
-            if (bundleItem.getSubtitle().equalsIgnoreCase(""))
-                itemBinding.subtitle.setVisibility(View.GONE);
-            else
-                itemBinding.subtitle.setText(bundleItem.getSubtitle());
+            itemBinding.title.setText(bundleItem.getName());
+            itemBinding.subtitle.setText(bundleItem.getLabelPrice());
 
-            if (getAdapterPosition() == bundleItemList.size() - 2 || getAdapterPosition() == bundleItemList.size() - 1)
-                itemBinding.horizontalSeparator.setVisibility(View.GONE);
-            if (getAdapterPosition() == bundleItemList.size() - 1 || getAdapterPosition() % 2 != 0)
-                itemBinding.verticalSeparator.setVisibility(View.GONE);
+            if (getAdapterPosition() == 0) {
+                if (getAdapterPosition() == bundleItemList.size() - 2 || getAdapterPosition() == bundleItemList.size() - 1)
+                    itemBinding.horizontalSeparator.setVisibility(View.GONE);
+                if (getAdapterPosition() == bundleItemList.size() - 1 || getAdapterPosition() % 2 != 0)
+                    itemBinding.verticalSeparator.setVisibility(View.GONE);
+            }
 
             if (bundleItem.getSelected()) {
                 itemBinding.container.setBackgroundResource(R.drawable.orange_bg);
@@ -81,6 +83,7 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
                         item.setSelected(false);
                     }
                     bundleItemList.get(getAdapterPosition()).setSelected(true);
+                    onBundleSelectedListener.onBundleSelected(bundleItemList.get(getAdapterPosition()));
                 }
                 notifyDataSetChanged();
             });

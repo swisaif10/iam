@@ -18,24 +18,6 @@ public class AuthenticationRepository {
     }
 
     public void login(String username, String password, Boolean rememberMe, String lang, MutableLiveData<Resource<LoginData>> mutableLiveData) {
-
-/*        new ApiManager().login(username, password, rememberMe, lang, new onDataLoaded<ResponseData>() {
-            @Override
-            public void onResponse(ResponseData data) {
-                mutableLiveData.setValue(Resource.success(data));
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mutableLiveData.setValue(Resource.error(error, null));
-            }
-
-            @Override
-            public void onInvalidToken() {
-
-            }
-        });*/
-
         new ApiManager().login(username, password, rememberMe, lang, mutableLiveData);
     }
 }

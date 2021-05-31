@@ -1,22 +1,23 @@
-package digital.iam.ma.models.linestatus;
+package digital.iam.ma.models.controlversion;
 
 import com.google.gson.annotations.Expose;
 
-public class LineStatusResponse {
-
+public class ControlVersionResponse {
     @Expose
-    private Data data;
+    private String link;
     @Expose
     private String message;
     @Expose
     private String title;
+    @Expose
+    private String status;
 
-    public Data getData() {
-        return data;
+    public String getLink() {
+        return link;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getMessage() {
@@ -35,4 +36,11 @@ public class LineStatusResponse {
         this.title = title;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

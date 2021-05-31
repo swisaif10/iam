@@ -24,6 +24,7 @@ import digital.iam.ma.utilities.NumericKeyBoardTransformationMethod;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.HomeViewModel;
+import digital.iam.ma.views.authentication.AuthenticationActivity;
 
 public class ActivateSimFragment extends Fragment {
 
@@ -82,7 +83,11 @@ public class ActivateSimFragment extends Fragment {
                 Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent());
                 requireActivity().getSupportFragmentManager().popBackStack();
                 break;
-            case LOADING:
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);

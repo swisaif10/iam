@@ -1,15 +1,16 @@
-package digital.iam.ma.models.mybundle;
+package digital.iam.ma.models.recharge;
 
 import com.google.gson.annotations.Expose;
 
 import digital.iam.ma.models.commons.Header;
 
-public class MyBundleData {
+public class RechargeListData {
 
     @Expose
     private Header header;
     @Expose
-    private MyBundleResponse response;
+    private RechargeListResponse response;
+
 
     public Header getHeader() {
         return header;
@@ -19,12 +20,11 @@ public class MyBundleData {
         this.header = header;
     }
 
-    public MyBundleResponse getMyBundleResponse() {
+    public RechargeListResponse getResponse() {
         return response;
     }
 
-    public void setMyBundleResponse(MyBundleResponse myBundleResponse) {
-        this.response = myBundleResponse;
+    public void setResponse(RechargeListResponse response) {
+        this.response = response;
     }
-
 }

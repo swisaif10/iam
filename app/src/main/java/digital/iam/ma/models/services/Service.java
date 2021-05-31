@@ -8,7 +8,7 @@ public class Service {
     @Expose
     private String url;
     @Expose
-    private Boolean active;
+    private int active;
 
     public String getTitle() {
         return title;
@@ -27,10 +27,10 @@ public class Service {
     }
 
     public Boolean getActive() {
-        return active;
+        return active == 1;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(int active) {
         this.active = active;
     }
 }

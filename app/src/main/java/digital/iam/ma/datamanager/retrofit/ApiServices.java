@@ -3,13 +3,14 @@ package digital.iam.ma.datamanager.retrofit;
 import digital.iam.ma.models.bundles.BundlesData;
 import digital.iam.ma.models.cart.add.AddItemData;
 import digital.iam.ma.models.cart.get.GetItemsData;
+import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
-import digital.iam.ma.models.linestatus.LineStatusData;
+import digital.iam.ma.models.controlversion.ControlVersionData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
-import digital.iam.ma.models.mybundle.MyBundleData;
 import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.recharge.RechargeListData;
 import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
 import retrofit2.Call;
@@ -19,6 +20,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ApiServices {
+
+    @POST(ApiEndpoints.CONTROL_VERSION_URL)
+    Call<ControlVersionData> controlVersion(@Path("locale") String lang);
 
     @FormUrlEncoded
     @POST(ApiEndpoints.RESET_PASSWORD_URL)
@@ -55,11 +59,7 @@ public interface ApiServices {
     @FormUrlEncoded
     @POST(ApiEndpoints.GET_SERVICES_URL)
     Call<ServicesData> getServices(@Field("token") String token,
-                                   @Path("locale") String lang);
-
-    @FormUrlEncoded
-    @POST(ApiEndpoints.GET_MY_BUNDLE_URL)
-    Call<MyBundleData> getMyBundle(@Field("token") String token,
+                                   @Field("msisdn") String msisdn,
                                    @Path("locale") String lang);
 
     @FormUrlEncoded
@@ -70,6 +70,7 @@ public interface ApiServices {
     @FormUrlEncoded
     @POST(ApiEndpoints.GET_MY_CONSUMPTION_URL)
     Call<MyConsumptionData> getMyConsumption(@Field("token") String token,
+                                             @Field("msisdn") String msisdn,
                                              @Path("locale") String lang);
 
     @FormUrlEncoded
@@ -78,20 +79,28 @@ public interface ApiServices {
                                   @Path("locale") String lang);
 
     @FormUrlEncoded
-    @POST(ApiEndpoints.LINE_STATUS_URL)
-    Call<LineStatusData> getLineStatus(@Field("token") String token,
-                                       @Path("locale") String lang);
-
-    @FormUrlEncoded
     @POST(ApiEndpoints.GET_ITEMS_URL)
     Call<GetItemsData> getItems(@Field("token") String token,
                                 @Path("locale") String lang);
 
-    //********************************************************
-
-    @FormUrlEncoded
     @POST(ApiEndpoints.GET_BUNDLES_URL)
     Call<BundlesData> getBundles(@Path("locale") String lang);
+
+    @POST(ApiEndpoints.RECHARGE_LIST_URL)
+    Call<RechargeListData> getRechargesList(@Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.RENEW_BUNDLE_URL)
+    Call<CMIPaymentData> renewBundle(@Field("token") String token,
+                                     @Field("msisdn") String msisdn,
+                                     @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.SWITCH_BUNDLE_URL)
+    Call<CMIPaymentData> switchBundle(@Field("token") String token,
+                                      @Field("msisdn") String msisdn,
+                                      @Field("sku") String sku,
+                                      @Path("locale") String lang);
 
     @FormUrlEncoded
     @POST(ApiEndpoints.ADD_ITEM_URL)

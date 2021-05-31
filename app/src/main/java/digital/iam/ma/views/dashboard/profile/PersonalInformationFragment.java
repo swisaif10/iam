@@ -1,6 +1,7 @@
 package digital.iam.ma.views.dashboard.profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.ProfileViewModel;
+import digital.iam.ma.views.authentication.AuthenticationActivity;
 
 public class PersonalInformationFragment extends Fragment {
 
@@ -76,7 +78,11 @@ public class PersonalInformationFragment extends Fragment {
                 if (responseData.data.getResponse())
                     Utilities.showErrorPopup(requireContext(), "Votre mot de passe est modifié avec succés.");
                 break;
-            case LOADING:
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);

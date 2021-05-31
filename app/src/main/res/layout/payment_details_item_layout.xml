@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,26 +12,28 @@
         android:paddingVertical="15dp">
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:fontFamily="@font/montserrat_regular"
             android:includeFontPadding="false"
-            android:text="Forfait 3H"
             android:textAlignment="center"
             android:textColor="@color/grey7"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="Forfait 3H" />
 
         <TextView
+            android:id="@+id/price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:fontFamily="@font/montserrat_regular"
             android:includeFontPadding="false"
-            android:text="199  dh"
             android:textAlignment="center"
             android:textColor="@color/orange"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="199  dh" />
 
         <TextView
             android:id="@+id/showDetailsBtn"
@@ -45,15 +48,16 @@
             android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:fontFamily="@font/montserrat_regular"
             android:includeFontPadding="false"
-            android:text="En cours"
             android:textAlignment="center"
             android:textColor="@color/blue"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="En cours" />
 
     </LinearLayout>
 

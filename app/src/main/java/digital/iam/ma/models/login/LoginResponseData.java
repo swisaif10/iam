@@ -3,6 +3,8 @@ package digital.iam.ma.models.login;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class LoginResponseData {
 
     @Expose
@@ -25,8 +27,8 @@ public class LoginResponseData {
     private String cin;
     @SerializedName("phone_number")
     private String phoneNumber;
-    @SerializedName("line_is_activated")
-    private String lineIsActivated;
+    @Expose
+    private List<Line> lines;
 
     public String getToken() {
         return token;
@@ -108,11 +110,11 @@ public class LoginResponseData {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getLineIsActivated() {
-        return lineIsActivated;
+    public List<Line> getLines() {
+        return lines;
     }
 
-    public void setLineIsActivated(String lineIsActivated) {
-        this.lineIsActivated = lineIsActivated;
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
     }
 }

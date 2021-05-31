@@ -9,8 +9,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Size;
 
+import com.google.gson.Gson;
+
 import java.util.Map;
 import java.util.Set;
+
+import digital.iam.ma.models.login.Line;
 
 public class PreferenceManager {
 
@@ -78,6 +82,11 @@ public class PreferenceManager {
         return sharedPreferences.getLong(key, defaultValue);
     }
 
+    public Line getValue(String key) {
+        String json = sharedPreferences.getString(key, "");
+        return new Gson().fromJson(json, Line.class);
+    }
+
     public void putValue(@NonNull String key, @NonNull Object value) {
         if (!key.isEmpty()) {
             try {
@@ -99,6 +108,10 @@ public class PreferenceManager {
                 }
                 if (value instanceof Long) {
                     editor.putLong(key, (Long) value).apply();
+                }
+                if (value instanceof Line) {
+                    String json = new Gson().toJson((Line) value);
+                    editor.putString(key, json).apply();
                 }
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());

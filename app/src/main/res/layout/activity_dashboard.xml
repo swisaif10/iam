@@ -37,7 +37,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_card" />
+                android:src="@drawable/ic_card"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/notificationBtn"
@@ -73,7 +74,6 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?actionBarSize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:tabBackground="@drawable/tab_color_selector"
             app:tabGravity="fill"
@@ -164,26 +164,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
                     android:text="@string/info_label"
                     android:textColor="@color/blue"
                     android:textSize="13sp"
-                    app:drawableStartCompat="@drawable/ic_infos" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:drawablePadding="15dp"
-                    android:drawableTint="@color/blue"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:gravity="center_vertical"
-                    android:text="@string/contracts_label"
-                    android:textColor="@color/blue"
-                    android:textSize="13sp"
-                    app:drawableStartCompat="@drawable/ic_contrats" />
+                    app:drawableStartCompat="@drawable/ic_infos"
+                    app:drawableTint="@color/blue" />
 
                 <TextView
                     android:id="@+id/helpBtn"
@@ -191,13 +178,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:drawablePadding="15dp"
-                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
                     android:text="@string/help_label"
                     android:textColor="@color/blue"
                     android:textSize="13sp"
-                    app:drawableStartCompat="@drawable/ic_question" />
+                    app:drawableStartCompat="@drawable/ic_question"
+                    app:drawableTint="@color/blue" />
 
                 <TextView
                     android:id="@+id/offersBtn"
@@ -205,13 +192,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:drawablePadding="15dp"
-                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
-                    android:text="Offres"
+                    android:text="@string/offers_label"
                     android:textColor="@color/blue"
                     android:textSize="13sp"
-                    app:drawableStartCompat="@drawable/ic_question" />
+                    app:drawableStartCompat="@drawable/ic_question"
+                    app:drawableTint="@color/blue" />
 
             </LinearLayout>
 

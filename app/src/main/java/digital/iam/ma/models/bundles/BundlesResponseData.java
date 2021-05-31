@@ -6,13 +6,13 @@ import java.util.List;
 
 public class BundlesResponseData {
     @SerializedName("forfaits")
-    private List<Bundle> bundles;
+    private List<BundleItem> bundles;
 
-    public List<Bundle> getBundles() {
+    public List<BundleItem> getBundles() {
         return bundles;
     }
 
-    public void setBundles(List<Bundle> bundles) {
+    public void setBundles(List<BundleItem> bundles) {
         this.bundles = bundles;
     }
 }

@@ -8,7 +8,7 @@ import digital.iam.ma.utilities.Resource;
 
 public class ServicesRepository {
 
-    public void getServices(String token, String lang, MutableLiveData<Resource<ServicesData>> mutableLiveData) {
-        new ApiManager().getServices(token, lang, mutableLiveData);
+    public void getServices(String token, String msisdn, String lang, MutableLiveData<Resource<ServicesData>> mutableLiveData) {
+        new ApiManager().getServices(token, msisdn, lang, mutableLiveData);
     }
 }

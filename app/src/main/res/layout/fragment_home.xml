@@ -35,6 +35,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_weight="0.3"
                         android:background="@drawable/blue_bg"
+                        android:backgroundTint="#204CCB"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -60,6 +61,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_weight="0.3"
                         android:background="@drawable/blue_bg"
+                        android:backgroundTint="#204CCB"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -80,10 +82,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/renewBundle"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.3"
                         android:background="@drawable/blue_bg"
+                        android:backgroundTint="#204CCB"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -133,12 +137,12 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
                             CircleProgressView:cpv_autoTextSize="false"
-                            CircleProgressView:cpv_barColor="@color/blue"
+                            CircleProgressView:cpv_barColor="#3158CC"
                             CircleProgressView:cpv_barWidth="15dp"
                             CircleProgressView:cpv_innerContourSize="0dp"
                             CircleProgressView:cpv_maxValue="100"
                             CircleProgressView:cpv_outerContourSize="0dp"
-                            CircleProgressView:cpv_rimColor="#A8D2FF"
+                            CircleProgressView:cpv_rimColor="#CEE6FF"
                             CircleProgressView:cpv_rimWidth="15dp"
                             CircleProgressView:cpv_seekMode="false"
                             CircleProgressView:cpv_showUnit="false"
@@ -196,7 +200,7 @@
                             CircleProgressView:cpv_innerContourSize="0dp"
                             CircleProgressView:cpv_maxValue="100"
                             CircleProgressView:cpv_outerContourSize="0dp"
-                            CircleProgressView:cpv_rimColor="#F4D2BD"
+                            CircleProgressView:cpv_rimColor="#FAD5BF"
                             CircleProgressView:cpv_rimWidth="15dp"
                             CircleProgressView:cpv_seekMode="false"
                             CircleProgressView:cpv_showUnit="false"
@@ -252,10 +256,11 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:includeFontPadding="false"
                         android:text="@string/payments_list_title"
-                        android:textColor="@color/blue"
+                        android:textColor="#3158CC"
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/showMoreBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/title"

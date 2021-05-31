@@ -16,6 +16,7 @@
     <color name="background">#F7F7F7</color>
 
 
-    <color name="blue">#1B599B</color>
-    <color name="orange">#E96614</color>
+    <color name="blue">#204CCB</color>
+    <color name="lightBlue">#F8FAFC</color>
+    <color name="orange">#EA7328</color>
 </resources>

@@ -7,15 +7,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import digital.iam.ma.databinding.PaymentDetailsItemLayoutBinding;
+import digital.iam.ma.models.orders.Order;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHolder> {
 
-    private Context context;
+    private final Context context;
+    private final List<Order> orders;
 
-    public PaymentsAdapter(Context context) {
+    public PaymentsAdapter(Context context, List<Order> orders) {
         this.context = context;
+        this.orders = orders;
     }
 
     @NonNull
@@ -29,12 +34,12 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind();
+        holder.bind(orders.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return orders.size();
     }
 
 
@@ -47,7 +52,11 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
             this.itemBinding = itemBinding;
         }
 
-        private void bind() {
+        private void bind(Order order) {
+            itemBinding.name.setText(order.getOrderTitle());
+            itemBinding.price.setText(order.getOrderTotal());
+            itemBinding.status.setText(order.getOrderStatus());
+
             itemBinding.showDetailsBtn.setOnClickListener(v -> ((DashboardActivity) context).addFragment(new ContractDetailsFragment()));
 
         }

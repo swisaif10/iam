@@ -1,21 +1,26 @@
 package digital.iam.ma.views.dashboard.services;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import digital.iam.ma.R;
 import digital.iam.ma.databinding.ServiceItemLayoutBinding;
 import digital.iam.ma.models.services.Service;
 
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHolder> {
 
+    private final Context context;
     private final List<Service> services;
 
-    public ServicesAdapter(List<Service> services) {
+    public ServicesAdapter(Context context, List<Service> services) {
+        this.context = context;
         this.services = services;
     }
 
@@ -39,7 +44,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
     }
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         ServiceItemLayoutBinding itemBinding;
 
@@ -50,7 +55,20 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
         private void bind(Service service) {
             itemBinding.title.setText(service.getTitle());
-            itemBinding.checkbox.setChecked(service.getActive());
+            if (service.getActive()) {
+                itemBinding.switcher.toggleOn();
+                itemBinding.container.setBackgroundColor(ContextCompat.getColor(context, R.color.lightBlue));
+            } else {
+                itemBinding.switcher.toggleOff();
+                itemBinding.container.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+            }
+
+            itemBinding.switcher.setOnToggleChanged((toggleStatus, booleanToggleStatus, toggleIntValue) -> {
+                if (booleanToggleStatus)
+                    itemBinding.container.setBackgroundColor(ContextCompat.getColor(context, R.color.lightBlue));
+                else
+                    itemBinding.container.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+            });
 
             /*if (count == 8) {
                 switch (getAdapterPosition()) {

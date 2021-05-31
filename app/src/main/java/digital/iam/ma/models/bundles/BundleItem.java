@@ -3,7 +3,7 @@ package digital.iam.ma.models.bundles;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Bundle {
+public class BundleItem {
     @Expose
     private int id;
     @Expose
@@ -20,10 +20,15 @@ public class Bundle {
     private int status;
     @Expose
     private int visibility;
-    @SerializedName("forfait_voix")
-    private String voice;
-    @SerializedName("forfait_data")
-    private String data;
+    @SerializedName("forfait_voix_value")
+    private int call;
+    @SerializedName("forfait_voix_unit")
+    private String callUnit;
+    @SerializedName("forfait_data_value")
+    private int internet;
+    @SerializedName("forfait_data_unit")
+    private String internetUnit;
+    private Boolean selected = false;
 
     public int getId() {
         return id;
@@ -89,19 +94,43 @@ public class Bundle {
         this.visibility = visibility;
     }
 
-    public String getVoice() {
-        return voice;
+    public int getCall() {
+        return call;
     }
 
-    public void setVoice(String voice) {
-        this.voice = voice;
+    public void setCall(int call) {
+        this.call = call;
     }
 
-    public String getData() {
-        return data;
+    public String getCallUnit() {
+        return callUnit;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setCallUnit(String callUnit) {
+        this.callUnit = callUnit;
+    }
+
+    public int getInternet() {
+        return internet;
+    }
+
+    public void setInternet(int internet) {
+        this.internet = internet;
+    }
+
+    public String getInternetUnit() {
+        return internetUnit;
+    }
+
+    public void setInternetUnit(String internetUnit) {
+        this.internetUnit = internetUnit;
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
     }
 }

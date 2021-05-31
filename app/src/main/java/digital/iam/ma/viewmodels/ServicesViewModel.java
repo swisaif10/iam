@@ -26,7 +26,7 @@ public class ServicesViewModel extends AndroidViewModel {
         return servicesLiveData;
     }
 
-    public void getServices(String token, String lang) {
-        repository.getServices(token, lang, servicesLiveData);
+    public void getServices(String token, String msisdn, String lang) {
+        repository.getServices(token, msisdn, lang, servicesLiveData);
     }
 }
