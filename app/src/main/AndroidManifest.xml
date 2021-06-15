@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
-        android:name="digital.iam.ma.Gray"
+        android:name=".Gray"
         android:allowBackup="false"
         android:icon="@mipmap/appicone"
         android:label="@string/app_name"
@@ -17,15 +17,23 @@
         tools:replace="android:allowBackup"
         tools:targetApi="n">
         <activity
-            android:name="digital.iam.ma.views.splashscreen.SplashScreenActivity"
+            android:name=".views.dashboard.contract.ContractActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".views.webview.WebViewActivity" />
+        <activity android:name=".views.dashboard.help.HelpActivity" />
+        <activity
+            android:name=".views.dashboard.personalinfo.PersonalInformationActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".views.splashscreen.SplashScreenActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <data
                     android:host="webgray.mobiblanc.com"
@@ -39,17 +47,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="digital.iam.ma.views.dashboard.DashboardActivity"
+            android:name=".views.dashboard.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name="digital.iam.ma.views.authentication.AuthenticationActivity"
+            android:name=".views.authentication.AuthenticationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <service
-            android:name="digital.iam.ma.firebase.FirebaseService"
+            android:name=".firebase.FirebaseService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

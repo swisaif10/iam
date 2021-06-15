@@ -54,8 +54,8 @@ public class HomeViewModel extends AndroidViewModel {
         return renewBundleLiveData;
     }
 
-    public void activateSIM(String token, String code, String lang) {
-        repository.activateSIM(token, code, lang, activateSIMLiveData);
+    public void activateSIM(String token, String msisdn, String code, String lang) {
+        repository.activateSIM(token, msisdn, code, lang, activateSIMLiveData);
     }
 
     public void getMyConsumption(String token, String msisdn, String lang) {

@@ -78,12 +78,12 @@
                     android:textColorHint="@color/black"
                     android:textSize="12sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/validateBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="65dp"
                     android:layout_marginTop="50dp"
-                    android:background="@drawable/orange_bg"
+                    android:backgroundTint="#E96614"
                     android:fontFamily="@font/montserrat_extrabold"
                     android:text="valider"
                     android:textColor="@color/white" />

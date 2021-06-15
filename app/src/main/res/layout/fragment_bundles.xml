@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -192,7 +192,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/pass"
+                        android:src="@drawable/selected_bundle_background"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -227,15 +227,6 @@
                             android:textColor="@color/white"
                             android:textSize="12sp" />
                     </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/infoBtn"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/info"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -257,7 +248,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_semibold"
-                        android:text="INTERNET"
+                        android:text="@string/internet_label"
                         android:textColor="@color/black"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@id/internetIcon"
@@ -344,7 +335,7 @@
                     app:cornerRadius="10dp" />
 
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/loader"

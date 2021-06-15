@@ -68,7 +68,7 @@ public class BundlesAdapter extends RecyclerView.Adapter<BundlesAdapter.ViewHold
             }
 
             if (bundleItem.getSelected()) {
-                itemBinding.container.setBackgroundResource(R.drawable.orange_bg);
+                itemBinding.container.setBackgroundResource(R.drawable.selected_bundle_background);
                 itemBinding.title.setTextColor(ContextCompat.getColor(context, R.color.white));
                 itemBinding.subtitle.setTextColor(ContextCompat.getColor(context, R.color.white));
             } else {

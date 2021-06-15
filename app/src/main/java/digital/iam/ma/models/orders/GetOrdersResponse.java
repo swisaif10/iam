@@ -1,18 +1,28 @@
 package digital.iam.ma.models.orders;
 
-import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class GetOrdersResponse {
-    @Expose
-    private List<Order> orders;
+    @SerializedName("paid_orders")
+    private List<Order> paidOrders;
+    @SerializedName("pending_orders")
+    private List<Order> pendingOrders;
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<Order> getPaidOrders() {
+        return paidOrders;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setPaidOrders(List<Order> paidOrders) {
+        this.paidOrders = paidOrders;
+    }
+
+    public List<Order> getPendingOrders() {
+        return pendingOrders;
+    }
+
+    public void setPendingOrders(List<Order> pendingOrders) {
+        this.pendingOrders = pendingOrders;
     }
 }

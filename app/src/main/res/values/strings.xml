@@ -2,11 +2,13 @@
     <string name="app_name">Gray</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="show_more_btn"><u>Voir plus</u></string>
-    <string name="payments_list_title">Liste des Paiements</string>
+    <string name="payments_list_title">Liste des paiements</string>
+    <string name="unpaid_list_title">Liste des impayées</string>
     <string name="activate_btn">Activer la ligne</string>
     <string name="buy_btn">Acheter une\nrecharge</string>
     <string name="renew_btn">Renouveler mon\nforfait</string>
     <string name="phone_string"><u>0801 000 888</u></string>
+    <string name="phone_string2"><u>888</u></string>
     <string name="english_label"><u>Anglais</u></string>
     <string name="arabic_label"><u>العربية</u></string>
     <string name="french_label">Français</string>
@@ -25,6 +27,7 @@
     <string name="affected_services_title">Service affectés</string>
     <string name="services_title">Mes services</string>
     <string name="pay_btn_text">Payer</string>
+    <string name="pay_order_btn_text">Payer</string>
     <string name="payments_title">Des avis de paiements</string>
     <string name="name_text">Nom</string>
     <string name="price_text">Prix</string>
@@ -63,14 +66,12 @@
     <string name="civility_hint">Civilité :</string>
     <string name="women_hint">Mme</string>
     <string name="men_hint">M</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="update_password_title">Changer mot de passe :</string>
     <string name="new_password_title">Nouveau mot de passe :</string>
     <string name="confirm_password_hint">Confirmer mot de passe</string>
     <string name="cancel_btn_label">Annuler</string>
     <string name="forgotten_password_title">Mot de passe oublié ?</string>
     <string name="ok_btn">Ok</string>
-    <string name="flurry_key">48H6FGXR3FWGPNH4J9RZ</string>
     <string name="Bundles_title">Mes forfaits</string>
     <string name="update_bundle_btn_label">changer mon forfait</string>
     <string name="buy_bundle_btn_label">payer ce forfait</string>
@@ -80,4 +81,27 @@
     <string name="offers_label">Offres</string>
     <string name="sim_received_dialog_title">Avez-vous reçu votre\ncarte SIM ?</string>
     <string name="sim_received_dialog_description">Une fois votre SIM récupérée et afin d’activer votre ligne, vous avez besoin d’activer votre ligne depuis votre espace client</string>
+    <string name="logout_discreption">Etes vous sûr de vouloir vous déconnecter ?</string>
+    <string name="help_title">Assitance</string>
+    <string name="faq_title">FAQ</string>
+    <string name="service_title">Service client à contacter</string>
+    <string name="internet_label">Internet</string>
+    <string name="postal_code_hint">Code postal</string>
+    <string name="postal_code_label">Code postal :</string>
+    <string name="confirm_btn_label">Confirmer</string>
+    <string name="reason_hint">Saisir un motif</string>
+    <string name="contract_code_hint">Saisir le code du contrat</string>
+    <string name="resend_btn_label">Renvoyer</string>
+    <string name="phone_number_hint">Saisis votre numéro de téléphone</string>
+    <string name="suspend_contract_title">Confirmer la suspension de\nmon contrat</string>
+    <string name="suspend_contract_message">Si vous confirmez et mettez en suspens votre contrat maintenant, vous pourrez le réinitialiser à tout moment en passant par votre espace client Gray</string>
+    <string name="renew_contract_title">Renouveler mon\ncontrat</string>
+    <string name="renew_contract_message">Votre nouveau contrat débutera le 10/06/2021 Le forfait Gray sélectionné est de 30 GO à 159 DH</string>
+    <string name="end_contract_title">Confirmer la résiliation de\nmon contrat</string>
+    <string name="end_contract_message">Si vous confirmez et mettez fin à votre contrat maintenant, vous continuerez d’en bénéficier jusqu’au 28/06/2021</string>
+    <string name="change_sim_title">Carte SIM bloquée\nou volée</string>
+    <string name="change_sim_message">Pour débloquer votre carte SIM, merci de prendre contact avec notre service client Gray au 777 (Abonnés) / 888 (Jawal)</string>
+    <string name="resend_puk_title">Renvoyer le code PUK</string>
+    <string name="resend_puk_message">Ce service vous permet de récupérer votre code PUK lorsque votre carte SIM est bloquée</string>
+
 </resources>

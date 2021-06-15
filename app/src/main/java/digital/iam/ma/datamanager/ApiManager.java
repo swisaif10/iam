@@ -14,10 +14,13 @@ import digital.iam.ma.models.cart.get.GetItemsData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.controlversion.ControlVersionData;
+import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
 import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
@@ -41,8 +44,7 @@ public class ApiManager {
         call.enqueue(new Callback<ControlVersionData>() {
             @Override
             public void onResponse(@NonNull Call<ControlVersionData> call, @NonNull Response<ControlVersionData> response) {
-                assert response.body() != null;
-                if (response.body().getHeader().getCode() == 200)
+                if (response.body() != null && response.body().getHeader().getCode() == 200)
                     mutableLiveData.setValue(Resource.success(response.body()));
                 else
                     mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
@@ -78,7 +80,7 @@ public class ApiManager {
         call.enqueue(new Callback<UpdatePasswordData>() {
             @Override
             public void onResponse(@NonNull Call<UpdatePasswordData> call, @NonNull Response<UpdatePasswordData> response) {
-                assert response.body() != null;
+
                 if (response.body().getHeader().getCode() == 200)
                     mutableLiveData.setValue(Resource.success(response.body()));
                 else
@@ -110,8 +112,8 @@ public class ApiManager {
         });
     }
 
-    public void activateSIM(String token, String code, String lang, MutableLiveData<Resource<ResponseData>> mutableLiveData) {
-        Call<ResponseData> call = RetrofitClient.getInstance().endpoint().activateSIM(token, code, lang);
+    public void activateSIM(String token, String msisdn, String code, String lang, MutableLiveData<Resource<ResponseData>> mutableLiveData) {
+        Call<ResponseData> call = RetrofitClient.getInstance().endpoint().activateSIM(token, msisdn, code, lang);
         call.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
@@ -345,6 +347,162 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NonNull Call<AddItemData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void getHelp(MutableLiveData<Resource<HelpData>> mutableLiveData) {
+        Call<HelpData> call = RetrofitClient.getInstance().endpoint().getHelpData();
+        call.enqueue(new Callback<HelpData>() {
+            @Override
+            public void onResponse(@NonNull Call<HelpData> call, @NonNull Response<HelpData> response) {
+
+                mutableLiveData.setValue(Resource.success(response.body()));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HelpData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void payOrder(String token, String orderId, String msisdn, String lang, MutableLiveData<Resource<CMIPaymentData>> mutableLiveData) {
+        Call<CMIPaymentData> call = RetrofitClient.getInstance().endpoint().payOrder(token, orderId, msisdn, lang);
+        call.enqueue(new Callback<CMIPaymentData>() {
+            @Override
+            public void onResponse(@NonNull Call<CMIPaymentData> call, @NonNull Response<CMIPaymentData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CMIPaymentData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, String lang, MutableLiveData<Resource<UpdateProfileData>> mutableLiveData) {
+        Call<UpdateProfileData> call = RetrofitClient.getInstance().endpoint().updateProfile(token, firstname, lastname, phoneNumber, address, city, postcode, lang);
+        call.enqueue(new Callback<UpdateProfileData>() {
+            @Override
+            public void onResponse(@NonNull Call<UpdateProfileData> call, @NonNull Response<UpdateProfileData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UpdateProfileData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void suspendContract(String token, String msisdn, String reason, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
+        Call<SuspendContractData> call = RetrofitClient.getInstance().endpoint().suspendContract(token, msisdn, reason, lang);
+        call.enqueue(new Callback<SuspendContractData>() {
+            @Override
+            public void onResponse(@NonNull Call<SuspendContractData> call, @NonNull Response<SuspendContractData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SuspendContractData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void sendOTP(String token, String msisdn, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
+        Call<SuspendContractData> call = RetrofitClient.getInstance().endpoint().sendOTP(token, msisdn, lang);
+        call.enqueue(new Callback<SuspendContractData>() {
+            @Override
+            public void onResponse(@NonNull Call<SuspendContractData> call, @NonNull Response<SuspendContractData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SuspendContractData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void endContract(String token, String msisdn, String reason, String code, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
+        Call<SuspendContractData> call = RetrofitClient.getInstance().endpoint().endContract(token, msisdn, reason, code, lang);
+        call.enqueue(new Callback<SuspendContractData>() {
+            @Override
+            public void onResponse(@NonNull Call<SuspendContractData> call, @NonNull Response<SuspendContractData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SuspendContractData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void changeSIM(String token, String msisdn, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
+        Call<SuspendContractData> call = RetrofitClient.getInstance().endpoint().changeSIM(token, msisdn, lang);
+        call.enqueue(new Callback<SuspendContractData>() {
+            @Override
+            public void onResponse(@NonNull Call<SuspendContractData> call, @NonNull Response<SuspendContractData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SuspendContractData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void resendPUK(String token, String msisdn, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
+        Call<SuspendContractData> call = RetrofitClient.getInstance().endpoint().resendPUK(token, msisdn, lang);
+        call.enqueue(new Callback<SuspendContractData>() {
+            @Override
+            public void onResponse(@NonNull Call<SuspendContractData> call, @NonNull Response<SuspendContractData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SuspendContractData> call, @NonNull Throwable t) {
                 HandleThrowableException(t, mutableLiveData);
             }
         });

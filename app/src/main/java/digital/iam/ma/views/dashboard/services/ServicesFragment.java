@@ -25,6 +25,7 @@ import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.ServicesViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
+import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class ServicesFragment extends Fragment {
 
@@ -67,6 +68,12 @@ public class ServicesFragment extends Fragment {
         getServices();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) requireActivity()).showHideTabLayout(View.VISIBLE);
+    }
+
     private void getServices() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         viewModel.getServices(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), "fr");
@@ -81,6 +88,7 @@ public class ServicesFragment extends Fragment {
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
                     requireActivity().finishAffinity();
                 });

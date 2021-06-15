@@ -134,11 +134,17 @@ public class LoginFragment extends Fragment {
         fragmentBinding.loader.setVisibility(View.GONE);
         switch (responseData.status) {
             case SUCCESS:
-                preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getData().getToken());
-                preferenceManager.putValue(Constants.LINE_DETAILS, responseData.data.getResponse().getData().getLines().get(0));
-                preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, responseData.data.getResponse().getData().getLines().get(0).getStatus());
-                preferenceManager.putValue(Constants.MSISDN, responseData.data.getResponse().getData().getLines().get(0).getMsisdn());
-                System.out.println("Token : " + responseData.data.getResponse().getData().getToken());
+                preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getToken());
+                preferenceManager.putValue(Constants.LINE_DETAILS, responseData.data.getResponse().getLines().get(0));
+                preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, responseData.data.getResponse().getLines().get(0).getState());
+                preferenceManager.putValue(Constants.MSISDN, responseData.data.getResponse().getLines().get(0).getMsisdn());
+                preferenceManager.putValue(Constants.FIRSTNAME, responseData.data.getResponse().getFirstname());
+                preferenceManager.putValue(Constants.LASTNAME, responseData.data.getResponse().getLastname());
+                preferenceManager.putValue(Constants.PHONE_NUMBER, responseData.data.getResponse().getPhoneNumber());
+                preferenceManager.putValue(Constants.ADDRESS, responseData.data.getResponse().getShippingAddress());
+                preferenceManager.putValue(Constants.CITY, responseData.data.getResponse().getShippingCity());
+                preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getShippingPostcode());
+                System.out.println("Token : " + responseData.data.getResponse().getToken());
                 if (isFirstLogin) {
                     preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
                     preferenceManager.putValue(Constants.PASSWORD, fragmentBinding.password.getText().toString());

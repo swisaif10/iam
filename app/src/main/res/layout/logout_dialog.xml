@@ -52,19 +52,18 @@
                 app:strokeColor="@color/orange"
                 app:strokeWidth="1dp" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/confirmBtn"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_height="55dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="0.5"
-                android:background="@drawable/orange_bg"
+                android:backgroundTint="#E96614"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="@string/yes_hint"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
         </LinearLayout>
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

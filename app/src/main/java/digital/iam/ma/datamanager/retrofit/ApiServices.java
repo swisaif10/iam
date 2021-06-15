@@ -6,17 +6,22 @@ import digital.iam.ma.models.cart.get.GetItemsData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.controlversion.ControlVersionData;
+import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
 import digital.iam.ma.models.services.ServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiServices {
@@ -46,6 +51,7 @@ public interface ApiServices {
     @FormUrlEncoded
     @POST(ApiEndpoints.SIM_ACTIVATION_URL)
     Call<ResponseData> activateSIM(@Field("token") String token,
+                                   @Field("msisdn") String msisdn,
                                    @Field("activation_code") String activationCode,
                                    @Path("locale") String lang);
 
@@ -108,4 +114,57 @@ public interface ApiServices {
                               @Field("sku") String sku,
                               @Path("locale") String lang);
 
+    @GET(ApiEndpoints.GET_HELP_URL)
+    Call<HelpData> getHelpData();
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.CMI_URL)
+    Call<CMIPaymentData> payOrder(@Field("token") String token,
+                                  @Field("order_id") String orderId,
+                                  @Field("msisdn") String msisdn,
+                                  @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @PUT(ApiEndpoints.UPDATE_PROFILE_URL)
+    Call<UpdateProfileData> updateProfile(@Field("token") String token,
+                                          @Field("firstname") String firstname,
+                                          @Field("lastname") String lastname,
+                                          @Field("phone_number") String phoneNumber,
+                                          @Field("address") String address,
+                                          @Field("city") String city,
+                                          @Field("shipping_postcode") String postcode,
+                                          @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.SUSPEND_CONTRACT_URL)
+    Call<SuspendContractData> suspendContract(@Field("token") String token,
+                                              @Field("msisdn") String msisdn,
+                                              @Field("motif") String reason,
+                                              @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.SEND_OTP_URL)
+    Call<SuspendContractData> sendOTP(@Field("token") String token,
+                                      @Field("msisdn") String msisdn,
+                                      @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.END_CONTRACT_URL)
+    Call<SuspendContractData> endContract(@Field("token") String token,
+                                          @Field("msisdn") String msisdn,
+                                          @Field("motif") String reason,
+                                          @Field("code") String code,
+                                          @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.CHANGE_SIM_URL)
+    Call<SuspendContractData> changeSIM(@Field("token") String token,
+                                        @Field("msisdn") String msisdn,
+                                        @Path("locale") String lang);
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.RESEND_PUK_URL)
+    Call<SuspendContractData> resendPUK(@Field("token") String token,
+                                        @Field("msisdn") String msisdn,
+                                        @Path("locale") String lang);
 }

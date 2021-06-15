@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto">
+    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -8,6 +9,7 @@
         android:background="@color/background"
         android:fillViewport="true"
         android:overScrollMode="never"
+        android:paddingTop="10dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -15,15 +17,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
-                android:includeFontPadding="false"
-                android:text="Contrat"
-                android:textColor="@color/blue"
-                android:textSize="20sp" />
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/backBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_back"
+                        app:tint="@color/blue" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:includeFontPadding="false"
+                    android:text="Contrat"
+                    android:textColor="@color/blue"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

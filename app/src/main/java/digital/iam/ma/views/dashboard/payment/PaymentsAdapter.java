@@ -1,6 +1,7 @@
 package digital.iam.ma.views.dashboard.payment;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,18 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import digital.iam.ma.R;
 import digital.iam.ma.databinding.PaymentDetailsItemLayoutBinding;
+import digital.iam.ma.listener.OnItemSelectedListener;
 import digital.iam.ma.models.orders.Order;
-import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHolder> {
 
     private final Context context;
     private final List<Order> orders;
+    private final OnItemSelectedListener onItemSelectedListener;
 
-    public PaymentsAdapter(Context context, List<Order> orders) {
+    public PaymentsAdapter(Context context, List<Order> orders, OnItemSelectedListener onItemSelectedListener) {
         this.context = context;
         this.orders = orders;
+        this.onItemSelectedListener = onItemSelectedListener;
     }
 
     @NonNull
@@ -57,8 +61,12 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
             itemBinding.price.setText(order.getOrderTotal());
             itemBinding.status.setText(order.getOrderStatus());
 
-            itemBinding.showDetailsBtn.setOnClickListener(v -> ((DashboardActivity) context).addFragment(new ContractDetailsFragment()));
-
+            if (order.getOrderStatus().equalsIgnoreCase("Impayé")) {
+                itemBinding.showDetailsBtn.setText(context.getString(R.string.pay_order_btn_text));
+                itemBinding.showDetailsBtn.setPaintFlags(itemBinding.showDetailsBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                itemBinding.showDetailsBtn.setOnClickListener(v -> onItemSelectedListener.onItemSelected(order, true));
+            } else
+                itemBinding.showDetailsBtn.setOnClickListener(v -> onItemSelectedListener.onItemSelected(order, false));
         }
     }
 }

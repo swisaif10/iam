@@ -95,13 +95,15 @@
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buyBtn"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="65dp"
             android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="10dp"
-            android:background="@drawable/orange_bg"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#E96614"
             android:fontFamily="@font/montserrat_extrabold"
             android:text="acheter"
             android:textColor="@color/white" />

@@ -21,7 +21,6 @@ public class BaseActivity extends AppCompatActivity {
                 .add(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
-
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -30,6 +29,5 @@ public class BaseActivity extends AppCompatActivity {
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
-
     }
 }

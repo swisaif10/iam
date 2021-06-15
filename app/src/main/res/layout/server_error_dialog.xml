@@ -32,13 +32,13 @@
             android:textSize="12sp"
             tools:text="test" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/okBtn"
             android:layout_width="180dp"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:background="@drawable/orange_bg"
+            android:backgroundTint="#E96614"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
             android:text="OK"

@@ -12,8 +12,8 @@ import digital.iam.ma.utilities.Resource;
 
 public class HomeRepository {
 
-    public void activateSIM(String token, String code, String lang, MutableLiveData<Resource<ResponseData>> mutableLiveData) {
-        new ApiManager().activateSIM(token, code, lang, mutableLiveData);
+    public void activateSIM(String token, String msisdn, String code, String lang, MutableLiveData<Resource<ResponseData>> mutableLiveData) {
+        new ApiManager().activateSIM(token, msisdn, code, lang, mutableLiveData);
     }
 
     public void getMyConsumption(String token, String msisdn, String lang, MutableLiveData<Resource<MyConsumptionData>> mutableLiveData) {

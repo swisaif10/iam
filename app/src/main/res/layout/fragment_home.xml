@@ -82,7 +82,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/renewBundle"
+                        android:id="@+id/renewBundleBtn"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.3"
@@ -163,9 +163,9 @@
                             android:fontFamily="@font/montserrat_bold"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="----"
                             android:textColor="@color/black"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:text="----" />
 
                         <TextView
                             android:id="@+id/consumedData"
@@ -176,9 +176,9 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="----"
                             android:textColor="@color/grey7"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="----" />
 
                     </RelativeLayout>
 
@@ -221,9 +221,9 @@
                             android:fontFamily="@font/montserrat_bold"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="----"
                             android:textColor="@color/black"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:text="----" />
 
                         <TextView
                             android:id="@+id/consumedVoice"
@@ -234,9 +234,9 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="----"
                             android:textColor="@color/grey7"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="----" />
 
                     </RelativeLayout>
 

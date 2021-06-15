@@ -1,5 +1,6 @@
 package digital.iam.ma.views.dashboard.bundles;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -44,15 +45,17 @@ import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.BundlesViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
+import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class BundlesFragment extends Fragment implements OnBundleSelectedListener {
 
     private FragmentBundlesBinding fragmentBinding;
     private BundlesViewModel viewModel;
     private PreferenceManager preferenceManager;
-    private String sku = "";
-    private Boolean canInternetSeek = true;
-    private Boolean canCallSeek = true;
+    private String selectedSku = "";
+    private String actualSku = "";
+    private Boolean canInternetSeek;
+    private Boolean canCallSeek;
 
     public BundlesFragment() {
         // Required empty public constructor
@@ -87,8 +90,16 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) requireActivity()).showHideTabLayout(View.VISIBLE);
+        canInternetSeek = false;
+        canCallSeek = false;
+    }
+
+    @Override
     public void onBundleSelected(BundleItem bundleItem) {
-        sku = bundleItem.getSku();
+        selectedSku = bundleItem.getSku();
     }
 
     private void getBundlesList() {
@@ -104,6 +115,7 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
                     requireActivity().finishAffinity();
                 });
@@ -114,13 +126,18 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void init(List<BundleItem> bundles) {
         Line line = preferenceManager.getValue(Constants.LINE_DETAILS);
         fragmentBinding.bundleName.setText(line.getBundleName());
         fragmentBinding.msisdn.setText(line.getMsisdn());
         fragmentBinding.date.setText(String.format("Expire le %s\nDébute le %s", line.getExpireDate().replace("-", "/"), line.getStartDate().replace("-", "/")));
-        fragmentBinding.total.setText(line.getPrice().substring(0, line.getPrice().indexOf(" ")));
-        fragmentBinding.unit.setText(line.getPrice().substring(line.getPrice().indexOf(" ") + 1).replaceFirst(" ", "\n"));
+        if (line.getPrice().contains("/")) {
+            fragmentBinding.total.setText(line.getPrice().substring(0, line.getPrice().indexOf(" ")));
+            fragmentBinding.unit.setText(line.getPrice().substring(line.getPrice().indexOf(" ") + 1).replaceFirst(" ", "\n"));
+        }
+
+        actualSku = line.getSKu();
 
         Multimap<Integer, Integer> map = ArrayListMultimap.create();
         for (BundleItem item : bundles) {
@@ -137,13 +154,14 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
             callsBundlesList.add(item + bundles.get(0).getCallUnit());
         }
 
+        fragmentBinding.internetSeekBar.setNestedScrollingEnabled(false);
         fragmentBinding.internetSeekBar.setTickCount(internetBundlesList.size());
         fragmentBinding.internetSeekBar.customTickTexts(internetBundlesList.toArray(new String[0]));
         fragmentBinding.internetSeekBar.customTickTextsTypeface(Objects.requireNonNull(ResourcesCompat.getFont(requireContext(), R.font.montserrat_bold)));
+        fragmentBinding.callsSeekBar.setNestedScrollingEnabled(false);
         fragmentBinding.callsSeekBar.setTickCount(callsBundlesList.size());
         fragmentBinding.callsSeekBar.customTickTexts(callsBundlesList.toArray(new String[0]));
         fragmentBinding.callsSeekBar.customTickTextsTypeface(Objects.requireNonNull(ResourcesCompat.getFont(requireContext(), R.font.montserrat_bold)));
-        fragmentBinding.bundlePrice.setText(String.valueOf(bundles.get(0).getPrice()));
 
         fragmentBinding.internetSeekBar.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
@@ -155,15 +173,16 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
                     fragmentBinding.callsSeekBar.setProgress(fragmentBinding.callsSeekBar.getMax() * callsBundlesList.indexOf(call.last() + "h") / (callsBundlesList.size() - 1));
 
                     BundleItem item = searchBundleByDetails(bundles, key, call.last());
-                    sku = item.getSku();
+                    selectedSku = item.getSku();
                     fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
-                    fragmentBinding.changeBundleBtn.setEnabled(true);
+                    fragmentBinding.changeBundleBtn.setEnabled(!selectedSku.equalsIgnoreCase(actualSku));
                 }
             }
 
             @Override
             public void onStartTrackingTouch(TickSeekBar seekBar) {
-
+                canInternetSeek = true;
+                canCallSeek = true;
             }
 
             @Override
@@ -187,14 +206,16 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
                     fragmentBinding.internetSeekBar.setProgress(fragmentBinding.internetSeekBar.getMax() * internetBundlesList.indexOf(key + " Go") / (internetBundlesList.size() - 1));
 
                     BundleItem item = searchBundleByDetails(bundles, key, value);
-                    sku = item.getSku();
+                    selectedSku = item.getSku();
                     fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
-                    fragmentBinding.changeBundleBtn.setEnabled(true);
+                    fragmentBinding.changeBundleBtn.setEnabled(!selectedSku.equalsIgnoreCase(actualSku));
                 }
             }
 
             @Override
             public void onStartTrackingTouch(TickSeekBar seekBar) {
+                canInternetSeek = true;
+                canCallSeek = true;
             }
 
             @Override
@@ -203,6 +224,10 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
             }
         });
 
+        BundleItem item = searchBundleBySku(bundles, actualSku);
+        fragmentBinding.internetSeekBar.setProgress(fragmentBinding.internetSeekBar.getMax() * internetBundlesList.indexOf(item.getInternet() + " Go") / (internetBundlesList.size() - 1));
+        fragmentBinding.callsSeekBar.setProgress(fragmentBinding.callsSeekBar.getMax() * callsBundlesList.indexOf(item.getCall() + "h") / (callsBundlesList.size() - 1));
+        fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
 
         fragmentBinding.body.setVisibility(View.VISIBLE);
         fragmentBinding.changeBundleBtn.setOnClickListener(v -> {
@@ -216,9 +241,15 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
         return results.get(0);
     }
 
+    private BundleItem searchBundleBySku(List<BundleItem> bundles, String sku) {
+        final Predicate<BundleItem> itemPredicate = item -> item.getSku().equals(sku);
+        final List<BundleItem> results = Lists.newArrayList(Iterables.filter(bundles, itemPredicate));
+        return results.get(0);
+    }
+
     private void switchBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), sku, "fr");
+        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), selectedSku, "fr");
     }
 
     private void handleSwitchBundleData(Resource<CMIPaymentData> responseData) {
@@ -226,7 +257,7 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
-                Uri uri = Uri.parse(responseData.data.getResponse().getUrlCmi());
+                Uri uri = Uri.parse(responseData.data.getResponse().getUrl());
                 CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
                 intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -235,6 +266,7 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
                     requireActivity().finishAffinity();
                 });

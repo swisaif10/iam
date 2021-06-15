@@ -4,10 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class CMIPaymentResponse {
-    @SerializedName("url_cmi")
-    private String urlCmi;
-    @Expose
+    @SerializedName(value = "url", alternate = {"url_cmi"})
     private String url;
+    @Expose
+    private String status;
+    @Expose
+    private String message;
+    @Expose
+    private String code;
 
     public String getUrl() {
         return url;
@@ -17,11 +21,27 @@ public class CMIPaymentResponse {
         this.url = url;
     }
 
-    public String getUrlCmi() {
-        return urlCmi;
+    public String getStatus() {
+        return status;
     }
 
-    public void setUrlCmi(String urlCmi) {
-        this.urlCmi = urlCmi;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

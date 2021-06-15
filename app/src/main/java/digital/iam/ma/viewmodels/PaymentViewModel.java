@@ -16,6 +16,7 @@ public class PaymentViewModel extends AndroidViewModel {
     private final PaymentRepository repository;
     private final MutableLiveData<Resource<GetOrdersData>> getOrdersLiveData;
     private final MutableLiveData<Resource<CMIPaymentData>> renewBundleLiveData;
+    private final MutableLiveData<Resource<CMIPaymentData>> orderPaymentLiveData;
 
     public PaymentViewModel(@NonNull Application application) {
         super(application);
@@ -23,6 +24,7 @@ public class PaymentViewModel extends AndroidViewModel {
         this.repository = new PaymentRepository();
         getOrdersLiveData = new MutableLiveData<>();
         renewBundleLiveData = new MutableLiveData<>();
+        orderPaymentLiveData = new MutableLiveData<>();
     }
 
     public MutableLiveData<Resource<GetOrdersData>> getGetOrdersLiveData() {
@@ -33,11 +35,19 @@ public class PaymentViewModel extends AndroidViewModel {
         return renewBundleLiveData;
     }
 
+    public MutableLiveData<Resource<CMIPaymentData>> getOrderPaymentLiveData() {
+        return orderPaymentLiveData;
+    }
+
     public void getOrders(String token, String lang) {
         repository.getOrders(token, lang, getOrdersLiveData);
     }
 
     public void renewBundle(String token, String msisdn, String lang) {
         repository.renewBundle(token, msisdn, lang, renewBundleLiveData);
+    }
+
+    public void payOrder(String token, String orderId, String msisdn, String lang) {
+        repository.payOrder(token, orderId, msisdn, lang, orderPaymentLiveData);
     }
 }

@@ -73,12 +73,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.03" />
 
-            <androidx.appcompat.widget.AppCompatButton
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/confirmBtn"
                 android:layout_width="0dp"
-                android:layout_height="55dp"
+                android:layout_height="65dp"
                 android:layout_weight="0.5"
-                android:background="@drawable/orange_bg"
+                android:backgroundTint="#E96614"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Oui je confirme"
                 android:textAllCaps="false"

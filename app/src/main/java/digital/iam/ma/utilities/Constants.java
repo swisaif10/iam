@@ -5,6 +5,13 @@ public interface Constants {
     String TOKEN = "TOKEN";
     String EMAIL = "EMAIL";
     String PASSWORD = "PASSWORD";
+    String FIRSTNAME = "FIRSTNAME";
+    String LASTNAME = "LASTNAME";
+    String PHONE_NUMBER = "PHONE_NUMBER";
+    String ADDRESS = "ADDRESS";
+    String CITY = "CITY";
+    String POSTAL_CODE = "POSTAL_CODE";
+    String GENDER = "GENDER";
     String IS_LOGGED_IN = "IS_LOGGED_IN";
     String MSISDN = "MSISDN";
     String RECOVERED_EMAIL = "RECOVERED_EMAIL";

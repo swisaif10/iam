@@ -15,6 +15,6 @@ public class Gray extends Application {
 
         new FlurryAgent.Builder()
                 .withLogEnabled(true)
-                .build(this, getResources().getString(R.string.flurry_key));
+                .build(this, BuildConfig.FLURRY_KEY);
     }
 }

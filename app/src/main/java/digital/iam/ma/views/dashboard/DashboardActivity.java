@@ -1,11 +1,15 @@
 package digital.iam.ma.views.dashboard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
@@ -26,15 +30,15 @@ import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.DashboardViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
-import digital.iam.ma.views.authentication.offers.DiscoverOffersFragment;
 import digital.iam.ma.views.base.BaseActivity;
+import digital.iam.ma.views.dashboard.contract.ContractActivity;
 import digital.iam.ma.views.dashboard.bundles.BundlesFragment;
 import digital.iam.ma.views.dashboard.cart.CartFragment;
 import digital.iam.ma.views.dashboard.home.HomeFragment;
 import digital.iam.ma.views.dashboard.payment.PaymentFragment;
-import digital.iam.ma.views.dashboard.profile.HelpFragment;
-import digital.iam.ma.views.dashboard.profile.PersonalInformationFragment;
 import digital.iam.ma.views.dashboard.services.ServicesFragment;
+import digital.iam.ma.views.dashboard.help.HelpActivity;
+import digital.iam.ma.views.dashboard.personalinfo.PersonalInformationActivity;
 
 public class DashboardActivity extends BaseActivity {
 
@@ -71,6 +75,7 @@ public class DashboardActivity extends BaseActivity {
             finish();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void init() {
         names = new ArrayList<String>() {{
             add("Mon forfait");
@@ -87,7 +92,7 @@ public class DashboardActivity extends BaseActivity {
         }};
 
         fragments = new ArrayList<Fragment>() {{
-            add(new HomeFragment());
+            add(HomeFragment.newInstance(getIntent().getBooleanExtra("is_first_login", false)));
             add(new PaymentFragment());
             add(new ServicesFragment());
             add(new BundlesFragment());
@@ -103,13 +108,18 @@ public class DashboardActivity extends BaseActivity {
             tabTextView.setText(names.get(i));
             ImageView tabImageView = view.findViewById(R.id.icon);
             tabImageView.setImageResource(icons.get(i));
+            if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending") && (i == 2 || i == 3)) {
+                tabImageView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#E1E1E1")));
+                tabTextView.setTextColor(Color.parseColor("#E1E1E1"));
+            }
             activityBinding.tabLayout.addTab(tab);
         }
 
         activityBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                replaceFragment(fragments.get(tab.getPosition()));
+                int position = tab.getPosition();
+                replaceFragment(fragments.get(position));
             }
 
             @Override
@@ -119,11 +129,18 @@ public class DashboardActivity extends BaseActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                replaceFragment(fragments.get(tab.getPosition()));
+                int position = tab.getPosition();
+                replaceFragment(fragments.get(position));
             }
         });
 
-        addFragment(HomeFragment.newInstance(getIntent().getBooleanExtra("is_first_login", false)));
+        if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
+            LinearLayout tabStrip = ((LinearLayout) activityBinding.tabLayout.getChildAt(0));
+            tabStrip.getChildAt(2).setOnTouchListener((v, event) -> true);
+            tabStrip.getChildAt(3).setOnTouchListener((v, event) -> true);
+        }
+
+        activityBinding.tabLayout.getTabAt(0).select();
 
         activityBinding.profileBtn.setOnClickListener(v -> {
             activityBinding.closeMenu.setVisibility(View.VISIBLE);
@@ -143,17 +160,17 @@ public class DashboardActivity extends BaseActivity {
 
         activityBinding.personalInfoBtn.setOnClickListener(v -> {
             closeSideMenu();
-            addFragment(new PersonalInformationFragment());
+            startActivity(new Intent(this, PersonalInformationActivity.class));
         });
 
         activityBinding.helpBtn.setOnClickListener(v -> {
             closeSideMenu();
-            addFragment(new HelpFragment());
+            startActivity(new Intent(this, HelpActivity.class));
         });
 
-        activityBinding.offersBtn.setOnClickListener(v -> {
+        activityBinding.contractsBtn.setOnClickListener(v -> {
             closeSideMenu();
-            addFragment(DiscoverOffersFragment.newInstance(true));
+            startActivity(new Intent(this, ContractActivity.class));
         });
 
         activityBinding.notificationBtn.setOnClickListener(v -> {
@@ -171,7 +188,7 @@ public class DashboardActivity extends BaseActivity {
 
         activityBinding.logoutBtn.setOnClickListener(v -> {
             closeSideMenu();
-            Utilities.showLogoutDialog(this, "Etes vous sûr de vouloir vous déconnecter ?", new OnDialogButtonsClickListener() {
+            Utilities.showLogoutDialog(this, getString(R.string.logout_discreption), new OnDialogButtonsClickListener() {
                 @Override
                 public void firstChoice() {
                     logout();
@@ -218,5 +235,9 @@ public class DashboardActivity extends BaseActivity {
 
     public void selectPaymentsTab() {
         activityBinding.tabLayout.getTabAt(1).select();
+    }
+
+    public void showHideTabLayout(int visibility) {
+        activityBinding.tabLayout.setVisibility(visibility);
     }
 }

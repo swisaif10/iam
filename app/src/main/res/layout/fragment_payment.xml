@@ -91,18 +91,8 @@
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         app:cornerRadius="5dp" />
-                    
-                </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:includeFontPadding="false"
-                    android:text="@string/payments_list_title"
-                    android:textColor="@color/blue"
-                    android:textSize="20sp" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -110,71 +100,223 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/white_background"
                     android:orientation="vertical"
-                    android:paddingHorizontal="5dp"
-                    android:paddingVertical="10dp">
+                    android:paddingHorizontal="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/unpaidOrdersBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:includeFontPadding="false"
+                            android:text="@string/unpaid_list_title"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/unpaidArrow"
+                            android:layout_width="20dp"
+                            android:layout_height="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:rotation="90"
+                            android:src="@drawable/ic_goright"
+                            app:tint="@color/blue" />
+                    </RelativeLayout>
 
                     <LinearLayout
+                        android:id="@+id/unpaidOrdersList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/white_background"
-                        android:backgroundTint="@color/grey12"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="5dp"
-                        android:paddingVertical="15dp">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                        <TextView
-                            android:layout_width="0dp"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#44707070" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:fontFamily="@font/montserrat_semibold"
-                            android:includeFontPadding="false"
-                            android:text="@string/name_text"
-                            android:textAlignment="center"
-                            android:textColor="@color/grey7"
-                            android:textSize="13sp" />
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/white_background"
+                            android:backgroundTint="@color/grey12"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="5dp"
+                            android:paddingVertical="15dp">
 
-                        <TextView
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/name_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/price_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/details_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/status_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/unpaidRecycler"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:fontFamily="@font/montserrat_semibold"
-                            android:includeFontPadding="false"
-                            android:text="@string/price_text"
-                            android:textAlignment="center"
-                            android:textColor="@color/grey7"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:fontFamily="@font/montserrat_semibold"
-                            android:includeFontPadding="false"
-                            android:text="@string/details_text"
-                            android:textAlignment="center"
-                            android:textColor="@color/grey7"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:fontFamily="@font/montserrat_semibold"
-                            android:includeFontPadding="false"
-                            android:text="@string/status_text"
-                            android:textAlignment="center"
-                            android:textColor="@color/grey7"
-                            android:textSize="13sp" />
-
+                            android:layout_marginTop="10dp"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/payment_details_item_layout" />
                     </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/paymentsRecycler"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/white_background"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/paidOrdersBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        tools:itemCount="18"
-                        tools:listitem="@layout/payment_details_item_layout" />
+                        android:padding="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:includeFontPadding="false"
+                            android:text="@string/payments_list_title"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/paidArow"
+                            android:layout_width="20dp"
+                            android:layout_height="10dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:rotation="90"
+                            android:src="@drawable/ic_goright"
+                            app:tint="@color/blue" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/paidOrdersList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#44707070" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/white_background"
+                            android:backgroundTint="@color/grey12"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="5dp"
+                            android:paddingVertical="15dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/name_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/price_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/details_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:includeFontPadding="false"
+                                android:text="@string/status_text"
+                                android:textAlignment="center"
+                                android:textColor="@color/grey7"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/paidRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/payment_details_item_layout" />
+                    </LinearLayout>
 
                 </LinearLayout>
 

@@ -3,6 +3,8 @@ package digital.iam.ma.views.dashboard.home;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -19,6 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.List;
+
 import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.cmi.CMIPaymentData;
@@ -26,6 +30,7 @@ import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.consumption.MyConsumptionResponse;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
+import digital.iam.ma.models.orders.Order;
 import digital.iam.ma.models.recharge.RechargeListData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
@@ -104,11 +109,19 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) requireActivity()).showHideTabLayout(View.VISIBLE);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             assert data != null;
             fragmentBinding.activateSimBtn.setVisibility(View.GONE);
+            fragmentBinding.rechargeBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#204CCB")));
+            fragmentBinding.renewBundleBtn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -119,13 +132,15 @@ public class HomeFragment extends Fragment {
             ((DashboardActivity) requireActivity()).addFragment(activateSimFragment);
         }));
         fragmentBinding.rechargeBtn.setOnClickListener(v -> getRechargesList());
-        fragmentBinding.renewBundle.setOnClickListener(v -> Utilities.showConfirmRenewPopup(requireContext(), v12 -> renewBundle()));
+        fragmentBinding.renewBundleBtn.setOnClickListener(v -> Utilities.showConfirmRenewPopup(requireContext(), v12 -> renewBundle()));
 
         fragmentBinding.showMoreBtn.setOnClickListener(v -> ((DashboardActivity) requireActivity()).selectPaymentsTab());
 
         if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
             fragmentBinding.activateSimBtn.setVisibility(View.VISIBLE);
-        } else {
+            fragmentBinding.rechargeBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E1E1E1")));
+            fragmentBinding.renewBundleBtn.setVisibility(View.GONE);
+        } else if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("active")) {
             fragmentBinding.activateSimBtn.setVisibility(View.GONE);
         }
     }
@@ -144,6 +159,7 @@ public class HomeFragment extends Fragment {
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
                     requireActivity().finishAffinity();
                 });
@@ -159,11 +175,11 @@ public class HomeFragment extends Fragment {
     private void initConsumption(MyConsumptionResponse response) {
         fragmentBinding.dataConsumptionReview.setValue(Float.parseFloat(response.getInternet().getPercent()));
         fragmentBinding.percentData.setText(String.format("%s%%", response.getInternet().getPercent()));
-        fragmentBinding.consumedData.setText(String.format("%sGO", response.getInternet().getConsumed()));
+        fragmentBinding.consumedData.setText(String.valueOf(response.getInternet().getBundle()));
 
         fragmentBinding.voiceConsumptionReview.setValue(Float.parseFloat(response.getCalls().getPercent()));
         fragmentBinding.percentVoice.setText(String.format("%s%%", response.getCalls().getPercent()));
-        fragmentBinding.consumedVoice.setText(String.format("%sh", response.getCalls().getConsumed()));
+        fragmentBinding.consumedVoice.setText(String.valueOf(response.getCalls().getBundle()));
 
         fragmentBinding.body.setVisibility(View.VISIBLE);
     }
@@ -181,6 +197,7 @@ public class HomeFragment extends Fragment {
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
                     requireActivity().finishAffinity();
                 });
@@ -193,10 +210,15 @@ public class HomeFragment extends Fragment {
 
     private void initOrders(GetOrdersResponse response) {
         fragmentBinding.paymentsList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter(response.getOrders(), preferenceManager.getValue(Constants.MSISDN, "")));
+        List<Order> orders;
+        int size = response.getPaidOrders().size();
+        if (size >= 5)
+            orders = response.getPaidOrders().subList(size - 5, size);
+        else
+            orders = response.getPaidOrders();
+        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter(orders, preferenceManager.getValue(Constants.MSISDN, "")));
         fragmentBinding.paymentsList.setNestedScrollingEnabled(false);
     }
-
 
     private void getRechargesList() {
         viewModel.getRechargesList("fr");
@@ -213,6 +235,7 @@ public class HomeFragment extends Fragment {
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
                     requireActivity().finishAffinity();
                 });
@@ -245,6 +268,7 @@ public class HomeFragment extends Fragment {
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
                     requireActivity().finishAffinity();
                 });

@@ -16,4 +16,8 @@ public class PaymentRepository {
     public void renewBundle(String token, String msisdn, String lang, MutableLiveData<Resource<CMIPaymentData>> mutableLiveData) {
         new ApiManager().renewBundle(token, msisdn, lang, mutableLiveData);
     }
+
+    public void payOrder(String token, String orderId, String msisdn, String lang, MutableLiveData<Resource<CMIPaymentData>> mutableLiveData) {
+        new ApiManager().payOrder(token, orderId, msisdn, lang, mutableLiveData);
+    }
 }

@@ -20,8 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
 import digital.iam.ma.R;
+import digital.iam.ma.listener.OnConfirmClickListener;
 import digital.iam.ma.listener.OnDialogButtonsClickListener;
 import digital.iam.ma.listener.OnRechargeSelectedListener;
 import digital.iam.ma.listener.OnResetPasswordDialogClickListener;
@@ -253,24 +255,60 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showSuspendContractDialog(Context context) {
+    static void showContractDialog(Context context, String title, String message, String type, OnConfirmClickListener onConfirmClickListener) {
 
         if (context == null) {
             return;
         }
 
         final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-
         View view = LayoutInflater.from(context).inflate(R.layout.suspend_contract_dialog, null, false);
+        TextView titleTV = view.findViewById(R.id.title);
+        TextView messageTV = view.findViewById(R.id.message);
+        EditText code = view.findViewById(R.id.code);
+        EditText reason = view.findViewById(R.id.motif);
         Button cancel = view.findViewById(R.id.cancelBtn);
         Button confirm = view.findViewById(R.id.confirmBtn);
         TextView close = view.findViewById(R.id.closeBtn);
         ConstraintLayout container = view.findViewById(R.id.container);
 
+        titleTV.setText(title);
+        messageTV.setText(message);
+        switch (type) {
+            case "suspend":
+                reason.setVisibility(View.VISIBLE);
+                break;
+            case "end":
+                reason.setVisibility(View.VISIBLE);
+                code.setVisibility(View.VISIBLE);
+                break;
+            case "resend_puk":
+                code.setHint(R.string.phone_number_hint);
+                code.setVisibility(View.VISIBLE);
+                confirm.setText(R.string.resend_btn_label);
+                code.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                code.setTransformationMethod(new NumericKeyBoardTransformationMethod());
+                code.setTypeface(ResourcesCompat.getFont(context, R.font.avenir_book));
+                break;
+        }
         cancel.setOnClickListener(v -> dialog.dismiss());
-        confirm.setOnClickListener(v -> dialog.dismiss());
+        confirm.setOnClickListener(v -> {
+            if (reason.getVisibility() == View.GONE && code.getVisibility() == View.GONE) {
+                dialog.dismiss();
+                onConfirmClickListener.onConfirmClick("", "", type);
+            } else if (reason.getVisibility() == View.VISIBLE && isNotEmpty(reason) && code.getVisibility() == View.GONE) {
+                dialog.dismiss();
+                onConfirmClickListener.onConfirmClick(reason.getText().toString(), "", type);
+            } else if (code.getVisibility() == View.VISIBLE && isNotEmpty(code) && reason.getVisibility() == View.GONE) {
+                dialog.dismiss();
+                onConfirmClickListener.onConfirmClick("", code.getText().toString(), type);
+            } else if (reason.getVisibility() == View.VISIBLE && isNotEmpty(reason) && code.getVisibility() == View.VISIBLE && isNotEmpty(code)) {
+                dialog.dismiss();
+                onConfirmClickListener.onConfirmClick(reason.getText().toString(), code.getText().toString(), type);
+            }
+        });
         close.setOnClickListener(v -> dialog.dismiss());
-        container.setOnClickListener(v -> dialog.dismiss());
+        container.setOnClickListener(v -> hideSoftKeyboard(context, view));
         dialog.setContentView(view);
         dialog.show();
     }
@@ -458,4 +496,7 @@ public interface Utilities {
         dialog.show();
     }
 
+    static Boolean isNotEmpty(EditText editText) {
+        return !editText.getText().toString().equalsIgnoreCase("");
+    }
 }

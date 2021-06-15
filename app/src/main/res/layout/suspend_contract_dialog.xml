@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,66 +36,103 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/montserrat_semibold"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/montserrat_extrabold"
             android:gravity="center"
-            android:text="Êtes vous sûr de vouloir\nsuspendre votre contrat actuel ?"
             android:textColor="@color/blue"
-            android:textSize="20sp" />
+            android:textSize="18sp"
+            tools:text="Confirmer la suspension de\nmon contrat" />
 
         <TextView
+            android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/nunito_semibold"
             android:gravity="center"
-            android:text="Vous pourrez renouveler votre contrat\nqu’après régularisation"
             android:textColor="#444342"
-            android:textSize="18sp" />
+            android:textSize="14sp"
+            tools:text="Si vous confirmez et mettez en suspens votre contrat maintenant, vous pourrez le réinitialiser à tout moment en passant par votre espace client Gray" />
+
+        <EditText
+            android:id="@+id/motif"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/editext_border"
+            android:backgroundTint="@color/orange"
+            android:fontFamily="@font/avenir_book"
+            android:hint="@string/reason_hint"
+            android:inputType="text"
+            android:paddingStart="30dp"
+            android:textColorHint="@color/grey8"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/code"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/editext_border"
+            android:backgroundTint="@color/orange"
+            android:fontFamily="@font/avenir_book"
+            android:hint="@string/contract_code_hint"
+            android:inputType="text"
+            android:paddingStart="30dp"
+            android:textColorHint="@color/grey8"
+            android:textSize="15sp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="40dp"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancelBtn"
                 android:layout_width="0dp"
-                android:layout_height="65dp"
+                android:layout_height="55dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="Non"
+                android:backgroundTint="#E96614"
+                android:fontFamily="@font/montserrat_extrabold"
+                android:text="@string/cancel_btn_label"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/white"
                 android:textSize="13sp"
-                app:cornerRadius="7dp"
-                app:strokeColor="@color/orange"
-                app:strokeWidth="1dp" />
+                app:cornerRadius="7dp" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.03" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/confirmBtn"
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="0.5"
-                android:background="@drawable/orange_bg"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="Oui"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/montserrat_extrabold"
+                android:text="@string/confirm_btn_label"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="13sp" />
+                android:textColor="@color/orange"
+                android:textSize="13sp"
+                app:cornerRadius="7dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
 
         </LinearLayout>
     </LinearLayout>

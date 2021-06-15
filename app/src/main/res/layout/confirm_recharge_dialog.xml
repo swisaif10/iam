@@ -60,14 +60,14 @@
             android:textColorHint="@color/grey7"
             android:textSize="14sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/okBtn"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="65dp"
             android:layout_marginHorizontal="70dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/orange_bg"
+            android:backgroundTint="#E96614"
             android:fontFamily="@font/montserrat_medium"
             android:text="confirmer"
             android:textAllCaps="false"

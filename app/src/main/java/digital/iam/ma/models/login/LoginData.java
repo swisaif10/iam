@@ -9,7 +9,7 @@ public class LoginData {
     @Expose
     private Header header;
     @Expose
-    private LoginResponse response;
+    private LoginResponseData response;
 
     public Header getHeader() {
         return header;
@@ -19,11 +19,11 @@ public class LoginData {
         this.header = header;
     }
 
-    public LoginResponse getResponse() {
+    public LoginResponseData getResponse() {
         return response;
     }
 
-    public void setResponse(LoginResponse response) {
+    public void setResponse(LoginResponseData response) {
         this.response = response;
     }
 

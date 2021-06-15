@@ -38,7 +38,7 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return Math.min(orders.size(), 4);
+        return orders.size();
     }
 
 

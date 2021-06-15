@@ -18,4 +18,12 @@ public class AuthenticationActivity extends BaseActivity {
         } else
             addFragment(new LoginFragment());
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1)
+            getSupportFragmentManager().popBackStack();
+        else
+            finish();
+    }
 }

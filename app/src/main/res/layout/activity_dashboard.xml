@@ -187,17 +187,17 @@
                     app:drawableTint="@color/blue" />
 
                 <TextView
-                    android:id="@+id/offersBtn"
+                    android:id="@+id/contractsBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
-                    android:text="@string/offers_label"
+                    android:text="@string/contracts_label"
                     android:textColor="@color/blue"
                     android:textSize="13sp"
-                    app:drawableStartCompat="@drawable/ic_question"
+                    app:drawableStartCompat="@drawable/ic_contrats"
                     app:drawableTint="@color/blue" />
 
             </LinearLayout>
@@ -257,7 +257,7 @@
                     android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center"
-                    android:text="@string/phone_string"
+                    android:text="@string/phone_string2"
                     android:textColor="@color/blue"
                     android:textSize="12sp"
                     app:drawableStartCompat="@drawable/ic_phone" />

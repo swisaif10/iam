@@ -1,16 +1,26 @@
-package digital.iam.ma.views.dashboard.profile;
+package digital.iam.ma.views.dashboard.help;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import digital.iam.ma.databinding.HelpItemLayoutBinding;
+import digital.iam.ma.models.help.Item;
 
 public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.ViewHolder> {
 
-    public HelpAdapter() {
+    private final Context context;
+    private final List<Item> items;
+
+    public HelpAdapter(Context context, List<Item> items) {
+        this.context = context;
+        this.items = items;
     }
 
     @NonNull
@@ -24,12 +34,12 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind();
+        holder.bind(position);
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return items.size();
     }
 
 
@@ -42,23 +52,12 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.ViewHolder> {
             this.itemBinding = itemBinding;
         }
 
-        private void bind() {
-
-            switch (getAdapterPosition()) {
-                case 0:
-                case 3:
-                    itemBinding.title.setText("Urgence & dépannage");
-                    break;
-                case 1:
-                case 4:
-                    itemBinding.title.setText("Offre & options");
-                    break;
-                case 2:
-                case 5:
-                    itemBinding.title.setText("Taris & communication");
-                    break;
-            }
-
+        private void bind(int position) {
+            Item item = items.get(position);
+            itemBinding.title.setText(item.getTitle());
+            itemBinding.faqRecycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            itemBinding.faqRecycler.setAdapter(new HelpFAQAdapter(item.getFaqs(), item.getIdentifier()));
+            itemBinding.faqRecycler.setNestedScrollingEnabled(false);
         }
     }
 }
