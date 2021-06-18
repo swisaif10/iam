@@ -67,6 +67,8 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
     }
 
     private void init() {
+        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+            activityBinding.backImage.setRotation(180f);
         line = preferenceManager.getValue(Constants.LINE_DETAILS);
         activityBinding.backBtn.setOnClickListener(v -> finish());
         activityBinding.suspendContractBtn.setOnClickListener(v -> Utilities.showContractDialog(this, getString(R.string.suspend_contract_title), getString(R.string.suspend_contract_message), "suspend", this));

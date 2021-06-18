@@ -133,6 +133,7 @@ public interface ApiServices {
                                           @Field("address") String address,
                                           @Field("city") String city,
                                           @Field("shipping_postcode") String postcode,
+                                          @Field("gender") int gender,
                                           @Path("locale") String lang);
 
     @FormUrlEncoded

@@ -17,4 +17,5 @@ public interface Constants {
     String RECOVERED_EMAIL = "RECOVERED_EMAIL";
     String IS_LINE_ACTIVATED = "IS_LINE_ACTIVATED";
     String LINE_DETAILS = "LINE_DETAILS";
+    String LANGUAGE = "LANGUAGE";
 }

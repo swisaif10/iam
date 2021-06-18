@@ -223,7 +223,7 @@
                             android:fontFamily="@font/montserrat_extrabold"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
-                            android:text="DH\n/ mois"
+                            android:text="@string/price_unit"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -292,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/montserrat_semibold"
-                        android:text="Voix"
+                        android:text="@string/call_label"
                         android:textColor="@color/black"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@id/callsIcon"

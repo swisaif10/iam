@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment {
 
     private void getMyConsumption() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getMyConsumption(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), "fr");
+        viewModel.getMyConsumption(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleMyConsumptionData(Resource<MyConsumptionData> responseData) {
@@ -185,7 +185,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getOrders() {
-        viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+        viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleGetOrdersData(Resource<GetOrdersData> responseData) {
@@ -221,7 +221,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getRechargesList() {
-        viewModel.getRechargesList("fr");
+        viewModel.getRechargesList(preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleGetRechargesListData(Resource<RechargeListData> responseData) {
@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment {
 
     private void renewBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), "fr");
+        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleRenewBundleData(Resource<CMIPaymentData> responseData) {

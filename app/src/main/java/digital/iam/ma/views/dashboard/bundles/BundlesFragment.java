@@ -131,7 +131,7 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
         Line line = preferenceManager.getValue(Constants.LINE_DETAILS);
         fragmentBinding.bundleName.setText(line.getBundleName());
         fragmentBinding.msisdn.setText(line.getMsisdn());
-        fragmentBinding.date.setText(String.format("Expire le %s\nDébute le %s", line.getExpireDate().replace("-", "/"), line.getStartDate().replace("-", "/")));
+        fragmentBinding.date.setText(String.format("%s%s\n%s%s", getString(R.string.end_at), line.getExpireDate().replace("-", "/"), getString(R.string.start_at), line.getStartDate().replace("-", "/")));
         if (line.getPrice().contains("/")) {
             fragmentBinding.total.setText(line.getPrice().substring(0, line.getPrice().indexOf(" ")));
             fragmentBinding.unit.setText(line.getPrice().substring(line.getPrice().indexOf(" ") + 1).replaceFirst(" ", "\n"));

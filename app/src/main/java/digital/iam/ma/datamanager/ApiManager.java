@@ -388,8 +388,8 @@ public class ApiManager {
         });
     }
 
-    public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, String lang, MutableLiveData<Resource<UpdateProfileData>> mutableLiveData) {
-        Call<UpdateProfileData> call = RetrofitClient.getInstance().endpoint().updateProfile(token, firstname, lastname, phoneNumber, address, city, postcode, lang);
+    public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, int gender, String lang, MutableLiveData<Resource<UpdateProfileData>> mutableLiveData) {
+        Call<UpdateProfileData> call = RetrofitClient.getInstance().endpoint().updateProfile(token, firstname, lastname, phoneNumber, address, city, postcode, gender, lang);
         call.enqueue(new Callback<UpdateProfileData>() {
             @Override
             public void onResponse(@NonNull Call<UpdateProfileData> call, @NonNull Response<UpdateProfileData> response) {

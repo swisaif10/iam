@@ -29,6 +29,7 @@
                 android:layout_height="50dp">
 
                 <ImageView
+                    android:id="@+id/backImage"
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_centerInParent="true"

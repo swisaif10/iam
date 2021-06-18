@@ -1,17 +1,26 @@
 package digital.iam.ma.views.dashboard;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Insets;
+import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowMetrics;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -26,19 +35,20 @@ import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnDialogButtonsClickListener;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.utilities.Constants;
+import digital.iam.ma.utilities.LocaleManager;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.DashboardViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.base.BaseActivity;
-import digital.iam.ma.views.dashboard.contract.ContractActivity;
 import digital.iam.ma.views.dashboard.bundles.BundlesFragment;
 import digital.iam.ma.views.dashboard.cart.CartFragment;
+import digital.iam.ma.views.dashboard.contract.ContractActivity;
+import digital.iam.ma.views.dashboard.help.HelpActivity;
 import digital.iam.ma.views.dashboard.home.HomeFragment;
 import digital.iam.ma.views.dashboard.payment.PaymentFragment;
-import digital.iam.ma.views.dashboard.services.ServicesFragment;
-import digital.iam.ma.views.dashboard.help.HelpActivity;
 import digital.iam.ma.views.dashboard.personalinfo.PersonalInformationActivity;
+import digital.iam.ma.views.dashboard.services.ServicesFragment;
 
 public class DashboardActivity extends BaseActivity {
 
@@ -49,6 +59,19 @@ public class DashboardActivity extends BaseActivity {
     private Boolean menuIsVisible = false;
     private PreferenceManager preferenceManager;
     private DashboardViewModel viewModel;
+
+    public static int getScreenWidth(@NonNull Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowMetrics windowMetrics = activity.getWindowManager().getCurrentWindowMetrics();
+            Insets insets = windowMetrics.getWindowInsets()
+                    .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+            return windowMetrics.getBounds().width() - insets.left - insets.right;
+        } else {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            activity.getDisplay().getRealMetrics(displayMetrics);
+            return displayMetrics.widthPixels;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +100,14 @@ public class DashboardActivity extends BaseActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void init() {
+        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+            activityBinding.slideMenu.animate().translationX(-getScreenWidth(this));
+
         names = new ArrayList<String>() {{
-            add("Mon forfait");
-            add("Mes\npaiements");
-            add("Mes services");
-            add("Modifier\nmon forfait");
+            add(getString(R.string.bundle_menu_item_label));
+            add(getString(R.string.payments_menu_item_label));
+            add(getString(R.string.services_menu_item_label));
+            add(getString(R.string.update_bundle_menu_item_label));
         }};
 
         icons = new ArrayList<Integer>() {{
@@ -144,6 +170,7 @@ public class DashboardActivity extends BaseActivity {
 
         activityBinding.profileBtn.setOnClickListener(v -> {
             activityBinding.closeMenu.setVisibility(View.VISIBLE);
+            activityBinding.slideMenu.setVisibility(View.VISIBLE);
             activityBinding.slideMenu.animate().translationX(0);
             menuIsVisible = true;
         });
@@ -200,17 +227,38 @@ public class DashboardActivity extends BaseActivity {
                 }
             });
         });
+
+        activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        activityBinding.frenchBtn.setOnClickListener(v -> {
+            setNewLocale(this, LocaleManager.FRENCH);
+            closeSideMenu();
+            activityBinding.frenchBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.orange));
+            activityBinding.frenchBtn.setPaintFlags(0);
+            activityBinding.arabicBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.lightGrey));
+            activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        });
+        activityBinding.arabicBtn.setOnClickListener(v -> {
+            setNewLocale(this, LocaleManager.ARABIC);
+            closeSideMenu();
+            activityBinding.arabicBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.orange));
+            activityBinding.arabicBtn.setPaintFlags(0);
+            activityBinding.frenchBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.lightGrey));
+            activityBinding.frenchBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        });
     }
 
     private void closeSideMenu() {
-        activityBinding.slideMenu.animate().translationX(activityBinding.slideMenu.getWidth());
+        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+            activityBinding.slideMenu.animate().translationX(-activityBinding.slideMenu.getWidth());
+        else
+            activityBinding.slideMenu.animate().translationX(activityBinding.slideMenu.getWidth());
         menuIsVisible = false;
         activityBinding.closeMenu.setVisibility(View.GONE);
     }
 
     private void logout() {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.logout(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+        viewModel.logout(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleLogoutData(Resource<LogoutData> responseData) {
@@ -240,4 +288,5 @@ public class DashboardActivity extends BaseActivity {
     public void showHideTabLayout(int visibility) {
         activityBinding.tabLayout.setVisibility(visibility);
     }
+
 }

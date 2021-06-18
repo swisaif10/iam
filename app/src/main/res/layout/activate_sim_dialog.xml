@@ -53,12 +53,12 @@
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#E96614"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="0.5"
+                android:backgroundTint="#E96614"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="@string/yes_hint"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/noBtn"

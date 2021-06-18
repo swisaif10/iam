@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
                     android:includeFontPadding="false"
-                    android:text="@string/services_title"
+                    android:text="@string/services_menu_item_label"
                     android:textColor="@color/blue"
                     android:textSize="20sp" />
 

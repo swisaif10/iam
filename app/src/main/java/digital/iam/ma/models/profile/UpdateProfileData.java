@@ -10,19 +10,19 @@ public class UpdateProfileData {
     @Expose
     private Header header;
 
-    public void setResponse(Response response) {
-        this.response = response;
-    }
-
     public Response getResponse() {
         return response;
     }
 
-    public void setHeader(Header header) {
-        this.header = header;
+    public void setResponse(Response response) {
+        this.response = response;
     }
 
     public Header getHeader() {
         return header;
+    }
+
+    public void setHeader(Header header) {
+        this.header = header;
     }
 }

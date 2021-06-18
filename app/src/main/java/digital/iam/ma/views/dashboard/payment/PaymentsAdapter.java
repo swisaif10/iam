@@ -62,7 +62,7 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
             itemBinding.status.setText(order.getOrderStatus());
 
             if (order.getOrderStatus().equalsIgnoreCase("Impayé")) {
-                itemBinding.showDetailsBtn.setText(context.getString(R.string.pay_order_btn_text));
+                itemBinding.showDetailsBtn.setText(context.getString(R.string.pay_btn_text));
                 itemBinding.showDetailsBtn.setPaintFlags(itemBinding.showDetailsBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 itemBinding.showDetailsBtn.setOnClickListener(v -> onItemSelectedListener.onItemSelected(order, true));
             } else

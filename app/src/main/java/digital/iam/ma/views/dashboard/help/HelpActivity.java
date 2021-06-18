@@ -60,6 +60,8 @@ public class HelpActivity extends BaseActivity {
     }
 
     private void init(List<Item> items) {
+        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+            activityBinding.backImage.setRotation(180f);
         activityBinding.backBtn.setOnClickListener(v -> finish());
 
         activityBinding.helpRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Gray</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="show_more_btn"><u>Voir plus</u></string>
     <string name="payments_list_title">Liste des paiements</string>
     <string name="unpaid_list_title">Liste des impayées</string>
@@ -9,8 +8,7 @@
     <string name="renew_btn">Renouveler mon\nforfait</string>
     <string name="phone_string"><u>0801 000 888</u></string>
     <string name="phone_string2"><u>888</u></string>
-    <string name="english_label"><u>Anglais</u></string>
-    <string name="arabic_label"><u>العربية</u></string>
+    <string name="arabic_label">العربية</string>
     <string name="french_label">Français</string>
     <string name="help_label">Assistance</string>
     <string name="contracts_label">Mes contrats</string>
@@ -25,11 +23,8 @@
     <string name="save_btn_label">Enregistrer</string>
     <string name="available_services_title">Service disponibles</string>
     <string name="affected_services_title">Service affectés</string>
-    <string name="services_title">Mes services</string>
     <string name="pay_btn_text">Payer</string>
-    <string name="pay_order_btn_text">Payer</string>
     <string name="payments_title">Des avis de paiements</string>
-    <string name="name_text">Nom</string>
     <string name="price_text">Prix</string>
     <string name="details_text">Détails</string>
     <string name="status_text">Statut</string>
@@ -53,16 +48,11 @@
     <string name="email_hint">Email</string>
     <string name="phone_label">Numéro :</string>
     <string name="phone_hint">Numéro</string>
-    <string name="sector_label">Secteur :</string>
-    <string name="sector_hint">Secteur</string>
     <string name="city_label">Ville :</string>
     <string name="city_hint">Ville</string>
     <string name="password_label">Mot de passe :</string>
-    <string name="profession_label">Profession :</string>
-    <string name="profession_hint">Profession</string>
     <string name="address_label">Adresse :</string>
     <string name="address_hint">Adresse</string>
-    <string name="cin_label">N° CIN :</string>
     <string name="civility_hint">Civilité :</string>
     <string name="women_hint">Mme</string>
     <string name="men_hint">M</string>
@@ -103,5 +93,19 @@
     <string name="change_sim_message">Pour débloquer votre carte SIM, merci de prendre contact avec notre service client Gray au 777 (Abonnés) / 888 (Jawal)</string>
     <string name="resend_puk_title">Renvoyer le code PUK</string>
     <string name="resend_puk_message">Ce service vous permet de récupérer votre code PUK lorsque votre carte SIM est bloquée</string>
-
+    <string name="bundle_menu_item_label">Mon forfait</string>
+    <string name="payments_menu_item_label">Mes\npaiements</string>
+    <string name="services_menu_item_label">Mes services</string>
+    <string name="update_bundle_menu_item_label">Modifier\nmon forfait</string>
+    <string name="change_password_title">Changer mot de passe :</string>
+    <string name="new_password_label">Nouveau mot de passe :</string>
+    <string name="contract_name_label">Formule :</string>
+    <string name="msisdn_label">N° ligne :</string>
+    <string name="client_number_label">Numéro client :</string>
+    <string name="activation_date_label">Date activation :</string>
+    <string name="commitment_date">Date d’engagement :</string>
+    <string name="call_label">Voix</string>
+    <string name="end_at">Expire le </string>
+    <string name="start_at">Débute le </string>
+    <string name="price_unit">DH\n/ mois</string>
 </resources>

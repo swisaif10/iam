@@ -1,5 +1,6 @@
 package digital.iam.ma.views.authentication.offers;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,10 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import digital.iam.ma.databinding.FragmentDiscoverOffersBinding;
+import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
+import digital.iam.ma.utilities.Constants;
 
 public class DiscoverOffersFragment extends Fragment {
 
     private FragmentDiscoverOffersBinding fragmentBinding;
+    private PreferenceManager preferenceManager;
     private Boolean fromDashboard = false;
 
 
@@ -37,6 +41,10 @@ public class DiscoverOffersFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
 
         if (getArguments() != null)
             fromDashboard = getArguments().getBoolean("fromDashboard", false);
@@ -57,6 +65,8 @@ public class DiscoverOffersFragment extends Fragment {
     }
 
     private void init() {
+        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+            fragmentBinding.backImage.setRotation(180f);
         if (fromDashboard) {
             fragmentBinding.title.setVisibility(View.VISIBLE);
             fragmentBinding.backBtn.setVisibility(View.GONE);

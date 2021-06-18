@@ -53,6 +53,7 @@
                     android:hint="@string/address_mail_hint"
                     android:inputType="textEmailAddress"
                     android:paddingStart="30dp"
+                    android:textAlignment="viewStart"
                     android:textColorHint="@color/grey8"
                     android:textSize="14sp" />
 
@@ -70,6 +71,7 @@
                         android:hint="@string/password_hint"
                         android:inputType="textPassword"
                         android:paddingStart="30dp"
+                        android:textAlignment="viewStart"
                         android:textColorHint="@color/grey8"
                         android:textSize="14sp" />
 
@@ -122,8 +124,8 @@
                     android:layout_height="65dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:enabled="false"
                     android:backgroundTint="@color/button_background_selector"
+                    android:enabled="false"
                     android:fontFamily="@font/montserrat_extrabold"
                     android:text="@string/login_btn"
                     android:textColor="@color/white"

@@ -30,6 +30,7 @@ public class PersonalInformationActivity extends BaseActivity {
     private ActivityPersonalInformationBinding activityBinding;
     private AccountViewModel viewModel;
     private PreferenceManager preferenceManager;
+    private int gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,13 @@ public class PersonalInformationActivity extends BaseActivity {
     }
 
     private void init() {
+        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+            activityBinding.backImage.setRotation(180f);
         activityBinding.backBtn.setOnClickListener(v -> finish());
 
         activityBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(this, activityBinding.getRoot()));
 
         activityBinding.updatePasswordBtn.setOnClickListener(v -> Utilities.showUpdatePasswordDialog(this, this::updatePassword));
-
-        activityBinding.womenBtn.setChecked(true);
 
         activityBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         activityBinding.phoneNumber.setTransformationMethod(new NumericKeyBoardTransformationMethod());
@@ -63,6 +64,11 @@ public class PersonalInformationActivity extends BaseActivity {
         activityBinding.postalCode.setTransformationMethod(new NumericKeyBoardTransformationMethod());
         activityBinding.postalCode.setTypeface(ResourcesCompat.getFont(this, R.font.montserrat_semibold));
 
+        if (preferenceManager.getValue(Constants.GENDER, 1) == 1)
+            activityBinding.menBtn.setChecked(true);
+        else
+            activityBinding.womenBtn.setChecked(true);
+        gender = preferenceManager.getValue(Constants.GENDER, 1);
         activityBinding.firstName.setText(preferenceManager.getValue(Constants.FIRSTNAME, ""));
         activityBinding.lastName.setText(preferenceManager.getValue(Constants.LASTNAME, ""));
         activityBinding.phoneNumber.setText(preferenceManager.getValue(Constants.PHONE_NUMBER, ""));
@@ -96,12 +102,21 @@ public class PersonalInformationActivity extends BaseActivity {
         activityBinding.city.addTextChangedListener(textWatcher);
         activityBinding.postalCode.addTextChangedListener(textWatcher);
 
+        activityBinding.menBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                gender = 1;
+        });
+        activityBinding.womenBtn.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                gender = 2;
+        });
+
         activityBinding.saveBtn.setOnClickListener(v -> updateProfile());
     }
 
     private void updatePassword(String currentPassword, String newPassword) {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.updatePassword(preferenceManager.getValue(Constants.TOKEN, ""), currentPassword, newPassword, "fr");
+        viewModel.updatePassword(preferenceManager.getValue(Constants.TOKEN, ""), currentPassword, newPassword, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleUpdatePasswordData(Resource<UpdatePasswordData> responseData) {
@@ -136,7 +151,7 @@ public class PersonalInformationActivity extends BaseActivity {
     private void updateProfile() {
         activityBinding.loader.setVisibility(View.VISIBLE);
         viewModel.updateProfile(preferenceManager.getValue(Constants.TOKEN, ""), activityBinding.firstName.getText().toString(), activityBinding.lastName.getText().toString(),
-                activityBinding.phoneNumber.getText().toString(), activityBinding.address.getText().toString(), activityBinding.city.getText().toString(), activityBinding.postalCode.getText().toString(), "fr");
+                activityBinding.phoneNumber.getText().toString(), activityBinding.address.getText().toString(), activityBinding.city.getText().toString(), activityBinding.postalCode.getText().toString(), gender, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleUpdateProfileData(Resource<UpdateProfileData> responseData) {
@@ -150,6 +165,7 @@ public class PersonalInformationActivity extends BaseActivity {
                     preferenceManager.putValue(Constants.ADDRESS, responseData.data.getResponse().getAddress());
                     preferenceManager.putValue(Constants.CITY, responseData.data.getResponse().getCity());
                     preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getPostcode());
+                    preferenceManager.putValue(Constants.GENDER, gender);
 
                     Utilities.showErrorPopup(this, "vos informations ont été mises à jour avec succès.");
                 }

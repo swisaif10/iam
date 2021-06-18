@@ -18,7 +18,7 @@ public class AccountRepository {
         new ApiManager().getHelp(mutableLiveData);
     }
 
-    public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, String lang, MutableLiveData<Resource<UpdateProfileData>> mutableLiveData) {
-        new ApiManager().updateProfile(token, firstname, lastname, phoneNumber, address, city, postcode, lang, mutableLiveData);
+    public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, int gender, String lang, MutableLiveData<Resource<UpdateProfileData>> mutableLiveData) {
+        new ApiManager().updateProfile(token, firstname, lastname, phoneNumber, address, city, postcode, gender, lang, mutableLiveData);
     }
 }

@@ -73,7 +73,7 @@ public class ActivateSimFragment extends Fragment {
 
     private void activateSim() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.activateSIM(preferenceManager.getValue(Constants.TOKEN, ""),preferenceManager.getValue(Constants.MSISDN, ""), fragmentBinding.code.getText().toString(), "fr");
+        viewModel.activateSIM(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), fragmentBinding.code.getText().toString(), "fr");
     }
 
     private void handleSIMActivationData(Resource<ResponseData> responseData) {

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,6 +92,23 @@ public interface Utilities {
         TextView close = view.findViewById(R.id.closeBtn);
         EditText email = view.findViewById(R.id.email);
         LinearLayout container = view.findViewById(R.id.container);
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ok.setEnabled(isNotEmpty(email));
+            }
+        });
 
         ok.setOnClickListener(v -> {
             dialog.dismiss();

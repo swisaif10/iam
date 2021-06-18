@@ -144,6 +144,7 @@ public class LoginFragment extends Fragment {
                 preferenceManager.putValue(Constants.ADDRESS, responseData.data.getResponse().getShippingAddress());
                 preferenceManager.putValue(Constants.CITY, responseData.data.getResponse().getShippingCity());
                 preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getShippingPostcode());
+                preferenceManager.putValue(Constants.GENDER, responseData.data.getResponse().getGender());
                 System.out.println("Token : " + responseData.data.getResponse().getToken());
                 if (isFirstLogin) {
                     preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());

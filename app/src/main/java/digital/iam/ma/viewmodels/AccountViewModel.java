@@ -48,7 +48,7 @@ public class AccountViewModel extends AndroidViewModel {
         repository.getHelp(helpLiveData);
     }
 
-    public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, String lang) {
-        repository.updateProfile(token, firstname, lastname, phoneNumber, address, city, postcode, lang, updateProfileLiveData);
+    public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, int gender, String lang) {
+        repository.updateProfile(token, firstname, lastname, phoneNumber, address, city, postcode, gender, lang, updateProfileLiveData);
     }
 }

@@ -29,6 +29,8 @@ public class LoginResponseData {
     private String phoneNumber;
     @Expose
     private List<Line> lines;
+    @Expose
+    private int gender;
 
     public String getToken() {
         return token;
@@ -116,5 +118,13 @@ public class LoginResponseData {
 
     public void setLines(List<Line> lines) {
         this.lines = lines;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 }

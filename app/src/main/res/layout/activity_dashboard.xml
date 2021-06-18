@@ -140,6 +140,7 @@
             android:focusableInTouchMode="true"
             android:padding="10dp"
             android:translationX="205dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
@@ -215,6 +216,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/arabicBtn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
@@ -225,6 +227,7 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/frenchBtn"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
@@ -233,7 +236,6 @@
                         android:text="@string/french_label"
                         android:textColor="@color/orange"
                         android:textSize="12sp" />
-
 
                 </LinearLayout>
 

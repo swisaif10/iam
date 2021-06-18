@@ -156,7 +156,7 @@
                                 android:layout_weight="0.25"
                                 android:fontFamily="@font/montserrat_semibold"
                                 android:includeFontPadding="false"
-                                android:text="@string/name_text"
+                                android:text="@string/last_name_hint"
                                 android:textAlignment="center"
                                 android:textColor="@color/grey7"
                                 android:textSize="13sp" />
@@ -269,7 +269,7 @@
                                 android:layout_weight="0.25"
                                 android:fontFamily="@font/montserrat_semibold"
                                 android:includeFontPadding="false"
-                                android:text="@string/name_text"
+                                android:text="@string/last_name_hint"
                                 android:textAlignment="center"
                                 android:textColor="@color/grey7"
                                 android:textSize="13sp" />

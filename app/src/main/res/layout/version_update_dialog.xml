@@ -58,11 +58,11 @@
                 android:layout_height="55dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="0.5"
+                android:backgroundTint="#E96614"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Mise à jour"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:backgroundTint="#E96614"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </LinearLayout>
