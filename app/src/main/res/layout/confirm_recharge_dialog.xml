@@ -41,10 +41,9 @@
             android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
-            android:text="Vous recevrez un SMS de confirmation de recharge"
+            android:text="@string/confirm_recharge_dialog"
             android:textColor="@color/blue"
             android:textSize="18sp" />
-
 
         <EditText
             android:id="@+id/code"
@@ -69,7 +68,7 @@
             android:layout_marginBottom="40dp"
             android:backgroundTint="#E96614"
             android:fontFamily="@font/montserrat_medium"
-            android:text="confirmer"
+            android:text="@string/confirm_btn_label"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 

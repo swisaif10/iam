@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_extrabold"
-                android:text="Acheter une recharge"
+                android:text="@string/buy_recharge_title"
                 android:textColor="@color/blue" />
 
             <TextView
@@ -71,6 +71,7 @@
                 android:overScrollMode="never"
                 android:paddingStart="20dp"
                 android:paddingEnd="10dp"
+                android:textAlignment="viewStart"
                 android:textColorHint="@color/black"
                 android:textSize="13sp"
                 app:drawableEndCompat="@drawable/ic_down"
@@ -88,11 +89,11 @@
                 android:overScrollMode="never"
                 android:paddingStart="20dp"
                 android:paddingEnd="10dp"
+                android:textAlignment="viewStart"
                 android:textColorHint="@color/black"
                 android:textSize="13sp"
                 app:drawableEndCompat="@drawable/ic_down"
                 tools:text="Internet *3" />
-
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -105,7 +106,7 @@
             android:layout_marginTop="10dp"
             android:backgroundTint="#E96614"
             android:fontFamily="@font/montserrat_extrabold"
-            android:text="acheter"
+            android:text="@string/buy_btn_label"
             android:textColor="@color/white" />
 
     </RelativeLayout>

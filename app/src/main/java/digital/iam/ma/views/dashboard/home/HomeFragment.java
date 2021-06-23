@@ -1,6 +1,5 @@
 package digital.iam.ma.views.dashboard.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.List;
 
+import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.cmi.CMIPaymentData;
@@ -41,7 +41,7 @@ import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class HomeFragment extends Fragment {
 
-    private static final int REQUEST_CODE = 100;
+    private static final String REQUEST_CODE = "100";
 
     private FragmentHomeBinding fragmentBinding;
     private HomeViewModel viewModel;
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
                 BiometricManager biometricManager = BiometricManager.from(requireContext());
                 switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
                     case BiometricManager.BIOMETRIC_SUCCESS:
-                        Utilities.showErrorPopup(requireContext(), "Vous pouvez utiliser vos informations d'identification biométriques pour la prochaine authentification.");
+                        Utilities.showErrorPopup(requireContext(), getString(R.string.biometrics_message_description));
                         break;
                     case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                         Log.e("MY_APP_TAG", "No biometric features available on this device.");
@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
                         Log.e("MY_APP_TAG", "Biometric features are currently unavailable.");
                         break;
                     case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                        Utilities.showBiometricsPromptPopup(requireContext(), "Vous pouvez utiliser vos informations d'identification biométriques pour la prochaine authentification.",
+                        Utilities.showBiometricsPromptPopup(requireContext(), getString(R.string.biometrics_message_description),
                                 v1 -> startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS)));
                 }
             });
@@ -114,22 +114,16 @@ public class HomeFragment extends Fragment {
         ((DashboardActivity) requireActivity()).showHideTabLayout(View.VISIBLE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            assert data != null;
-            fragmentBinding.activateSimBtn.setVisibility(View.GONE);
-            fragmentBinding.rechargeBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#204CCB")));
-            fragmentBinding.renewBundleBtn.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void init() {
         fragmentBinding.activateSimBtn.setOnClickListener(v -> Utilities.showActivateSimDialog(requireContext(), v1 -> {
-            ActivateSimFragment activateSimFragment = new ActivateSimFragment();
-            activateSimFragment.setTargetFragment(HomeFragment.this, REQUEST_CODE);
-            ((DashboardActivity) requireActivity()).addFragment(activateSimFragment);
+            ((DashboardActivity) requireActivity()).addFragment(new ActivateSimFragment());
+            requireActivity().getSupportFragmentManager().setFragmentResultListener(REQUEST_CODE, this, (requestKey, result) -> {
+                if (requestKey.equals(REQUEST_CODE)) {
+                    fragmentBinding.activateSimBtn.setVisibility(View.GONE);
+                    fragmentBinding.rechargeBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#204CCB")));
+                    fragmentBinding.renewBundleBtn.setVisibility(View.VISIBLE);
+                }
+            });
         }));
         fragmentBinding.rechargeBtn.setOnClickListener(v -> getRechargesList());
         fragmentBinding.renewBundleBtn.setOnClickListener(v -> Utilities.showConfirmRenewPopup(requireContext(), v12 -> renewBundle()));

@@ -22,7 +22,8 @@ import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
-import digital.iam.ma.models.services.ServicesData;
+import digital.iam.ma.models.services.get.ServicesListData;
+import digital.iam.ma.models.services.update.UpdateServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
 import digital.iam.ma.utilities.Resource;
 import retrofit2.Call;
@@ -152,11 +153,11 @@ public class ApiManager {
         });
     }
 
-    public void getServices(String token, String msisdn, String lang, MutableLiveData<Resource<ServicesData>> mutableLiveData) {
-        Call<ServicesData> call = RetrofitClient.getInstance().endpoint().getServices(token, msisdn, lang);
-        call.enqueue(new Callback<ServicesData>() {
+    public void getServices(String token, String msisdn, String lang, MutableLiveData<Resource<ServicesListData>> mutableLiveData) {
+        Call<ServicesListData> call = RetrofitClient.getInstance().endpoint().getServices(token, msisdn, lang);
+        call.enqueue(new Callback<ServicesListData>() {
             @Override
-            public void onResponse(@NonNull Call<ServicesData> call, @NonNull Response<ServicesData> response) {
+            public void onResponse(@NonNull Call<ServicesListData> call, @NonNull Response<ServicesListData> response) {
                 if (response.body().getHeader().getCode() == 200)
                     mutableLiveData.setValue(Resource.success(response.body()));
                 else if (response.body().getHeader().getCode() == 401)
@@ -166,7 +167,7 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ServicesData> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ServicesListData> call, @NonNull Throwable t) {
                 HandleThrowableException(t, mutableLiveData);
             }
         });
@@ -490,6 +491,26 @@ public class ApiManager {
 
     public void resendPUK(String token, String msisdn, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
         Call<SuspendContractData> call = RetrofitClient.getInstance().endpoint().resendPUK(token, msisdn, lang);
+        call.enqueue(new Callback<SuspendContractData>() {
+            @Override
+            public void onResponse(@NonNull Call<SuspendContractData> call, @NonNull Response<SuspendContractData> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SuspendContractData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void updateServices(UpdateServicesData updateServicesData, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
+        Call<SuspendContractData> call = RetrofitClient.getInstance().endpoint().updateServices(updateServicesData, lang);
         call.enqueue(new Callback<SuspendContractData>() {
             @Override
             public void onResponse(@NonNull Call<SuspendContractData> call, @NonNull Response<SuspendContractData> response) {

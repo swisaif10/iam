@@ -102,7 +102,7 @@ public class ResetPasswordFragment extends Fragment {
 
     private void addNewPassword() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.addNewPassword(preferenceManager.getValue(Constants.RECOVERED_EMAIL, ""), resetToken, fragmentBinding.newPassword.getText().toString(), "fr");
+        viewModel.addNewPassword(preferenceManager.getValue(Constants.RECOVERED_EMAIL, ""), resetToken, fragmentBinding.newPassword.getText().toString(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleResetPasswordData(Resource<UpdatePasswordData> responseData) {

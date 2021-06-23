@@ -14,9 +14,11 @@ import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
-import digital.iam.ma.models.services.ServicesData;
+import digital.iam.ma.models.services.get.ServicesListData;
+import digital.iam.ma.models.services.update.UpdateServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -64,9 +66,9 @@ public interface ApiServices {
 
     @FormUrlEncoded
     @POST(ApiEndpoints.GET_SERVICES_URL)
-    Call<ServicesData> getServices(@Field("token") String token,
-                                   @Field("msisdn") String msisdn,
-                                   @Path("locale") String lang);
+    Call<ServicesListData> getServices(@Field("token") String token,
+                                       @Field("msisdn") String msisdn,
+                                       @Path("locale") String lang);
 
     @FormUrlEncoded
     @POST(ApiEndpoints.LOGOUT_URL)
@@ -168,4 +170,8 @@ public interface ApiServices {
     Call<SuspendContractData> resendPUK(@Field("token") String token,
                                         @Field("msisdn") String msisdn,
                                         @Path("locale") String lang);
+
+    @POST(ApiEndpoints.UPDATE_SERVICES_URL)
+    Call<SuspendContractData> updateServices(@Body UpdateServicesData updateServicesData,
+                                             @Path("locale") String lang);
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,9 +18,11 @@
             android:scrollbars="none">
 
             <LinearLayout
+                android:id="@+id/body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,13 +77,15 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/bundleName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="Forfait Maitris’ 25 Go + 10 H"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            tools:text="Forfait Maitris’ 25 Go + 10 H" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -99,13 +104,15 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/msisdn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="06 61 17 52 43"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            tools:text="06 61 17 52 43" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -124,13 +131,15 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/phoneNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="1.53672895"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            tools:text="1.53672895" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -149,13 +158,15 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/activationDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="14 avril 2018"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            tools:text="14 avril 2018" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -174,13 +185,15 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/expirationDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="04 novembre 2019"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            tools:text="04 novembre 2019" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -206,7 +219,7 @@
                         android:layout_toStartOf="@id/separator">
 
                         <at.grabner.circleprogress.CircleProgressView
-                            android:id="@+id/circleView"
+                            android:id="@+id/dataConsumptionReview"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_centerHorizontal="true"
@@ -229,29 +242,31 @@
                             CircleProgressView:cpv_value="25" />
 
                         <TextView
+                            android:id="@+id/percentData"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@id/circleView"
-                            android:layout_alignBottom="@id/circleView"
+                            android:layout_alignTop="@id/dataConsumptionReview"
+                            android:layout_alignBottom="@id/dataConsumptionReview"
                             android:layout_centerHorizontal="true"
                             android:fontFamily="@font/montserrat_bold"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="30%"
                             android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="30%" />
 
                         <TextView
+                            android:id="@+id/consumedData"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/circleView"
+                            android:layout_below="@+id/dataConsumptionReview"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="11 GO"
                             android:textColor="@color/grey7"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="11 GO" />
 
                     </RelativeLayout>
 
@@ -262,7 +277,7 @@
                         android:layout_toEndOf="@id/separator">
 
                         <at.grabner.circleprogress.CircleProgressView
-                            android:id="@+id/circleView2"
+                            android:id="@+id/voiceConsumptionReview"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_centerHorizontal="true"
@@ -285,29 +300,31 @@
                             CircleProgressView:cpv_value="25" />
 
                         <TextView
+                            android:id="@+id/percentVoice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@id/circleView2"
-                            android:layout_alignBottom="@id/circleView2"
+                            android:layout_alignTop="@id/voiceConsumptionReview"
+                            android:layout_alignBottom="@id/voiceConsumptionReview"
                             android:layout_centerHorizontal="true"
                             android:fontFamily="@font/montserrat_bold"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="30%"
                             android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:text="30%" />
 
                         <TextView
+                            android:id="@+id/consumedVoice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/circleView2"
+                            android:layout_below="@+id/voiceConsumptionReview"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/montserrat_medium"
                             android:includeFontPadding="false"
-                            android:text="O1h O4min 57sec"
                             android:textColor="@color/grey7"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:text="O1h O4min 57sec" />
 
                     </RelativeLayout>
 
@@ -360,7 +377,7 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:includeFontPadding="false"
-                        android:text="@string/bloqued_sim_btn"
+                        android:text="@string/blocked_sim_btn"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 

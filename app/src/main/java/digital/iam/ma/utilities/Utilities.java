@@ -193,31 +193,6 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showPurchaseDialog(Context context, View.OnClickListener onClickListener) {
-
-        if (context == null) {
-            return;
-        }
-
-        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-
-        View view = LayoutInflater.from(context).inflate(R.layout.confirm_purchase_dialog, null, false);
-        Button yes = view.findViewById(R.id.confirmBtn);
-        Button no = view.findViewById(R.id.cancelBtn);
-        TextView close = view.findViewById(R.id.closeBtn);
-        ConstraintLayout container = view.findViewById(R.id.container);
-
-        yes.setOnClickListener(v -> {
-            dialog.dismiss();
-            onClickListener.onClick(v);
-        });
-        no.setOnClickListener(v -> dialog.dismiss());
-        close.setOnClickListener(v -> dialog.dismiss());
-        container.setOnClickListener(v -> dialog.dismiss());
-        dialog.setContentView(view);
-        dialog.show();
-    }
-
     static void showUpdatePasswordDialog(Context context, OnUpdatePasswordDialogClickListener onUpdatePasswordDialogClickListener) {
 
         if (context == null) {
@@ -281,7 +256,7 @@ public interface Utilities {
         }
 
         final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-        View view = LayoutInflater.from(context).inflate(R.layout.suspend_contract_dialog, null, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_contract_options, null, false);
         TextView titleTV = view.findViewById(R.id.title);
         TextView messageTV = view.findViewById(R.id.message);
         EditText code = view.findViewById(R.id.code);
@@ -332,26 +307,6 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showResendCodePUKDialog(Context context) {
-
-        if (context == null) {
-            return;
-        }
-
-        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-
-        View view = LayoutInflater.from(context).inflate(R.layout.resend_code_puk_dialog, null, false);
-        Button ok = view.findViewById(R.id.okBtn);
-        TextView close = view.findViewById(R.id.closeBtn);
-        LinearLayout container = view.findViewById(R.id.container);
-
-        ok.setOnClickListener(v -> dialog.dismiss());
-        close.setOnClickListener(v -> dialog.dismiss());
-        container.setOnClickListener(v -> hideSoftKeyboard(context, view));
-        dialog.setContentView(view);
-        dialog.show();
-    }
-
     static void showConfirmRechargeDialog(Context context) {
 
         if (context == null) {
@@ -372,24 +327,6 @@ public interface Utilities {
         ok.setOnClickListener(v -> dialog.dismiss());
         close.setOnClickListener(v -> dialog.dismiss());
         container.setOnClickListener(v -> hideSoftKeyboard(context, view));
-        dialog.setContentView(view);
-        dialog.show();
-    }
-
-    static void showBundleDetailsDialog(Context context) {
-
-        if (context == null) {
-            return;
-        }
-
-        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-
-        View view = LayoutInflater.from(context).inflate(R.layout.bundle_details_dialog, null, false);
-        TextView close = view.findViewById(R.id.closeBtn);
-        ConstraintLayout container = view.findViewById(R.id.container);
-
-        close.setOnClickListener(v -> dialog.dismiss());
-        container.setOnClickListener(v -> dialog.dismiss());
         dialog.setContentView(view);
         dialog.show();
     }

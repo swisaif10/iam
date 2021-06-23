@@ -42,7 +42,6 @@ import digital.iam.ma.viewmodels.DashboardViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.base.BaseActivity;
 import digital.iam.ma.views.dashboard.bundles.BundlesFragment;
-import digital.iam.ma.views.dashboard.cart.CartFragment;
 import digital.iam.ma.views.dashboard.contract.ContractActivity;
 import digital.iam.ma.views.dashboard.help.HelpActivity;
 import digital.iam.ma.views.dashboard.home.HomeFragment;
@@ -100,8 +99,15 @@ public class DashboardActivity extends BaseActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void init() {
-        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+        if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar")) {
             activityBinding.slideMenu.animate().translationX(-getScreenWidth(this));
+            activityBinding.arabicBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.orange));
+            activityBinding.arabicBtn.setPaintFlags(0);
+            activityBinding.frenchBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.lightGrey));
+            activityBinding.frenchBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        } else {
+            activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        }
 
         names = new ArrayList<String>() {{
             add(getString(R.string.bundle_menu_item_label));
@@ -211,8 +217,6 @@ public class DashboardActivity extends BaseActivity {
                     .setListener(null);
         });
 
-        activityBinding.cartBtn.setOnClickListener(v -> addFragment(new CartFragment()));
-
         activityBinding.logoutBtn.setOnClickListener(v -> {
             closeSideMenu();
             Utilities.showLogoutDialog(this, getString(R.string.logout_discreption), new OnDialogButtonsClickListener() {
@@ -228,22 +232,15 @@ public class DashboardActivity extends BaseActivity {
             });
         });
 
-        activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         activityBinding.frenchBtn.setOnClickListener(v -> {
-            setNewLocale(this, LocaleManager.FRENCH);
+            if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+                setNewLocale(this, LocaleManager.FRENCH);
             closeSideMenu();
-            activityBinding.frenchBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.orange));
-            activityBinding.frenchBtn.setPaintFlags(0);
-            activityBinding.arabicBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.lightGrey));
-            activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         });
         activityBinding.arabicBtn.setOnClickListener(v -> {
-            setNewLocale(this, LocaleManager.ARABIC);
+            if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("fr"))
+                setNewLocale(this, LocaleManager.ARABIC);
             closeSideMenu();
-            activityBinding.arabicBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.orange));
-            activityBinding.arabicBtn.setPaintFlags(0);
-            activityBinding.frenchBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.lightGrey));
-            activityBinding.frenchBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         });
     }
 

@@ -35,7 +35,6 @@ import java.util.TreeSet;
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentBundlesBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
-import digital.iam.ma.listener.OnBundleSelectedListener;
 import digital.iam.ma.models.bundles.BundleItem;
 import digital.iam.ma.models.bundles.BundlesData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
@@ -47,7 +46,7 @@ import digital.iam.ma.viewmodels.BundlesViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
-public class BundlesFragment extends Fragment implements OnBundleSelectedListener {
+public class BundlesFragment extends Fragment {
 
     private FragmentBundlesBinding fragmentBinding;
     private BundlesViewModel viewModel;
@@ -97,14 +96,9 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
         canCallSeek = false;
     }
 
-    @Override
-    public void onBundleSelected(BundleItem bundleItem) {
-        selectedSku = bundleItem.getSku();
-    }
-
     private void getBundlesList() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getBundles("fr");
+        viewModel.getBundles(preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleBundlesData(Resource<BundlesData> responseData) {
@@ -249,7 +243,7 @@ public class BundlesFragment extends Fragment implements OnBundleSelectedListene
 
     private void switchBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), selectedSku, "fr");
+        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), selectedSku, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleSwitchBundleData(Resource<CMIPaymentData> responseData) {

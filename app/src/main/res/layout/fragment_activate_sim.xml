@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_semibold"
                 android:includeFontPadding="false"
-                android:text="code à insérer afin d’activer\nla ligne"
+                android:text="@string/line_activation_title"
                 android:textAllCaps="true"
                 android:textColor="@color/blue"
                 android:textSize="16sp"
@@ -73,7 +73,7 @@
                     android:layout_marginTop="50dp"
                     android:background="@drawable/editext_border"
                     android:fontFamily="@font/avenir_book"
-                    android:hint="Code"
+                    android:hint="@string/code"
                     android:paddingStart="30dp"
                     android:textColorHint="@color/black"
                     android:textSize="12sp" />
@@ -85,7 +85,7 @@
                     android:layout_marginTop="50dp"
                     android:backgroundTint="#E96614"
                     android:fontFamily="@font/montserrat_extrabold"
-                    android:text="valider"
+                    android:text="@string/validate_btn_label"
                     android:textColor="@color/white" />
 
             </LinearLayout>

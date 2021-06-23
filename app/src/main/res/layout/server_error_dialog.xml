@@ -41,7 +41,7 @@
             android:backgroundTint="#E96614"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
-            android:text="OK"
+            android:text="@string/ok_btn"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="13sp" />

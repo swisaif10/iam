@@ -88,7 +88,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void getOrders() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), "fr");
+        viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleGetOrdersData(Resource<GetOrdersData> responseData) {
@@ -151,7 +151,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void renewBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), "fr");
+        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleRenewBundleData(Resource<CMIPaymentData> responseData) {
@@ -184,7 +184,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void payOrder(String id) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.payOrder(preferenceManager.getValue(Constants.TOKEN, ""), id, preferenceManager.getValue(Constants.MSISDN, ""), "fr");
+        viewModel.payOrder(preferenceManager.getValue(Constants.TOKEN, ""), id, preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleOrderPaymentData(Resource<CMIPaymentData> responseData) {

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.repository.ContractRepository;
 import digital.iam.ma.utilities.Resource;
@@ -18,6 +19,8 @@ public class ContractViewModel extends AndroidViewModel {
     private final MutableLiveData<Resource<SuspendContractData>> endContractLiveData;
     private final MutableLiveData<Resource<SuspendContractData>> changeSIMLiveData;
     private final MutableLiveData<Resource<SuspendContractData>> resendPUKLiveData;
+    private final MutableLiveData<Resource<MyConsumptionData>> myConsumptionLiveData;
+
 
     public ContractViewModel(@NonNull Application application) {
         super(application);
@@ -28,6 +31,7 @@ public class ContractViewModel extends AndroidViewModel {
         endContractLiveData = new MutableLiveData<>();
         changeSIMLiveData = new MutableLiveData<>();
         resendPUKLiveData = new MutableLiveData<>();
+        myConsumptionLiveData = new MutableLiveData<>();
     }
 
     public MutableLiveData<Resource<SuspendContractData>> getSuspendContractLiveData() {
@@ -50,6 +54,10 @@ public class ContractViewModel extends AndroidViewModel {
         return resendPUKLiveData;
     }
 
+    public MutableLiveData<Resource<MyConsumptionData>> getMyConsumptionLiveData() {
+        return myConsumptionLiveData;
+    }
+
     public void suspendContract(String token, String msisdn, String reason, String lang) {
         repository.suspendContract(token, msisdn, reason, lang, suspendContractLiveData);
     }
@@ -68,5 +76,9 @@ public class ContractViewModel extends AndroidViewModel {
 
     public void resendPUK(String token, String msisdn, String lang) {
         repository.resendPUK(token, msisdn, lang, resendPUKLiveData);
+    }
+
+    public void getMyConsumption(String token, String msisdn, String lang) {
+        repository.getMyConsumption(token, msisdn, lang, myConsumptionLiveData);
     }
 }

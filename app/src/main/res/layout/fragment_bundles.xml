@@ -164,7 +164,7 @@
                             android:fontFamily="@font/montserrat_black"
                             android:gravity="end"
                             android:includeFontPadding="false"
-                            android:textColor="@color/orange"
+                            android:textColor="@color/black"
                             android:textSize="30sp"
                             tools:text="249" />
 
@@ -176,7 +176,7 @@
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/montserrat_extrabold"
                             android:includeFontPadding="false"
-                            android:textColor="@color/orange"
+                            android:textColor="@color/black"
                             android:textSize="7sp"
                             tools:text="DH\n/ mois" />
 

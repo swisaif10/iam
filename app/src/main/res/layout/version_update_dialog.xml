@@ -46,7 +46,7 @@
                 android:layout_weight="0.5"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Plus tard"
+                android:text="@string/later_btn_label"
                 android:textAllCaps="false"
                 android:textColor="@color/orange"
                 app:strokeColor="@color/orange"
@@ -60,7 +60,7 @@
                 android:layout_weight="0.5"
                 android:backgroundTint="#E96614"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Mise à jour"
+                android:text="@string/update_btn_label"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 

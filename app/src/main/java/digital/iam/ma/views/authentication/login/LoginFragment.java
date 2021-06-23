@@ -127,7 +127,7 @@ public class LoginFragment extends Fragment {
 
     private void login(String username, String password) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.login(username, password, false, "fr");
+        viewModel.login(username, password, false, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleLoginData(Resource<LoginData> responseData) {
@@ -202,7 +202,7 @@ public class LoginFragment extends Fragment {
     private void resetPassword(String email) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         recoveredEmail = email;
-        viewModel.resetPassword(email, "fr");
+        viewModel.resetPassword(email, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleResetPasswordData(Resource<UpdatePasswordData> responseData) {

@@ -45,7 +45,7 @@
                 android:layout_weight="0.5"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Annuler"
+                android:text="@string/cancel_btn_label"
                 android:textAllCaps="false"
                 android:textColor="@color/orange"
                 android:textSize="11sp"
@@ -65,7 +65,7 @@
                 android:layout_weight="0.5"
                 android:backgroundTint="#E96614"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Paramétres"
+                android:text="@string/settings_btn_label"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="11sp" />

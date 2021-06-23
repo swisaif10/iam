@@ -3,6 +3,7 @@ package digital.iam.ma.repository;
 import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.datamanager.ApiManager;
+import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.utilities.Resource;
 
@@ -26,5 +27,9 @@ public class ContractRepository {
 
     public void resendPUK(String token, String msisdn, String lang, MutableLiveData<Resource<SuspendContractData>> mutableLiveData) {
         new ApiManager().resendPUK(token, msisdn, lang, mutableLiveData);
+    }
+
+    public void getMyConsumption(String token, String msisdn, String lang, MutableLiveData<Resource<MyConsumptionData>> mutableLiveData) {
+        new ApiManager().getMyConsumption(token, msisdn, lang, mutableLiveData);
     }
 }

@@ -44,7 +44,7 @@ public class SplashScreenActivity extends BaseActivity {
     }
 
     private void controlVersion() {
-        viewModel.controlVersion("fr");
+        viewModel.controlVersion(preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleControlVersionData(Resource<ControlVersionData> responseData) {

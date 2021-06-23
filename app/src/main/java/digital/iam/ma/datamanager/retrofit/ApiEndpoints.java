@@ -27,6 +27,7 @@ public interface ApiEndpoints {
     String END_CONTRACT_URL = "api/{locale}/store/resiliation";
     String CHANGE_SIM_URL = "api/{locale}/store/sim-change";
     String RESEND_PUK_URL = "api/{locale}/store/code-puk";
+    String UPDATE_SERVICES_URL = "api/{locale}/store/services-update";
 
     String GET_HELP_URL = "https://mocki.io/v1/47649be1-946e-488a-84bd-2c52a552ae7c";
 }
