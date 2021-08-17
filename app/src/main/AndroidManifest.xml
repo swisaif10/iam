@@ -9,11 +9,12 @@
     <application
         android:name=".Gray"
         android:allowBackup="false"
-        android:icon="@mipmap/appicone"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_traffic_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.IAM"
+        tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup"
         tools:targetApi="n">
         <activity

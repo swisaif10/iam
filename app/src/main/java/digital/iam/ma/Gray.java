@@ -14,14 +14,6 @@ public class Gray extends Application {
 
     private static Context context;
 
-    public static String getLang() {
-        if ((LocaleManager.getLocale(context.getResources()).getDisplayLanguage().equalsIgnoreCase("العربية")) ||
-                (LocaleManager.getLocale(context.getResources()).getDisplayLanguage().equalsIgnoreCase("الفرنسية")))
-            return "ar";
-        else
-            return "fr";
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
