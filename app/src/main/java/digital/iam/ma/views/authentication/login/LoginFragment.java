@@ -134,27 +134,31 @@ public class LoginFragment extends Fragment {
         fragmentBinding.loader.setVisibility(View.GONE);
         switch (responseData.status) {
             case SUCCESS:
-                preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getToken());
-                preferenceManager.putValue(Constants.LINE_DETAILS, responseData.data.getResponse().getLines().get(0));
-                preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, responseData.data.getResponse().getLines().get(0).getState());
-                preferenceManager.putValue(Constants.MSISDN, responseData.data.getResponse().getLines().get(0).getMsisdn());
-                preferenceManager.putValue(Constants.FIRSTNAME, responseData.data.getResponse().getFirstname());
-                preferenceManager.putValue(Constants.LASTNAME, responseData.data.getResponse().getLastname());
-                preferenceManager.putValue(Constants.PHONE_NUMBER, responseData.data.getResponse().getPhoneNumber());
-                preferenceManager.putValue(Constants.ADDRESS, responseData.data.getResponse().getShippingAddress());
-                preferenceManager.putValue(Constants.CITY, responseData.data.getResponse().getShippingCity());
-                preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getShippingPostcode());
-                preferenceManager.putValue(Constants.GENDER, responseData.data.getResponse().getGender());
-                System.out.println("Token : " + responseData.data.getResponse().getToken());
-                if (isFirstLogin) {
-                    preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
-                    preferenceManager.putValue(Constants.PASSWORD, fragmentBinding.password.getText().toString());
+                try {
+                    preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getToken());
+                    preferenceManager.putValue(Constants.LINE_DETAILS, responseData.data.getResponse().getLines().get(0));
+                    preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, responseData.data.getResponse().getLines().get(0).getState());
+                    preferenceManager.putValue(Constants.MSISDN, responseData.data.getResponse().getLines().get(0).getMsisdn());
+                    preferenceManager.putValue(Constants.FIRSTNAME, responseData.data.getResponse().getFirstname());
+                    preferenceManager.putValue(Constants.LASTNAME, responseData.data.getResponse().getLastname());
+                    preferenceManager.putValue(Constants.PHONE_NUMBER, responseData.data.getResponse().getPhoneNumber());
+                    preferenceManager.putValue(Constants.ADDRESS, responseData.data.getResponse().getShippingAddress());
+                    preferenceManager.putValue(Constants.CITY, responseData.data.getResponse().getShippingCity());
+                    preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getShippingPostcode());
+                    preferenceManager.putValue(Constants.GENDER, responseData.data.getResponse().getGender());
+                    System.out.println("Token : " + responseData.data.getResponse().getToken());
+                    if (isFirstLogin) {
+                        preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
+                        preferenceManager.putValue(Constants.PASSWORD, fragmentBinding.password.getText().toString());
+                    }
+                    preferenceManager.putValue(Constants.IS_LOGGED_IN, true);
+                    Intent intent = new Intent(requireActivity(), DashboardActivity.class);
+                    intent.putExtra("is_first_login", isFirstLogin);
+                    startActivity(intent);
+                    requireActivity().finish();
+                } catch (Exception e) {
+                    Utilities.showErrorPopup(requireContext(), "Une erreur est servenue");
                 }
-                preferenceManager.putValue(Constants.IS_LOGGED_IN, true);
-                Intent intent = new Intent(requireActivity(), DashboardActivity.class);
-                intent.putExtra("is_first_login", isFirstLogin);
-                startActivity(intent);
-                requireActivity().finish();
                 break;
             case INVALID_TOKEN:
                 break;
