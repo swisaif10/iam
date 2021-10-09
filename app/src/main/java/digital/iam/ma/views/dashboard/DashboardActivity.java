@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowMetrics;
@@ -25,6 +26,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -49,11 +51,10 @@ import digital.iam.ma.views.dashboard.payment.PaymentFragment;
 import digital.iam.ma.views.dashboard.personalinfo.PersonalInformationActivity;
 import digital.iam.ma.views.dashboard.services.ServicesFragment;
 
-public class DashboardActivity extends BaseActivity {
+public class DashboardActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ActivityDashboardBinding activityBinding;
     private ArrayList<String> names;
-    private ArrayList<Integer> icons;
     private ArrayList<Fragment> fragments;
     private Boolean menuIsVisible = false;
     private PreferenceManager preferenceManager;
@@ -97,6 +98,28 @@ public class DashboardActivity extends BaseActivity {
             finish();
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_compte:
+                replaceFragment(fragments.get(0));
+                return true;
+                case R.id.action_paiement:
+                    replaceFragment(fragments.get(1));
+                    return true;
+
+                case R.id.action_service:
+                    replaceFragment(fragments.get(2));
+                return true;
+
+                case R.id.action_forfaits:
+                    replaceFragment(fragments.get(3));
+                return true;
+        }
+        return false;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void init() {
         if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar")) {
@@ -109,20 +132,6 @@ public class DashboardActivity extends BaseActivity {
             activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }
 
-        names = new ArrayList<String>() {{
-            add(getString(R.string.bundle_menu_item_label));
-            add(getString(R.string.payments_menu_item_label));
-            add(getString(R.string.services_menu_item_label));
-            add(getString(R.string.update_bundle_menu_item_label));
-        }};
-
-        icons = new ArrayList<Integer>() {{
-            add(R.drawable.ic_home);
-            add(R.drawable.ic_paiments);
-            add(R.drawable.ic_services);
-            add(R.drawable.ic_forfait);
-        }};
-
         fragments = new ArrayList<Fragment>() {{
             add(HomeFragment.newInstance(getIntent().getBooleanExtra("is_first_login", false)));
             add(new PaymentFragment());
@@ -130,41 +139,14 @@ public class DashboardActivity extends BaseActivity {
             add(new BundlesFragment());
         }};
 
-        for (int i = 0; i < names.size(); i++) {
-            TabLayout.Tab tab = activityBinding.tabLayout.newTab();
-            View view = tab.getCustomView() == null ? LayoutInflater.from(activityBinding.tabLayout.getContext()).inflate(R.layout.tab_item_layout, null) : tab.getCustomView();
-            if (tab.getCustomView() == null) {
-                tab.setCustomView(view);
-            }
-            TextView tabTextView = view.findViewById(R.id.title);
-            tabTextView.setText(names.get(i));
-            ImageView tabImageView = view.findViewById(R.id.icon);
-            tabImageView.setImageResource(icons.get(i));
-            if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending") && (i == 2 || i == 3)) {
-                tabImageView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#E1E1E1")));
-                tabTextView.setTextColor(Color.parseColor("#E1E1E1"));
-            }
-            activityBinding.tabLayout.addTab(tab);
-        }
+        activityBinding.tabLayout.setOnNavigationItemSelectedListener(this);
+        activityBinding.tabLayout.setSelectedItemId(R.id.action_compte);
 
-        activityBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                replaceFragment(fragments.get(position));
-            }
+//            if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending") && (i == 2 || i == 3)) {
+//                tabImageView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#E1E1E1")));
+//                tabTextView.setTextColor(Color.parseColor("#E1E1E1"));
+//            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                replaceFragment(fragments.get(position));
-            }
-        });
 
         if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
             LinearLayout tabStrip = ((LinearLayout) activityBinding.tabLayout.getChildAt(0));
@@ -172,7 +154,6 @@ public class DashboardActivity extends BaseActivity {
             tabStrip.getChildAt(3).setOnTouchListener((v, event) -> true);
         }
 
-        activityBinding.tabLayout.getTabAt(0).select();
 
         activityBinding.profileBtn.setOnClickListener(v -> {
             activityBinding.closeMenu.setVisibility(View.VISIBLE);
@@ -279,7 +260,7 @@ public class DashboardActivity extends BaseActivity {
     }
 
     public void selectPaymentsTab() {
-        activityBinding.tabLayout.getTabAt(1).select();
+        activityBinding.tabLayout.setSelectedItemId(R.id.action_paiement);
     }
 
     public void showHideTabLayout(int visibility) {

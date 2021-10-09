@@ -33,8 +33,8 @@
     <string name="blocked_sim_btn"><u>Carte SIM bloquée ou volée ?</u></string>
     <string name="resend_code_puk_btn"><u>Renvoyer le code PUK</u></string>
     <string name="logout_btn_label">Déconnexion</string>
-    <string name="login_btn">connexion</string>
-    <string name="discover_offer_btn_label">découvrez nos offres</string>
+    <string name="login_btn">Connexion</string>
+    <string name="discover_offer_btn_label">Découvrez nos offres</string>
     <string name="forgotten_password_btn">Mot de passe oublié</string>
     <string name="password_hint">Mot de passe</string>
     <string name="address_mail_hint">Adresse mail</string>
@@ -117,4 +117,5 @@
     <string name="confirm_recharge_dialog">Vous recevrez un SMS de confirmation de recharge</string>
     <string name="settings_btn_label">Paramétres</string>
     <string name="biometrics_message_description">Vous pourrez utiliser vos informations d\'identification biométriques pour la prochaine authentification.</string>
+    <string name="authentification">AUTHENTIFICATION</string>
 </resources>

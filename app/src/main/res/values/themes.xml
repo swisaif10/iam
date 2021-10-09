@@ -7,7 +7,7 @@
 
     <style name="tab_text_appearance" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/sfprotext_medium</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="AppTheme.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">

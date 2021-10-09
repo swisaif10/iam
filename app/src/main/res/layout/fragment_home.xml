@@ -34,8 +34,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="0.3"
-                        android:background="@drawable/blue_bg"
-                        android:backgroundTint="#204CCB"
+                        android:background="@drawable/big_orange"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -60,8 +59,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="0.3"
-                        android:background="@drawable/blue_bg"
-                        android:backgroundTint="#204CCB"
+                        android:background="@drawable/big_orange"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -86,8 +84,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.3"
-                        android:background="@drawable/blue_bg"
-                        android:backgroundTint="#204CCB"
+                        android:background="@drawable/big_orange"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -256,7 +253,7 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:includeFontPadding="false"
                         android:text="@string/payments_list_title"
-                        android:textColor="#3158CC"
+                        android:textColor="@color/blue"
                         android:textSize="13sp" />
 
                     <TextView

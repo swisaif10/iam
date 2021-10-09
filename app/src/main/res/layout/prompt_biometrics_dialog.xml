@@ -47,10 +47,10 @@
                 android:fontFamily="@font/montserrat_medium"
                 android:text="@string/cancel_btn_label"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/blue"
                 android:textSize="11sp"
                 app:cornerRadius="7dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/blue"
                 app:strokeWidth="1dp" />
 
             <Space
@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="65dp"
                 android:layout_weight="0.5"
-                android:backgroundTint="#E96614"
+                android:backgroundTint="@color/button_selector"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="@string/settings_btn_label"
                 android:textAllCaps="false"

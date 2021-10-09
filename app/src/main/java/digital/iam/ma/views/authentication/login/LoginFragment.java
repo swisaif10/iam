@@ -2,6 +2,7 @@ package digital.iam.ma.views.authentication.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,10 +18,9 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
 import java.util.concurrent.Executor;
-
 import digital.iam.ma.databinding.FragmentLoginBinding;
+import digital.iam.ma.databinding.FragmentLoginNewBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
@@ -34,7 +34,7 @@ import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class LoginFragment extends Fragment {
 
-    private FragmentLoginBinding fragmentBinding;
+    private FragmentLoginNewBinding fragmentBinding;
     private AuthenticationViewModel viewModel;
     private PreferenceManager preferenceManager;
     private Boolean isFirstLogin = true;
@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentBinding = FragmentLoginBinding.inflate(inflater, container, false);
+        fragmentBinding = FragmentLoginNewBinding.inflate(inflater, container, false);
         return fragmentBinding.getRoot();
     }
 
@@ -72,6 +72,8 @@ public class LoginFragment extends Fragment {
     }
 
     private void init() {
+
+        fragmentBinding.discoverOffersBtn.setPaintFlags(fragmentBinding.discoverOffersBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         fragmentBinding.forgottenPasswordBtn.setOnClickListener(v -> Utilities.showResetPasswordDialog(requireContext(), this::resetPassword));
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(requireContext(), requireView()));
         fragmentBinding.loginBtn.setOnClickListener(v -> {
@@ -79,17 +81,18 @@ public class LoginFragment extends Fragment {
                     && !fragmentBinding.password.getText().toString().equalsIgnoreCase(""))
                 login(fragmentBinding.username.getText().toString(), fragmentBinding.password.getText().toString());
         });
-        fragmentBinding.biometricBtn.setOnClickListener(v -> enableTouchID());
+        fragmentBinding.empreinte.setOnClickListener(v -> enableTouchID());
 
         if (!preferenceManager.getValue(Constants.EMAIL, "").equalsIgnoreCase("")
                 && !preferenceManager.getValue(Constants.PASSWORD, "").equalsIgnoreCase("")) {
             BiometricManager biometricManager = BiometricManager.from(requireContext());
-            if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS)
-                fragmentBinding.biometricBtn.setVisibility(View.VISIBLE);
+            if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS){
+                fragmentBinding.empreinte.setVisibility(View.VISIBLE);
+            }
             isFirstLogin = false;
         }
 
-        fragmentBinding.showPassword.setOnClickListener(v -> {
+        fragmentBinding.eye.setOnClickListener(v -> {
             if (fragmentBinding.password.getTransformationMethod() instanceof PasswordTransformationMethod) {
                 fragmentBinding.password.setTransformationMethod(null);
             } else {

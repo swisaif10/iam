@@ -117,4 +117,5 @@
     <string name="renew_bundle_description">هل أنت متأكد أنك تريد تجديد خطتك؟</string>
     <string name="confirm_recharge_dialog">سوف تتلقى رسالة نصية لتأكيد الشحن</string>
     <string name="biometrics_message_description">ستتمكن من استخدام بيانات بصمة الخاصة بك لتسجيل الدخول التالي.</string>
+    <string name="authentification">AUTHENTIFICATION</string>
 </resources>

@@ -84,7 +84,7 @@
                         android:layout_height="60dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:backgroundTint="#EA7328"
+                        android:backgroundTint="@color/button_selector"
                         android:fontFamily="@font/montserrat_extrabold"
                         android:text="@string/pay_btn_text"
                         android:textAllCaps="false"

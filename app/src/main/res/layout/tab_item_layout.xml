@@ -12,7 +12,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
-        app:tint="#3856C4"
+        app:tint="@color/blue"
         tools:src="@drawable/ic_forfait" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_marginTop="5dp"
         android:fontFamily="@font/sfprotext_medium"
         android:textAlignment="center"
-        android:textColor="#3856C4"
+        android:textColor="@color/blue"
         android:textSize="10sp"
         tools:text="Mise\nen relation" />
 </LinearLayout>

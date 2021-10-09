@@ -19,20 +19,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.8">
 
-        <TextView
-            android:id="@+id/closeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@string/close_label"
-            android:textColor="@color/orange"
-            android:textSize="30sp"
+            android:background="@drawable/delete_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/closeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_centerInParent="true"
+                android:includeFontPadding="false"
+                android:text="@string/close_label"
+                android:textColor="@color/orange"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,7 +75,7 @@
             android:layout_marginHorizontal="70dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:backgroundTint="#E96614"
+            android:backgroundTint="@color/button_selector"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/confirm_btn_label"
             android:textAllCaps="false"

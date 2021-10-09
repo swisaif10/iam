@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_compte"
+        android:icon="@drawable/compte_selector"
+        android:title="Mon compte" />
+    <item
+        android:id="@+id/action_paiement"
+        android:icon="@drawable/paiement_selector"
+        android:title="Paiements"/>
+    <item
+        android:id="@+id/action_service"
+        android:icon="@drawable/services_selector"
+        android:title="Services"/>
+    <item
+        android:id="@+id/action_forfaits"
+        android:icon="@drawable/forfait_selector"
+        android:title="Forfaits"/>
+
+</menu>

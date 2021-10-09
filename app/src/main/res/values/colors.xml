@@ -16,7 +16,10 @@
     <color name="background">#F7F7F7</color>
 
 
-    <color name="blue">#204CCB</color>
+    <color name="blue">#2C6DB2</color>
     <color name="lightBlue">#F8FAFC</color>
     <color name="orange">#EA7328</color>
+    <color name="delete">#f7c7a9</color>
+    <color name="border_cercle">#C5DFFC</color>
+    <color name="grey">#E6E6E6</color>
 </resources>
