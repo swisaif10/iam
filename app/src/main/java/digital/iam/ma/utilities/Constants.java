@@ -11,6 +11,7 @@ public interface Constants {
     String ADDRESS = "ADDRESS";
     String CITY = "CITY";
     String POSTAL_CODE = "POSTAL_CODE";
+    String CIN = "CIN";
     String GENDER = "GENDER";
     String IS_LOGGED_IN = "IS_LOGGED_IN";
     String MSISDN = "MSISDN";

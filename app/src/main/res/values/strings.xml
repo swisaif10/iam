@@ -62,6 +62,7 @@
     <string name="forgotten_password_title">Mot de passe oublié ?</string>
     <string name="ok_btn">OK</string>
     <string name="Bundles_title">Mes forfaits</string>
+    <string name="mes_forfaits">Forfaits</string>
     <string name="update_bundle_btn_label">changer mon forfait</string>
     <string name="no_hint">Non</string>
     <string name="yes_hint">Oui</string>
@@ -88,7 +89,9 @@
     <string name="resend_puk_message">Ce service vous permet de récupérer votre code PUK lorsque votre carte SIM est bloquée</string>
     <string name="bundle_menu_item_label">Mon forfait</string>
     <string name="payments_menu_item_label">Mes\npaiements</string>
+    <string name="payments_menu_item_label_new">Paiements</string>
     <string name="services_menu_item_label">Mes services</string>
+    <string name="services_menu_item_label_new">Services</string>
     <string name="update_bundle_menu_item_label">Modifier\nmon forfait</string>
     <string name="change_password_title">Changer mot de passe :</string>
     <string name="new_password_label">Nouveau mot de passe :</string>
@@ -118,4 +121,5 @@
     <string name="settings_btn_label">Paramétres</string>
     <string name="biometrics_message_description">Vous pourrez utiliser vos informations d\'identification biométriques pour la prochaine authentification.</string>
     <string name="authentification">AUTHENTIFICATION</string>
+    <string name="n_cin">N° CIN :</string>
 </resources>

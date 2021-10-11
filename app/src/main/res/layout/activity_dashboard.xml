@@ -88,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/tab_menu"
-            app:itemIconSize="26dp"
+            app:itemIconSize="24dp"
             app:itemBackground="@drawable/bottom_nav_tab_background"
             app:itemTextAppearanceActive="@style/tab_text_appearance"
             app:itemTextAppearanceInactive="@style/tab_text_appearance"
@@ -153,20 +153,35 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:id="@+id/closeBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/layout_close"
                 android:layout_alignParentEnd="true"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="@string/close_label"
-                android:textColor="@color/orange"
-                android:textSize="18sp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/delete_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/closeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:layout_centerInParent="true"
+                    android:includeFontPadding="false"
+                    android:text="@string/close_label"
+                    android:textColor="@color/orange"
+                    android:textSize="20sp" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/closeBtn"
+                android:layout_below="@id/layout_close"
                 android:layout_marginTop="50dp"
                 android:orientation="vertical">
 

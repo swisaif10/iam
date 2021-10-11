@@ -82,17 +82,30 @@ public class LoginFragment extends Fragment {
                 login(fragmentBinding.username.getText().toString(), fragmentBinding.password.getText().toString());
         });
         fragmentBinding.empreinte.setOnClickListener(v -> enableTouchID());
+        fragmentBinding.face.setOnClickListener(v -> enableTouchID());
+        fragmentBinding.eye.setOnClickListener(v -> enableTouchID());
 
         if (!preferenceManager.getValue(Constants.EMAIL, "").equalsIgnoreCase("")
                 && !preferenceManager.getValue(Constants.PASSWORD, "").equalsIgnoreCase("")) {
             BiometricManager biometricManager = BiometricManager.from(requireContext());
             if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS){
                 fragmentBinding.empreinte.setVisibility(View.VISIBLE);
+                fragmentBinding.face.setVisibility(View.VISIBLE);
+                fragmentBinding.eye.setVisibility(View.VISIBLE);
             }
             isFirstLogin = false;
         }
 
         fragmentBinding.eye.setOnClickListener(v -> {
+            if (fragmentBinding.password.getTransformationMethod() instanceof PasswordTransformationMethod) {
+                fragmentBinding.password.setTransformationMethod(null);
+            } else {
+                fragmentBinding.password.setTransformationMethod(new PasswordTransformationMethod());
+            }
+            fragmentBinding.password.setSelection(fragmentBinding.password.getText().length());
+        });
+
+        fragmentBinding.showPassword.setOnClickListener(v -> {
             if (fragmentBinding.password.getTransformationMethod() instanceof PasswordTransformationMethod) {
                 fragmentBinding.password.setTransformationMethod(null);
             } else {
@@ -148,6 +161,7 @@ public class LoginFragment extends Fragment {
                     preferenceManager.putValue(Constants.ADDRESS, responseData.data.getResponse().getShippingAddress());
                     preferenceManager.putValue(Constants.CITY, responseData.data.getResponse().getShippingCity());
                     preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getShippingPostcode());
+                    preferenceManager.putValue(Constants.CIN, responseData.data.getResponse().getCin());
                     preferenceManager.putValue(Constants.GENDER, responseData.data.getResponse().getGender());
                     System.out.println("Token : " + responseData.data.getResponse().getToken());
                     if (isFirstLogin) {

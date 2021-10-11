@@ -76,6 +76,7 @@ public class PersonalInformationActivity extends BaseActivity {
         activityBinding.address.setText(preferenceManager.getValue(Constants.ADDRESS, ""));
         activityBinding.city.setText(preferenceManager.getValue(Constants.CITY, ""));
         activityBinding.postalCode.setText(preferenceManager.getValue(Constants.POSTAL_CODE, ""));
+        activityBinding.cin.setText(preferenceManager.getValue(Constants.CIN, ""));
         activityBinding.password.setText(preferenceManager.getValue(Constants.PASSWORD, ""));
 
         TextWatcher textWatcher = new TextWatcher() {
@@ -165,6 +166,7 @@ public class PersonalInformationActivity extends BaseActivity {
                     preferenceManager.putValue(Constants.ADDRESS, responseData.data.getResponse().getAddress());
                     preferenceManager.putValue(Constants.CITY, responseData.data.getResponse().getCity());
                     preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getPostcode());
+                    preferenceManager.putValue(Constants.CIN, responseData.data.getResponse().getCin());
                     preferenceManager.putValue(Constants.GENDER, gender);
 
                     Utilities.showErrorPopup(this, "vos informations ont été mises à jour avec succès.");

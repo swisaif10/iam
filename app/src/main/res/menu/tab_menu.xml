@@ -4,18 +4,18 @@
     <item
         android:id="@+id/action_compte"
         android:icon="@drawable/compte_selector"
-        android:title="Mon compte" />
+        android:title="@string/info_label" />
     <item
         android:id="@+id/action_paiement"
         android:icon="@drawable/paiement_selector"
-        android:title="Paiements"/>
+        android:title="@string/payments_menu_item_label_new"/>
     <item
         android:id="@+id/action_service"
         android:icon="@drawable/services_selector"
-        android:title="Services"/>
+        android:title="@string/services_menu_item_label_new"/>
     <item
         android:id="@+id/action_forfaits"
         android:icon="@drawable/forfait_selector"
-        android:title="Forfaits"/>
+        android:title="@string/mes_forfaits"/>
 
 </menu>

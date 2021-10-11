@@ -62,6 +62,7 @@
     <string name="forgotten_password_title">نسيت كلمة السر؟</string>
     <string name="ok_btn">موافق</string>
     <string name="Bundles_title">الفورفيات</string>
+    <string name="mes_forfaits">الفورفيات</string>
     <string name="update_bundle_btn_label">تغيير طردي</string>
     <string name="no_hint">إلغاء</string>
     <string name="yes_hint">موافق</string>
@@ -82,7 +83,9 @@
     <string name="resend_puk_message">تتيح لك هذه الخدمة استرداد رمز PUK الخاص بك عند حظر بطاقة SIM الخاصة بك</string>
     <string name="bundle_menu_item_label">عرضي</string>
     <string name="payments_menu_item_label">دفوعاتي</string>
+    <string name="payments_menu_item_label_new">دفوعاتي</string>
     <string name="services_menu_item_label">خدماتي</string>
+    <string name="services_menu_item_label_new">خدماتي</string>
     <string name="update_bundle_menu_item_label">تغيير الفورفي</string>
     <string name="change_password_title">تغيير كلمة السر :</string>
     <string name="new_password_label">كلمة السر الجديدة :</string>
@@ -117,5 +120,6 @@
     <string name="renew_bundle_description">هل أنت متأكد أنك تريد تجديد خطتك؟</string>
     <string name="confirm_recharge_dialog">سوف تتلقى رسالة نصية لتأكيد الشحن</string>
     <string name="biometrics_message_description">ستتمكن من استخدام بيانات بصمة الخاصة بك لتسجيل الدخول التالي.</string>
-    <string name="authentification">AUTHENTIFICATION</string>
+    <string name="authentification">تسجيل الدخول</string>
+    <string name="n_cin">رقم بطاقة الهوية :</string>
 </resources>

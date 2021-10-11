@@ -124,7 +124,7 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
     private void init() {
         if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar")) {
             activityBinding.slideMenu.animate().translationX(-getScreenWidth(this));
-            activityBinding.arabicBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.orange));
+            activityBinding.arabicBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.blue));
             activityBinding.arabicBtn.setPaintFlags(0);
             activityBinding.frenchBtn.setTextColor(ContextCompat.getColor(DashboardActivity.this, R.color.lightGrey));
             activityBinding.frenchBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
