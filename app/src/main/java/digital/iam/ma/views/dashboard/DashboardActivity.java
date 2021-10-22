@@ -148,11 +148,11 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
 //            }
 
 
-        if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
-            LinearLayout tabStrip = ((LinearLayout) activityBinding.tabLayout.getChildAt(0));
-            tabStrip.getChildAt(2).setOnTouchListener((v, event) -> true);
-            tabStrip.getChildAt(3).setOnTouchListener((v, event) -> true);
-        }
+//        if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
+//            LinearLayout tabStrip = ((LinearLayout) activityBinding.tabLayout.getChildAt(0));
+//            tabStrip.getChildAt(2).setOnTouchListener((v, event) -> true);
+//            tabStrip.getChildAt(3).setOnTouchListener((v, event) -> true);
+//     }
 
 
         activityBinding.profileBtn.setOnClickListener(v -> {

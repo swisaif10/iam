@@ -78,8 +78,6 @@
             app:layout_constraintBottom_toTopOf="@id/tabLayout"
             android:background="@drawable/shadow"/>
 
-
-
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
