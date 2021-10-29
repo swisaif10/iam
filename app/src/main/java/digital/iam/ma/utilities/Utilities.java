@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
@@ -158,10 +160,13 @@ public interface Utilities {
         TextView msisdnTv = view.findViewById(R.id.msisdn);
         AutoCompleteTextView rechargeDropDown = view.findViewById(R.id.rechargeDropDown);
         AutoCompleteTextView rechargeChildrenDropDown = view.findViewById(R.id.rechargeChildrenDropDown);
+        rechargeChildrenDropDown.setVisibility(View.GONE);
         final RechargeItem[] rechargeItem = new RechargeItem[1];
         final RechargeSubItem[] rechargeSubItem = new RechargeSubItem[1];
+        final String[] price = new String[1];
 
         msisdnTv.setText(msisdn);
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_dropdown_item_layout, response.getRechargesNames());
         rechargeDropDown.setAdapter(adapter);
@@ -170,22 +175,50 @@ public interface Utilities {
             return false;
         });
 
+
         rechargeDropDown.setOnItemClickListener((parent, view1, position, id) -> {
             rechargeItem[0] = response.getRecharges().get(position);
-            ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(context, R.layout.custom_dropdown_item_layout, rechargeItem[0].getType().getRechargesNames());
-            rechargeChildrenDropDown.setText("");
+            ArrayAdapter<String> citiesAdapter = null;
+            if (rechargeItem[0].getType().getRechargesNames() != null)
+                citiesAdapter = new ArrayAdapter<>(context, R.layout.custom_dropdown_item_layout, rechargeItem[0].getType().getRechargesNames());
             rechargeChildrenDropDown.setAdapter(citiesAdapter);
             rechargeChildrenDropDown.setOnTouchListener((v, event) -> {
                 rechargeChildrenDropDown.showDropDown();
                 return false;
             });
+            rechargeChildrenDropDown.setText("");
+            if (citiesAdapter != null && !citiesAdapter.isEmpty()) {
+                rechargeSubItem[0] = rechargeItem[0].getType().getChildren().get(0);
+                rechargeChildrenDropDown.setText(citiesAdapter.getItem(0));
+                citiesAdapter.getFilter().filter(null);
+            }
+
+            rechargeChildrenDropDown.setVisibility(rechargeItem[0].getType().getChildren() == null ? View.GONE : View.VISIBLE);
         });
 
-        rechargeChildrenDropDown.setOnItemClickListener((parent, view12, position, id) -> rechargeSubItem[0] = rechargeItem[0].getType().getChildren().get(position));
+        rechargeChildrenDropDown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                rechargeSubItem[0] = rechargeItem[0].getType().getChildren().get(position);
+            }
+        });
 
-        buy.setOnClickListener(v -> {
-            dialog.dismiss();
-            onRechargeSelectedListener.onRechargeSelected(rechargeItem[0], rechargeSubItem[0]);
+        buy.setOnClickListener(new View.OnClickListener() {
+            private static final String TAG = "BUY";
+
+            @Override
+            public void onClick(View v) {
+                if (!rechargeDropDown.getText().toString().isEmpty()) {
+                    dialog.dismiss();
+                    if (rechargeSubItem[0] != null) {
+                        onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku());
+                    } else {
+                        onRechargeSelectedListener.onPurchaseRecharge(rechargeItem[0].getType().getSku());
+                    }
+                } else {
+                    showErrorPopup(context, "Sélectionner une recharge svp");
+                }
+            }
         });
 
         container.setOnClickListener(v -> dialog.dismiss());

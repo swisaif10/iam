@@ -55,9 +55,11 @@ public class BundlesFragment extends Fragment {
     private String actualSku = "";
     private Boolean canInternetSeek;
     private Boolean canCallSeek;
+    private int position;
 
-    public BundlesFragment() {
+    public BundlesFragment(int position) {
         // Required empty public constructor
+        this.position = position;
     }
 
     @Override
@@ -98,11 +100,13 @@ public class BundlesFragment extends Fragment {
 
     private void getBundlesList() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
         viewModel.getBundles(preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleBundlesData(Resource<BundlesData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 init(responseData.data.getResponse().getBundles());
@@ -122,16 +126,16 @@ public class BundlesFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void init(List<BundleItem> bundles) {
-        Line line = preferenceManager.getValue(Constants.LINE_DETAILS);
-        fragmentBinding.bundleName.setText(line.getBundleName());
-        fragmentBinding.msisdn.setText(line.getMsisdn());
-        fragmentBinding.date.setText(String.format("%s%s\n%s%s", getString(R.string.end_at), line.getExpireDate().replace("-", "/"), getString(R.string.start_at), line.getStartDate().replace("-", "/")));
-        if (line.getPrice().contains("/")) {
-            fragmentBinding.total.setText(line.getPrice().substring(0, line.getPrice().indexOf(" ")));
-            fragmentBinding.unit.setText(line.getPrice().substring(line.getPrice().indexOf(" ") + 1).replaceFirst(" ", "\n"));
+        //Line line = preferenceManager.getValue(Constants.LINE_DETAILS);
+        fragmentBinding.bundleName.setText(((DashboardActivity) requireActivity()).getList().get(position).getBundleName());
+        fragmentBinding.msisdn.setText(((DashboardActivity) requireActivity()).getList().get(position).getMsisdn());
+        fragmentBinding.date.setText(String.format("%s%s\n%s%s", getString(R.string.end_at), ((DashboardActivity) requireActivity()).getList().get(position).getExpireDate().replace("-", "/"), getString(R.string.start_at), ((DashboardActivity) requireActivity()).getList().get(position).getStartDate().replace("-", "/")));
+        if (((DashboardActivity) requireActivity()).getList().get(position).getPrice().contains("/")) {
+            fragmentBinding.total.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice().substring(0, ((DashboardActivity) requireActivity()).getList().get(position).getPrice().indexOf(" ")));
+            fragmentBinding.unit.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice().substring(((DashboardActivity) requireActivity()).getList().get(position).getPrice().indexOf(" ") + 1).replaceFirst(" ", "\n"));
         }
 
-        actualSku = line.getSKu();
+        actualSku = ((DashboardActivity) requireActivity()).getList().get(position).getSKu();
 
         Multimap<Integer, Integer> map = ArrayListMultimap.create();
         for (BundleItem item : bundles) {
@@ -243,11 +247,13 @@ public class BundlesFragment extends Fragment {
 
     private void switchBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), selectedSku, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""),((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), selectedSku, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleSwitchBundleData(Resource<CMIPaymentData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
@@ -269,5 +275,6 @@ public class BundlesFragment extends Fragment {
                 Utilities.showErrorPopup(requireContext(), responseData.message);
                 break;
         }
+
     }
 }

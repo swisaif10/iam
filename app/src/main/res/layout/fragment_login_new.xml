@@ -161,12 +161,12 @@
 
 
                 <ImageView
+                    android:id="@+id/empreinte"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:id="@+id/empreinte"
-                    android:visibility="invisible"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/print_selector"
-                    android:layout_centerVertical="true"/>
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:layout_width="40dp"

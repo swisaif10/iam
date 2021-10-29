@@ -11,30 +11,46 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.view.WindowMetrics;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.security.KeyRep;
 import java.util.ArrayList;
+import java.util.List;
 
 import digital.iam.ma.R;
+import digital.iam.ma.adapter.LineAdapter;
 import digital.iam.ma.databinding.ActivityDashboardBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnDialogButtonsClickListener;
+import digital.iam.ma.listener.OnRadioChecked;
+import digital.iam.ma.models.login.Line;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.LocaleManager;
@@ -51,7 +67,7 @@ import digital.iam.ma.views.dashboard.payment.PaymentFragment;
 import digital.iam.ma.views.dashboard.personalinfo.PersonalInformationActivity;
 import digital.iam.ma.views.dashboard.services.ServicesFragment;
 
-public class DashboardActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class DashboardActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, OnRadioChecked {
 
     private ActivityDashboardBinding activityBinding;
     private ArrayList<String> names;
@@ -59,6 +75,10 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
     private Boolean menuIsVisible = false;
     private PreferenceManager preferenceManager;
     private DashboardViewModel viewModel;
+    private boolean lineClick = false;
+    private int position;
+    private int selectedFragment;
+    List<String> list = new ArrayList<>();
 
     public static int getScreenWidth(@NonNull Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -68,53 +88,71 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
             return windowMetrics.getBounds().width() - insets.left - insets.right;
         } else {
             DisplayMetrics displayMetrics = new DisplayMetrics();
-            activity.getDisplay().getRealMetrics(displayMetrics);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                activity.getDisplay().getRealMetrics(displayMetrics);
+            }
             return displayMetrics.widthPixels;
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        position = 0;
+        selectedFragment = 0;
         activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard);
-
         preferenceManager = new PreferenceManager.Builder(this, Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
-
         viewModel = ViewModelProviders.of(this).get(DashboardViewModel.class);
         viewModel.getLogoutLiveData().observe(this, this::handleLogoutData);
-
+        initLineDropDown();
         init();
+
+        activityBinding.lineDropDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lineClick = !lineClick;
+                activityBinding.lineRecyclerView.setVisibility(lineClick ? View.VISIBLE : View.GONE);
+                activityBinding.separator1.setVisibility(lineClick ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        if (menuIsVisible)
+        if (menuIsVisible) {
             closeSideMenu();
-        else if (getSupportFragmentManager().getBackStackEntryCount() > 1)
-            getSupportFragmentManager().popBackStack();
-        else
+        } else if (selectedFragment == 0) {
             finish();
+        } else {
+            selectedFragment = 0;
+            replaceFragment(new HomeFragment(position), Constants.HOME);
+            activityBinding.tabLayout.getMenu().getItem(0).setChecked(true);
+        }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.action_compte:
-                replaceFragment(fragments.get(0));
+                selectedFragment = 0;
+                replaceFragment(new HomeFragment(position), Constants.HOME);
                 return true;
-                case R.id.action_paiement:
-                    replaceFragment(fragments.get(1));
-                    return true;
-
-                case R.id.action_service:
-                    replaceFragment(fragments.get(2));
+            case R.id.action_paiement:
+                selectedFragment = 1;
+                replaceFragment(new PaymentFragment(position), Constants.PAYMENT);
                 return true;
 
-                case R.id.action_forfaits:
-                    replaceFragment(fragments.get(3));
+            case R.id.action_service:
+                selectedFragment = 2;
+                replaceFragment(new ServicesFragment(position), Constants.SERVICE);
+                return true;
+
+            case R.id.action_forfaits:
+                selectedFragment = 3;
+                replaceFragment(new BundlesFragment(position), Constants.BUNDLE);
                 return true;
         }
         return false;
@@ -133,26 +171,14 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         }
 
         fragments = new ArrayList<Fragment>() {{
-            add(HomeFragment.newInstance(getIntent().getBooleanExtra("is_first_login", false)));
-            add(new PaymentFragment());
-            add(new ServicesFragment());
-            add(new BundlesFragment());
+            add(new HomeFragment(position));
+            add(new PaymentFragment(position));
+            add(new ServicesFragment(position));
+            add(new BundlesFragment(position));
         }};
 
         activityBinding.tabLayout.setOnNavigationItemSelectedListener(this);
         activityBinding.tabLayout.setSelectedItemId(R.id.action_compte);
-
-//            if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending") && (i == 2 || i == 3)) {
-//                tabImageView.setImageTintList(ColorStateList.valueOf(Color.parseColor("#E1E1E1")));
-//                tabTextView.setTextColor(Color.parseColor("#E1E1E1"));
-//            }
-
-
-//        if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
-//            LinearLayout tabStrip = ((LinearLayout) activityBinding.tabLayout.getChildAt(0));
-//            tabStrip.getChildAt(2).setOnTouchListener((v, event) -> true);
-//            tabStrip.getChildAt(3).setOnTouchListener((v, event) -> true);
-//     }
 
 
         activityBinding.profileBtn.setOnClickListener(v -> {
@@ -184,7 +210,10 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
 
         activityBinding.contractsBtn.setOnClickListener(v -> {
             closeSideMenu();
-            startActivity(new Intent(this, ContractActivity.class));
+            Intent intent = new Intent(this, ContractActivity.class);
+            intent.putExtra(Constants.LINE, position);
+            startActivity(intent);
+            //startActivity(new Intent(this, ContractActivity.class));
         });
 
         activityBinding.notificationBtn.setOnClickListener(v -> {
@@ -265,6 +294,68 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
 
     public void showHideTabLayout(int visibility) {
         activityBinding.tabLayout.setVisibility(visibility);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void initLineDropDown() {
+        List<Line> mList = getList();
+        for (Line line : mList) {
+            list.add(line.getMsisdn());
+        }
+        activityBinding.lineRecyclerView.setAdapter(new LineAdapter(this, this.list, this));
+        activityBinding.lineRecyclerView.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false));
+        activityBinding.lineRecyclerView.setHasFixedSize(true);
+        activityBinding.lineDropDown.setText(list.get(0));
+    }
+
+    @Override
+    public void onRadioChecked(int position) {
+        this.position = position;
+        activityBinding.lineDropDown.setText(list.get(position));
+        activityBinding.lineRecyclerView.setVisibility(View.GONE);
+        activityBinding.separator1.setVisibility(View.GONE);
+        lineClick = !lineClick;
+        switch (selectedFragment) {
+            case 0:
+                removeFromBackStack(Constants.HOME);
+                replaceFragment(new HomeFragment(position), Constants.HOME);
+                break;
+            case 1:
+                removeFromBackStack(Constants.PAYMENT);
+                replaceFragment(new PaymentFragment(position), Constants.PAYMENT);
+                break;
+            case 2:
+                removeFromBackStack(Constants.SERVICE);
+                replaceFragment(new ServicesFragment(position), Constants.SERVICE);
+                break;
+            case 3:
+                removeFromBackStack(Constants.BUNDLE);
+                replaceFragment(new BundlesFragment(position), Constants.BUNDLE);
+                break;
+        }
+    }
+
+    public List<Line> getList() {
+        List<Line> arrayItems;
+        String serializedObject = preferenceManager.getValue(Constants.LINE_DETAILS, null);
+        if (serializedObject != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Line>>() {
+            }.getType();
+            arrayItems = gson.fromJson(serializedObject, type);
+            return arrayItems;
+        }
+        return null;
+    }
+
+    public void deactivateUserInteraction() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void activateUserInteraction() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
 }

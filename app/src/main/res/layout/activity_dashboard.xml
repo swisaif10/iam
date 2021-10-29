@@ -10,92 +10,184 @@
         android:background="@color/background"
         tools:context=".views.dashboard.DashboardActivity">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/moov_logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/logo">
-
-            <ImageView
-                android:id="@+id/achats"
-                android:layout_width="20dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/panie" />
-
-            <ImageView
-                android:id="@+id/notificationBtn"
-                android:layout_width="20dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_notif" />
-
-            <ImageView
-                android:id="@+id/profileBtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/user" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toTopOf="@id/tabLayout"
-            app:layout_constraintTop_toBottomOf="@id/header" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_shape"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/moov_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/achats"
+                        android:layout_width="20dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/panie" />
+
+                    <ImageView
+                        android:id="@+id/notificationBtn"
+                        android:layout_width="20dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_notif" />
+
+                    <ImageView
+                        android:id="@+id/profileBtn"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/user" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/lineDropDown"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="16dp"
+                android:background="@null"
+                android:completionThreshold="0"
+                android:drawableStart="@drawable/iconly_bold_call"
+                android:drawableEnd="@drawable/iconly_light_arrow_down_1"
+                android:drawablePadding="10dp"
+                android:focusable="false"
+                android:fontFamily="@font/montserrat_bold"
+                android:overScrollMode="never"
+                android:paddingStart="5dp"
+                android:paddingEnd="10dp"
+                android:text=""
+                android:textAlignment="viewStart"
+                android:textColorHint="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator" />
+
+            <View
+                android:id="@+id/separator1"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/light_grey2"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineDropDown" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lineRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:elevation="2dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator1"
+                tools:itemCount="1"
+                tools:listitem="@layout/custom_line_drop_down" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp" />
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:visibility="gone"
             android:background="#1100004D"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/tabLayout" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:visibility="gone"
             android:layout_marginHorizontal="15dp"
-            app:layout_constraintBottom_toTopOf="@id/tabLayout"
-            android:background="@drawable/shadow"/>
+            android:background="@drawable/shadow"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/tabLayout" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_menu_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/tab_menu"
-            app:itemIconSize="24dp"
             app:itemBackground="@drawable/bottom_nav_tab_background"
+            app:itemIconSize="24dp"
+            app:itemIconTint="@color/blue"
             app:itemTextAppearanceActive="@style/tab_text_appearance"
             app:itemTextAppearanceInactive="@style/tab_text_appearance"
-            app:itemIconTint="@color/blue"
-            app:itemTextColor="@color/blue"/>
+            app:itemTextColor="@color/blue"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/tab_menu" />
 
         <LinearLayout
             android:id="@+id/notificationLayout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/notif_background"
@@ -152,9 +244,9 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <RelativeLayout
+                android:id="@+id/layout_close"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/layout_close"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
@@ -166,11 +258,11 @@
                     android:id="@+id/closeBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/montserrat_bold"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/montserrat_bold"
                     android:includeFontPadding="false"
                     android:text="@string/close_label"
+                    android:textAlignment="center"
                     android:textColor="@color/orange"
                     android:textSize="20sp" />
 

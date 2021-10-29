@@ -49,9 +49,12 @@ public class Type {
 
     public List<String> getRechargesNames() {
         List<String> names = new ArrayList<>();
-        for (RechargeSubItem item : children) {
-            names.add(String.valueOf(item.getPrice()));
+        if (children != null){
+            for (RechargeSubItem item : children) {
+                names.add(String.valueOf(item.getPrice()));
+            }
         }
+
         return names;
     }
 }

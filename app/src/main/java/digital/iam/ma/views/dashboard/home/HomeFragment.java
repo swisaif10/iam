@@ -11,31 +11,47 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.biometric.BiometricManager;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
+import digital.iam.ma.listener.OnRadioChecked;
+import digital.iam.ma.listener.OnRechargeSelectedListener;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.consumption.MyConsumptionResponse;
+import digital.iam.ma.models.login.Line;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
 import digital.iam.ma.models.orders.Order;
+import digital.iam.ma.models.recharge.RechargeItem;
 import digital.iam.ma.models.recharge.RechargeListData;
+import digital.iam.ma.models.recharge.RechargeListResponse;
+import digital.iam.ma.models.recharge.RechargePurchase;
+import digital.iam.ma.models.recharge.RechargeSubItem;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.HomeViewModel;
+import digital.iam.ma.viewmodels.RechargeViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
@@ -46,14 +62,16 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding fragmentBinding;
     private HomeViewModel viewModel;
     private PreferenceManager preferenceManager;
+    private RechargeViewModel rechargeViewModel;
+    private int position;
 
-    public HomeFragment() {
-        // Required empty public constructor
+    public HomeFragment(int position) {
+        this.position = position;
     }
 
 
     public static HomeFragment newInstance(Boolean isFirstLogin) {
-        HomeFragment fragment = new HomeFragment();
+        HomeFragment fragment = new HomeFragment(0);
         Bundle args = new Bundle();
         args.putBoolean("is_first_login", isFirstLogin);
         fragment.setArguments(args);
@@ -84,14 +102,45 @@ public class HomeFragment extends Fragment {
         }
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        rechargeViewModel = ViewModelProviders.of(this).get(RechargeViewModel.class);
         viewModel.getMyConsumptionLiveData().observe(this, this::handleMyConsumptionData);
         viewModel.getGetOrdersLiveData().observe(this, this::handleGetOrdersData);
         viewModel.getRechargeListLiveData().observe(this, this::handleGetRechargesListData);
         viewModel.getRenewBundleLiveData().observe(this, this::handleRenewBundleData);
+        rechargeViewModel.getRechargePurchase().observe(this, this::handleRechargePurchase);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
+    }
+
+    private void handleRechargePurchase(Resource<RechargePurchase> rechargePurchaseResource) {
+        switch (rechargePurchaseResource.status) {
+            case SUCCESS:
+                fragmentBinding.loader.setVisibility(View.GONE);
+                ((DashboardActivity) requireActivity()).activateUserInteraction();
+                assert rechargePurchaseResource.data != null;
+                Uri uri = Uri.parse(rechargePurchaseResource.data.getResponse().getUrl());
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                builder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right);
+                builder.setShowTitle(true);
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(requireContext(), uri);
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), rechargePurchaseResource.message);
+                break;
+            case INVALID_TOKEN:
+                assert rechargePurchaseResource.data != null;
+                Utilities.showErrorPopupWithClick(requireContext(), rechargePurchaseResource.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
+                break;
+        }
     }
 
     @Override
@@ -141,7 +190,8 @@ public class HomeFragment extends Fragment {
 
     private void getMyConsumption() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getMyConsumption(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.getMyConsumption(preferenceManager.getValue(Constants.TOKEN, ""), ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleMyConsumptionData(Resource<MyConsumptionData> responseData) {
@@ -160,6 +210,7 @@ public class HomeFragment extends Fragment {
                 break;
             case ERROR:
                 fragmentBinding.loader.setVisibility(View.GONE);
+                ((DashboardActivity) requireActivity()).activateUserInteraction();
                 Utilities.showErrorPopup(requireContext(), responseData.message);
                 getOrders();
                 break;
@@ -184,6 +235,8 @@ public class HomeFragment extends Fragment {
 
     private void handleGetOrdersData(Resource<GetOrdersData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
+
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
@@ -210,7 +263,7 @@ public class HomeFragment extends Fragment {
             orders = response.getPaidOrders().subList(size - 5, size);
         else
             orders = response.getPaidOrders();
-        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter(orders, preferenceManager.getValue(Constants.MSISDN, "")));
+        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter(orders, preferenceManager.getValue(Constants.MSISDN,"")));
         fragmentBinding.paymentsList.setNestedScrollingEnabled(false);
     }
 
@@ -220,11 +273,22 @@ public class HomeFragment extends Fragment {
 
     private void handleGetRechargesListData(Resource<RechargeListData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
-                Utilities.showRechargeDialog(requireContext(), preferenceManager.getValue(Constants.MSISDN, ""), responseData.data.getResponse(), (rechargeItem, rechargeSubItem) -> {
-                    Utilities.showConfirmRechargeDialog(requireContext());
+                List<RechargeItem> list = responseData.data.getResponse().getRecharges();
+                for (RechargeItem item : list) {
+                    Log.d("TAG", "handleGetRechargesListData: " + item.getType().getSku());
+                }
+                Utilities.showRechargeDialog(requireContext(), ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), responseData.data.getResponse(), new OnRechargeSelectedListener() {
+
+                    @Override
+                    public void onPurchaseRecharge(String sku) {
+                        fragmentBinding.loader.setVisibility(View.VISIBLE);
+                        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+                        rechargeViewModel.rechargePurchase(preferenceManager.getValue(Constants.TOKEN, ""), sku, ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), "fr");
+                    }
                 });
                 break;
             case INVALID_TOKEN:
@@ -242,18 +306,18 @@ public class HomeFragment extends Fragment {
 
     private void renewBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleRenewBundleData(Resource<CMIPaymentData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
                 Uri uri = Uri.parse(responseData.data.getResponse().getUrl());
                 CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-                //intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                //intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
                 intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
                         android.R.anim.slide_out_right);
@@ -272,4 +336,5 @@ public class HomeFragment extends Fragment {
                 break;
         }
     }
+
 }

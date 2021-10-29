@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/lineContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    >
+
+    <TextView
+        android:id="@+id/phoneLine"
+        android:layout_width="271dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="50dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="+212 45 67 88 36"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/selectedLine"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:buttonTint="@color/radio_tint"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

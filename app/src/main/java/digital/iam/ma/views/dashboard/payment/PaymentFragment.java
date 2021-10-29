@@ -15,6 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
 import digital.iam.ma.databinding.FragmentPaymentBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnItemSelectedListener;
@@ -36,9 +42,11 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     private FragmentPaymentBinding fragmentBinding;
     private PaymentViewModel viewModel;
     private PreferenceManager preferenceManager;
+    private int position;
 
-    public PaymentFragment() {
+    public PaymentFragment(int position) {
         // Required empty public constructor
+        this.position = position;
     }
 
     @Override
@@ -88,11 +96,13 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void getOrders() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
         viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleGetOrdersData(Resource<GetOrdersData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
@@ -113,10 +123,14 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void init(GetOrdersResponse response) {
 
-        Line line = preferenceManager.getValue(Constants.LINE_DETAILS);
+        /*
         fragmentBinding.bundleName.setText(line.getBundleName());
         fragmentBinding.msisdn.setText(line.getMsisdn());
-        fragmentBinding.price.setText(line.getPrice());
+        fragmentBinding.price.setText(line.getPrice());*/
+
+        fragmentBinding.bundleName.setText(((DashboardActivity) requireActivity()).getList().get(position).getBundleName());
+        fragmentBinding.msisdn.setText(((DashboardActivity) requireActivity()).getList().get(position).getMsisdn());
+        fragmentBinding.price.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice());
 
         fragmentBinding.payBtn.setOnClickListener(v -> renewBundle());
         fragmentBinding.paidOrdersBtn.setOnClickListener(v -> {
@@ -151,11 +165,13 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void renewBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleRenewBundleData(Resource<CMIPaymentData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
@@ -184,11 +200,13 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void payOrder(String id) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.payOrder(preferenceManager.getValue(Constants.TOKEN, ""), id, preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.payOrder(preferenceManager.getValue(Constants.TOKEN, ""), id, ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleOrderPaymentData(Resource<CMIPaymentData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
@@ -214,4 +232,5 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 break;
         }
     }
+
 }

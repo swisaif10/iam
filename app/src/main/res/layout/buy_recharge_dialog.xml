@@ -75,7 +75,7 @@
                 android:textColorHint="@color/black"
                 android:textSize="13sp"
                 app:drawableEndCompat="@drawable/ic_down"
-                tools:text="10 dh" />
+                tools:text="" />
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/rechargeChildrenDropDown"
@@ -93,7 +93,7 @@
                 android:textColorHint="@color/black"
                 android:textSize="13sp"
                 app:drawableEndCompat="@drawable/ic_down"
-                tools:text="Internet *3" />
+                tools:text="" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton

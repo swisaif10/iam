@@ -22,6 +22,7 @@ import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
+import digital.iam.ma.models.recharge.RechargePurchase;
 import digital.iam.ma.models.services.get.ServicesListData;
 import digital.iam.ma.models.services.update.UpdateServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
@@ -200,7 +201,7 @@ public class ApiManager {
             public void onResponse(@NonNull Call<MyConsumptionData> call, @NonNull Response<MyConsumptionData> response) {
                 if (response.body().getHeader().getCode() == 200)
                     mutableLiveData.setValue(Resource.success(response.body()));
-                else if (response.body().getHeader().getCode() == 401)
+                else if (response.body().getHeader().getCode() == 401 || response.body().getHeader().getCode() == 404)
                     mutableLiveData.setValue(Resource.invalidToken(response.body()));
                 else
                     mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
@@ -528,4 +529,27 @@ public class ApiManager {
             }
         });
     }
+
+    public void rechargePurchase(String token, String sku, String msisdn, String _locale, MutableLiveData<Resource<RechargePurchase>> mutableLiveData) {
+        Call<RechargePurchase> call = RetrofitClient.getInstance().endpoint().purchaseRecharge(token, sku, msisdn, _locale);
+        call.enqueue(new Callback<RechargePurchase>() {
+            @Override
+            public void onResponse(Call<RechargePurchase> call, Response<RechargePurchase> response) {
+                if (response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+
+                else if (response.body().getHeader().getCode() == 401)
+                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+            }
+
+            @Override
+            public void onFailure(Call<RechargePurchase> call, Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+
 }

@@ -14,6 +14,7 @@ import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
+import digital.iam.ma.models.recharge.RechargePurchase;
 import digital.iam.ma.models.services.get.ServicesListData;
 import digital.iam.ma.models.services.update.UpdateServicesData;
 import digital.iam.ma.models.updatepassword.UpdatePasswordData;
@@ -174,4 +175,14 @@ public interface ApiServices {
     @POST(ApiEndpoints.UPDATE_SERVICES_URL)
     Call<SuspendContractData> updateServices(@Body UpdateServicesData updateServicesData,
                                              @Path("locale") String lang);
+    @FormUrlEncoded
+    @POST(ApiEndpoints.RECHARGE_PURCHASE)
+    Call<RechargePurchase> purchaseRecharge(
+            @Field("token") String token,
+            @Field("sku") String sku,
+            @Field("msisdn") String msisdn,
+            @Path("locale") String _locale
+    );
+
+
 }

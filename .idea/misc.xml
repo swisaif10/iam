@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/paiement_selector.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/drawable/rouded_shape.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/drawable/shadow.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/buy_recharge_dialog.xml" value="0.33645833333333336" />
+        <entry key="app/src/main/res/layout/confirm_recharge_dialog.xml" value="0.33645833333333336" />
+        <entry key="app/src/main/res/layout/confirm_renew_dialog.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/custom_dropdown_item_layout.xml" value="0.2734375" />
+        <entry key="app/src/main/res/layout/custom_line_drop_down.xml" value="0.2734375" />
+        <entry key="app/src/main/res/layout/fragment_bundles.xml" value="0.2749094202898551" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_login_new.xml" value="0.2749094202898551" />
+        <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.17027863777089783" />
+        <entry key="app/src/main/res/layout/fragment_services.xml" value="0.2749094202898551" />
+        <entry key="app/src/main/res/layout/help_item_layout.xml" value="0.2346014492753623" />
+        <entry key="app/src/main/res/menu/tab_menu.xml" value="0.33645833333333336" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />

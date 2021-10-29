@@ -43,9 +43,11 @@ public class ServicesFragment extends Fragment implements OnServiceUpdatedListen
     private UpdateServicesData updateServicesData;
     private List<Item> affectedServices;
     private List<Item> availableServices;
+    private int position;
 
-    public ServicesFragment() {
+    public ServicesFragment(int position) {
         // Required empty public constructor
+        this.position = position;
     }
 
     @Override
@@ -109,11 +111,13 @@ public class ServicesFragment extends Fragment implements OnServiceUpdatedListen
 
     private void getServices() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getServices(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.getServices(preferenceManager.getValue(Constants.TOKEN, ""), ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleServicesData(Resource<ServicesListData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
@@ -165,11 +169,13 @@ public class ServicesFragment extends Fragment implements OnServiceUpdatedListen
 
     private void updateServices() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
         viewModel.updateServices(updateServicesData, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleUpdateServicesData(Resource<SuspendContractData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 break;

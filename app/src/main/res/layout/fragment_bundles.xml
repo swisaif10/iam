@@ -10,9 +10,9 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             android:overScrollMode="never"
-            android:scrollbars="none">
+            android:fillViewport="true"
+            android:scrollbars="vertical">
 
             <LinearLayout
                 android:id="@+id/body"
@@ -327,6 +327,7 @@
                     android:layout_height="65dp"
                     android:layout_marginHorizontal="40dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="200dp"
                     android:backgroundTint="@color/button_background_selector"
                     android:enabled="false"
                     android:fontFamily="@font/montserrat_extrabold"

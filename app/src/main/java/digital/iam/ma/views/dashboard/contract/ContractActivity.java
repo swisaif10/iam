@@ -8,6 +8,12 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.ActivityContractBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
@@ -22,6 +28,7 @@ import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.ContractViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.base.BaseActivity;
+import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class ContractActivity extends BaseActivity implements OnConfirmClickListener {
 
@@ -29,6 +36,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
     private PreferenceManager preferenceManager;
     private ContractViewModel viewModel;
     private Line line;
+    private int position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +53,8 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
         viewModel.getChangeSIMLiveData().observe(this, this::handleChangeSIMData);
         viewModel.getResendPUKLiveData().observe(this, this::handleResendPUKData);
         viewModel.getMyConsumptionLiveData().observe(this, this::handleMyConsumptionData);
-
+        Intent intent = getIntent();
+        position = intent.getIntExtra(Constants.LINE,0);
         getMyConsumption();
     }
 
@@ -71,7 +80,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
 
     private void getMyConsumption() {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getMyConsumption(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.getMyConsumption(preferenceManager.getValue(Constants.TOKEN, ""), getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleMyConsumptionData(Resource<MyConsumptionData> responseData) {
@@ -97,7 +106,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
     private void init(MyConsumptionResponse response) {
         if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
             activityBinding.backImage.setRotation(180f);
-        line = preferenceManager.getValue(Constants.LINE_DETAILS);
+        line = getList().get(position);
         activityBinding.bundleName.setText(line.getBundleName());
         activityBinding.msisdn.setText(line.getMsisdn());
         activityBinding.phoneNumber.setText(preferenceManager.getValue(Constants.PHONE_NUMBER, ""));
@@ -126,7 +135,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
 
     private void suspendContract(String reason) {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.suspendContract(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), reason, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.suspendContract(preferenceManager.getValue(Constants.TOKEN, ""),getList().get(position).getMsisdn(), reason, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleSuspendContractData(Resource<SuspendContractData> responseData) {
@@ -149,7 +158,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
 
     private void sendOTP() {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.sendOTP(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.sendOTP(preferenceManager.getValue(Constants.TOKEN, ""), getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleSendOTPData(Resource<SuspendContractData> responseData) {
@@ -172,7 +181,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
 
     private void endContract(String reason, String code) {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.endContract(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), reason, code, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.endContract(preferenceManager.getValue(Constants.TOKEN, ""), getList().get(position).getMsisdn(), reason, code, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleEndContractData(Resource<SuspendContractData> responseData) {
@@ -195,7 +204,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
 
     private void changeSIM() {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.changeSIM(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.changeSIM(preferenceManager.getValue(Constants.TOKEN, ""), getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleChangeSIMData(Resource<SuspendContractData> responseData) {
@@ -237,5 +246,18 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
                 Utilities.showErrorPopup(this, responseData.message);
                 break;
         }
+    }
+
+    public List<Line> getList() {
+        List<Line> arrayItems;
+        String serializedObject = preferenceManager.getValue(Constants.LINE_DETAILS, null);
+        if (serializedObject != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Line>>() {
+            }.getType();
+            arrayItems = gson.fromJson(serializedObject, type);
+            return arrayItems;
+        }
+        return null;
     }
 }

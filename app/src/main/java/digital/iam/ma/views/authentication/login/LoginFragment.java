@@ -18,7 +18,12 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.google.gson.Gson;
+
+import java.util.List;
 import java.util.concurrent.Executor;
+
 import digital.iam.ma.databinding.FragmentLoginBinding;
 import digital.iam.ma.databinding.FragmentLoginNewBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
@@ -88,7 +93,7 @@ public class LoginFragment extends Fragment {
         if (!preferenceManager.getValue(Constants.EMAIL, "").equalsIgnoreCase("")
                 && !preferenceManager.getValue(Constants.PASSWORD, "").equalsIgnoreCase("")) {
             BiometricManager biometricManager = BiometricManager.from(requireContext());
-            if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS){
+            if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS) {
                 fragmentBinding.empreinte.setVisibility(View.VISIBLE);
                 fragmentBinding.face.setVisibility(View.VISIBLE);
                 fragmentBinding.eye.setVisibility(View.VISIBLE);
@@ -143,16 +148,19 @@ public class LoginFragment extends Fragment {
 
     private void login(String username, String password) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
+        //((DashboardActivity) requireActivity()).deactivateUserInteraction();
         viewModel.login(username, password, false, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleLoginData(Resource<LoginData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        //((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 try {
                     preferenceManager.putValue(Constants.TOKEN, responseData.data.getResponse().getToken());
-                    preferenceManager.putValue(Constants.LINE_DETAILS, responseData.data.getResponse().getLines().get(0));
+                    //preferenceManager.putValue(Constants.LINE_DETAILS, responseData.data.getResponse().getLines().get(0));
+                    setList(Constants.LINE_DETAILS, responseData.data.getResponse().getLines());
                     preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, responseData.data.getResponse().getLines().get(0).getState());
                     preferenceManager.putValue(Constants.MSISDN, responseData.data.getResponse().getLines().get(0).getMsisdn());
                     preferenceManager.putValue(Constants.FIRSTNAME, responseData.data.getResponse().getFirstname());
@@ -222,12 +230,14 @@ public class LoginFragment extends Fragment {
 
     private void resetPassword(String email) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
+        //((DashboardActivity) requireActivity()).deactivateUserInteraction();
         recoveredEmail = email;
         viewModel.resetPassword(email, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleResetPasswordData(Resource<UpdatePasswordData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
+        //((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 Utilities.showErrorPopup(requireContext(), "Veuillez vérifier votre boite mail.");
@@ -239,6 +249,16 @@ public class LoginFragment extends Fragment {
                 Utilities.showErrorPopup(requireContext(), responseData.message);
                 break;
         }
+    }
+
+    public <T> void setList(String key, List<T> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        set(key, json);
+    }
+
+    public void set(String key, String value) {
+        preferenceManager.putValue(key, value);
     }
 
 }

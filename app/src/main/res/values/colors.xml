@@ -22,4 +22,6 @@
     <color name="delete">#f7c7a9</color>
     <color name="border_cercle">#C5DFFC</color>
     <color name="grey">#E6E6E6</color>
+    <color name="light_grey2">#707070</color>
+    <color name="radio_tint">#FF974F</color>
 </resources>

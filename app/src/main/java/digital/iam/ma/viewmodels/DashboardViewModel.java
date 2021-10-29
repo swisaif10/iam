@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.repository.DashboardRepository;
 import digital.iam.ma.utilities.Resource;
@@ -17,7 +18,6 @@ public class DashboardViewModel extends AndroidViewModel {
 
     public DashboardViewModel(@NonNull Application application) {
         super(application);
-
         this.repository = new DashboardRepository();
         logoutLiveData = new MutableLiveData<>();
     }
@@ -29,4 +29,5 @@ public class DashboardViewModel extends AndroidViewModel {
     public void logout(String token, String lang) {
         repository.logout(token, lang, logoutLiveData);
     }
+
 }

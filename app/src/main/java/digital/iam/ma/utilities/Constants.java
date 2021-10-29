@@ -19,4 +19,9 @@ public interface Constants {
     String IS_LINE_ACTIVATED = "IS_LINE_ACTIVATED";
     String LINE_DETAILS = "LINE_DETAILS";
     String LANGUAGE = "LANGUAGE";
+    String HOME = "HOME";
+    String PAYMENT = "PAYMENT";
+    String BUNDLE = "BUNDLE";
+    String SERVICE = "SERVICE";
+    String LINE = "LINE";
 }

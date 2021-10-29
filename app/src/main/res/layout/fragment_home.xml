@@ -15,7 +15,7 @@
             android:fillViewport="true"
             android:overScrollMode="never"
             android:scrollbars="none"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"

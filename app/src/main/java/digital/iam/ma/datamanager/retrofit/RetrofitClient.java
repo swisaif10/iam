@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import digital.iam.ma.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,6 +29,9 @@ public class RetrofitClient {
             return chain.proceed(request);
         });
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        client.addInterceptor(interceptor);
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BuildConfig.BASEURL)

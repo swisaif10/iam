@@ -8,9 +8,13 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import digital.iam.ma.R;
+import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.LocaleManager;
+import digital.iam.ma.views.dashboard.DashboardActivity;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
 
@@ -53,11 +57,23 @@ public class BaseActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void replaceFragment(Fragment fragment) {
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
+    public void replaceFragment(Fragment fragment, String tag) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment, tag)
                 .addToBackStack(null)
                 .commit();
     }
+
+    public void removeFromBackStack(String tag) {
+        Fragment myFragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if (myFragment != null && myFragment.isVisible()) {
+            FragmentManager manager = this.getSupportFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.remove(myFragment);
+            trans.commit();
+            manager.popBackStack();
+        }
+    }
+
 }
