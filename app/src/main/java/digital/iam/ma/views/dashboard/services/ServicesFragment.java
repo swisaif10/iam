@@ -43,11 +43,10 @@ public class ServicesFragment extends Fragment implements OnServiceUpdatedListen
     private UpdateServicesData updateServicesData;
     private List<Item> affectedServices;
     private List<Item> availableServices;
-    private int position;
+    private int position = 0;
 
-    public ServicesFragment(int position) {
-        // Required empty public constructor
-        this.position = position;
+
+    public ServicesFragment() {
     }
 
     @Override
@@ -62,6 +61,8 @@ public class ServicesFragment extends Fragment implements OnServiceUpdatedListen
         viewModel.getServicesLiveData().observe(this, this::handleServicesData);
         viewModel.getUpdateServicesLiveData().observe(this, this::handleUpdateServicesData);
 
+        assert getArguments() != null;
+        position = getArguments().getInt(Constants.POSITION);
     }
 
     @Override
@@ -124,6 +125,7 @@ public class ServicesFragment extends Fragment implements OnServiceUpdatedListen
                 init(responseData.data.getResponse());
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
@@ -180,6 +182,7 @@ public class ServicesFragment extends Fragment implements OnServiceUpdatedListen
             case SUCCESS:
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));

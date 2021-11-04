@@ -38,7 +38,6 @@ import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.bundles.BundleItem;
 import digital.iam.ma.models.bundles.BundlesData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
-import digital.iam.ma.models.login.Line;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
@@ -55,11 +54,11 @@ public class BundlesFragment extends Fragment {
     private String actualSku = "";
     private Boolean canInternetSeek;
     private Boolean canCallSeek;
-    private int position;
+    private int position = 0;
 
-    public BundlesFragment(int position) {
-        // Required empty public constructor
-        this.position = position;
+
+    public BundlesFragment() {
+
     }
 
     @Override
@@ -74,7 +73,8 @@ public class BundlesFragment extends Fragment {
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
-
+        assert getArguments() != null;
+        position = getArguments().getInt(Constants.POSITION);
     }
 
     @Override
@@ -109,9 +109,11 @@ public class BundlesFragment extends Fragment {
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
+                assert responseData.data != null;
                 init(responseData.data.getResponse().getBundles());
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
@@ -228,9 +230,7 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
 
         fragmentBinding.body.setVisibility(View.VISIBLE);
-        fragmentBinding.changeBundleBtn.setOnClickListener(v -> {
-            switchBundle();
-        });
+        fragmentBinding.changeBundleBtn.setOnClickListener(v -> switchBundle());
     }
 
     private BundleItem searchBundleByDetails(List<BundleItem> bundles, int internet, int call) {
@@ -248,7 +248,7 @@ public class BundlesFragment extends Fragment {
     private void switchBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         ((DashboardActivity) requireActivity()).deactivateUserInteraction();
-        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""),((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), selectedSku, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.switchBundle(preferenceManager.getValue(Constants.TOKEN, ""), ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), selectedSku, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleSwitchBundleData(Resource<CMIPaymentData> responseData) {
@@ -265,6 +265,7 @@ public class BundlesFragment extends Fragment {
                 customTabsIntent.launchUrl(requireActivity(), uri);
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));

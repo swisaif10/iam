@@ -4,43 +4,28 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Insets;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.security.KeyRep;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +55,6 @@ import digital.iam.ma.views.dashboard.services.ServicesFragment;
 public class DashboardActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, OnRadioChecked {
 
     private ActivityDashboardBinding activityBinding;
-    private ArrayList<String> names;
-    private ArrayList<Fragment> fragments;
     private Boolean menuIsVisible = false;
     private PreferenceManager preferenceManager;
     private DashboardViewModel viewModel;
@@ -88,9 +71,6 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
             return windowMetrics.getBounds().width() - insets.left - insets.right;
         } else {
             DisplayMetrics displayMetrics = new DisplayMetrics();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                activity.getDisplay().getRealMetrics(displayMetrics);
-            }
             return displayMetrics.widthPixels;
         }
     }
@@ -110,13 +90,10 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         initLineDropDown();
         init();
 
-        activityBinding.lineDropDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lineClick = !lineClick;
-                activityBinding.lineRecyclerView.setVisibility(lineClick ? View.VISIBLE : View.GONE);
-                activityBinding.separator1.setVisibility(lineClick ? View.VISIBLE : View.GONE);
-            }
+        activityBinding.lineDropDown.setOnClickListener(v -> {
+            lineClick = !lineClick;
+            activityBinding.lineRecyclerView.setVisibility(lineClick ? View.VISIBLE : View.GONE);
+            activityBinding.separator1.setVisibility(lineClick ? View.VISIBLE : View.GONE);
         });
     }
 
@@ -128,31 +105,50 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
             finish();
         } else {
             selectedFragment = 0;
-            replaceFragment(new HomeFragment(position), Constants.HOME);
+            HomeFragment homeFragment = new HomeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("POSITION", position);
+            homeFragment.setArguments(bundle);
+            replaceFragment(homeFragment, Constants.HOME);
+            //replaceFragment(new HomeFragment(position), Constants.HOME);
             activityBinding.tabLayout.getMenu().getItem(0).setChecked(true);
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Bundle bundle = new Bundle();
         switch (item.getItemId()) {
             case R.id.action_compte:
                 selectedFragment = 0;
-                replaceFragment(new HomeFragment(position), Constants.HOME);
+                HomeFragment homeFragment = new HomeFragment();
+                bundle.putInt("POSITION", position);
+                homeFragment.setArguments(bundle);
+                replaceFragment(homeFragment, Constants.HOME);
                 return true;
             case R.id.action_paiement:
                 selectedFragment = 1;
-                replaceFragment(new PaymentFragment(position), Constants.PAYMENT);
+                PaymentFragment paymentFragment = new PaymentFragment();
+                bundle.putInt(Constants.POSITION, position);
+                paymentFragment.setArguments(bundle);
+                replaceFragment(paymentFragment, Constants.PAYMENT);
                 return true;
 
             case R.id.action_service:
                 selectedFragment = 2;
-                replaceFragment(new ServicesFragment(position), Constants.SERVICE);
+                ServicesFragment servicesFragment = new ServicesFragment();
+                bundle.putInt(Constants.POSITION, position);
+                servicesFragment.setArguments(bundle);
+                replaceFragment(servicesFragment, Constants.SERVICE);
                 return true;
 
             case R.id.action_forfaits:
                 selectedFragment = 3;
-                replaceFragment(new BundlesFragment(position), Constants.BUNDLE);
+                BundlesFragment bundlesFragment = new BundlesFragment();
+                bundle.putInt(Constants.POSITION, position);
+                bundlesFragment.setArguments(bundle);
+                replaceFragment(bundlesFragment, Constants.BUNDLE);
                 return true;
         }
         return false;
@@ -170,12 +166,6 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
             activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }
 
-        fragments = new ArrayList<Fragment>() {{
-            add(new HomeFragment(position));
-            add(new PaymentFragment(position));
-            add(new ServicesFragment(position));
-            add(new BundlesFragment(position));
-        }};
 
         activityBinding.tabLayout.setOnNavigationItemSelectedListener(this);
         activityBinding.tabLayout.setSelectedItemId(R.id.action_compte);
@@ -220,7 +210,6 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
             activityBinding.closeMenu.setVisibility(View.VISIBLE);
             activityBinding.notificationLayout.setVisibility(View.VISIBLE);
             activityBinding.notificationLayout.setAlpha(0.0f);
-
             activityBinding.notificationLayout.animate()
                     .translationX(0)
                     .alpha(1.0f)
@@ -277,6 +266,7 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
                 finishAffinity();
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(this, responseData.data.getHeader().getMessage(), v -> {
                     startActivity(new Intent(this, AuthenticationActivity.class));
                     finishAffinity();
@@ -311,28 +301,43 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
 
     @Override
     public void onRadioChecked(int position) {
-        this.position = position;
-        activityBinding.lineDropDown.setText(list.get(position));
+        lineClick = !lineClick;
         activityBinding.lineRecyclerView.setVisibility(View.GONE);
         activityBinding.separator1.setVisibility(View.GONE);
-        lineClick = !lineClick;
-        switch (selectedFragment) {
-            case 0:
-                removeFromBackStack(Constants.HOME);
-                replaceFragment(new HomeFragment(position), Constants.HOME);
-                break;
-            case 1:
-                removeFromBackStack(Constants.PAYMENT);
-                replaceFragment(new PaymentFragment(position), Constants.PAYMENT);
-                break;
-            case 2:
-                removeFromBackStack(Constants.SERVICE);
-                replaceFragment(new ServicesFragment(position), Constants.SERVICE);
-                break;
-            case 3:
-                removeFromBackStack(Constants.BUNDLE);
-                replaceFragment(new BundlesFragment(position), Constants.BUNDLE);
-                break;
+        if (position != this.position) {
+            this.position = position;
+            activityBinding.lineDropDown.setText(list.get(position));
+            Bundle bundle = new Bundle();
+            switch (selectedFragment) {
+                case 0:
+                    removeFromBackStack(Constants.HOME);
+                    HomeFragment homeFragment = new HomeFragment();
+                    bundle.putInt(Constants.POSITION, position);
+                    homeFragment.setArguments(bundle);
+                    replaceFragment(homeFragment, Constants.HOME);
+                    break;
+                case 1:
+                    removeFromBackStack(Constants.PAYMENT);
+                    PaymentFragment paymentFragment = new PaymentFragment();
+                    bundle.putInt(Constants.POSITION, position);
+                    paymentFragment.setArguments(bundle);
+                    replaceFragment(paymentFragment, Constants.PAYMENT);
+                    break;
+                case 2:
+                    removeFromBackStack(Constants.SERVICE);
+                    ServicesFragment servicesFragment = new ServicesFragment();
+                    bundle.putInt(Constants.POSITION, position);
+                    servicesFragment.setArguments(bundle);
+                    replaceFragment(servicesFragment, Constants.SERVICE);
+                    break;
+                case 3:
+                    removeFromBackStack(Constants.BUNDLE);
+                    BundlesFragment bundlesFragment = new BundlesFragment();
+                    bundle.putInt(Constants.POSITION, position);
+                    bundlesFragment.setArguments(bundle);
+                    replaceFragment(bundlesFragment, Constants.BUNDLE);
+                    break;
+            }
         }
     }
 

@@ -15,17 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
-
 import digital.iam.ma.databinding.FragmentPaymentBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnItemSelectedListener;
 import digital.iam.ma.models.cmi.CMIPaymentData;
-import digital.iam.ma.models.login.Line;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
 import digital.iam.ma.models.orders.Order;
@@ -42,11 +35,9 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     private FragmentPaymentBinding fragmentBinding;
     private PaymentViewModel viewModel;
     private PreferenceManager preferenceManager;
-    private int position;
+    private int position = 0;
 
-    public PaymentFragment(int position) {
-        // Required empty public constructor
-        this.position = position;
+    public PaymentFragment() {
     }
 
     @Override
@@ -61,6 +52,9 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
+
+        assert getArguments() != null;
+        position = getArguments().getInt("POSITION");
     }
 
     @Override
@@ -109,6 +103,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 init(responseData.data.getResponse());
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
@@ -122,11 +117,6 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     }
 
     private void init(GetOrdersResponse response) {
-
-        /*
-        fragmentBinding.bundleName.setText(line.getBundleName());
-        fragmentBinding.msisdn.setText(line.getMsisdn());
-        fragmentBinding.price.setText(line.getPrice());*/
 
         fragmentBinding.bundleName.setText(((DashboardActivity) requireActivity()).getList().get(position).getBundleName());
         fragmentBinding.msisdn.setText(((DashboardActivity) requireActivity()).getList().get(position).getMsisdn());
@@ -177,8 +167,6 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 assert responseData.data != null;
                 Uri uri = Uri.parse(responseData.data.getResponse().getUrl());
                 CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-                //intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                //intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
                 intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
                         android.R.anim.slide_out_right);
@@ -186,6 +174,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 customTabsIntent.launchUrl(requireActivity(), uri);
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
@@ -212,8 +201,6 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 assert responseData.data != null;
                 Uri uri = Uri.parse(responseData.data.getResponse().getUrl());
                 CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-                //intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                //intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
                 intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
                         android.R.anim.slide_out_right);
@@ -221,6 +208,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 customTabsIntent.launchUrl(requireActivity(), uri);
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));

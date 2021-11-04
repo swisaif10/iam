@@ -11,42 +11,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.biometric.BiometricManager;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
-import digital.iam.ma.listener.OnRadioChecked;
 import digital.iam.ma.listener.OnRechargeSelectedListener;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.consumption.MyConsumptionResponse;
-import digital.iam.ma.models.login.Line;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
 import digital.iam.ma.models.orders.Order;
 import digital.iam.ma.models.recharge.RechargeItem;
 import digital.iam.ma.models.recharge.RechargeListData;
-import digital.iam.ma.models.recharge.RechargeListResponse;
 import digital.iam.ma.models.recharge.RechargePurchase;
-import digital.iam.ma.models.recharge.RechargeSubItem;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
@@ -63,15 +51,15 @@ public class HomeFragment extends Fragment {
     private HomeViewModel viewModel;
     private PreferenceManager preferenceManager;
     private RechargeViewModel rechargeViewModel;
-    private int position;
+    private int position = 0;
 
-    public HomeFragment(int position) {
-        this.position = position;
+
+    public HomeFragment() {
+
     }
 
-
     public static HomeFragment newInstance(Boolean isFirstLogin) {
-        HomeFragment fragment = new HomeFragment(0);
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putBoolean("is_first_login", isFirstLogin);
         fragment.setArguments(args);
@@ -108,6 +96,9 @@ public class HomeFragment extends Fragment {
         viewModel.getRechargeListLiveData().observe(this, this::handleGetRechargesListData);
         viewModel.getRenewBundleLiveData().observe(this, this::handleRenewBundleData);
         rechargeViewModel.getRechargePurchase().observe(this, this::handleRechargePurchase);
+
+        assert getArguments() != null;
+        position = getArguments().getInt(Constants.POSITION);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -202,6 +193,7 @@ public class HomeFragment extends Fragment {
                 getOrders();
                 break;
             case INVALID_TOKEN:
+                assert responseData.data != null;
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
                     preferenceManager.clearValue(Constants.IS_LOGGED_IN);
                     startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
@@ -263,7 +255,7 @@ public class HomeFragment extends Fragment {
             orders = response.getPaidOrders().subList(size - 5, size);
         else
             orders = response.getPaidOrders();
-        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter(orders, preferenceManager.getValue(Constants.MSISDN,"")));
+        fragmentBinding.paymentsList.setAdapter(new PaymentsAdapter(orders, preferenceManager.getValue(Constants.MSISDN, "")));
         fragmentBinding.paymentsList.setNestedScrollingEnabled(false);
     }
 

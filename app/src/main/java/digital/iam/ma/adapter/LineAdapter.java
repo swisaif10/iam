@@ -2,7 +2,6 @@ package digital.iam.ma.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,17 +38,17 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LineAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.line.setText(list.get(position));
-        holder.selectedLine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("TAG", "onClick: " + position);
-                onRadioChecked.onRadioChecked(position);
-                RadioButton checked_rb = (RadioButton) v;
-                if (lastCheckedRB != null) {
-                    lastCheckedRB.setChecked(false);
-                }
-                lastCheckedRB = checked_rb;
+        if (position == 0 && lastCheckedRB == null) {
+            holder.selectedLine.setChecked(true);
+            lastCheckedRB = holder.selectedLine;
+        }
+        holder.selectedLine.setOnClickListener(v -> {
+            onRadioChecked.onRadioChecked(position);
+            RadioButton checked_rb = (RadioButton) v;
+            if (lastCheckedRB != checked_rb) {
+                lastCheckedRB.setChecked(false);
             }
+            lastCheckedRB = checked_rb;
         });
     }
 

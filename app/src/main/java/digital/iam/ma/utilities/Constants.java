@@ -24,4 +24,5 @@ public interface Constants {
     String BUNDLE = "BUNDLE";
     String SERVICE = "SERVICE";
     String LINE = "LINE";
+    String POSITION = "POSITION";
 }
