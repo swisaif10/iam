@@ -13,10 +13,13 @@ public class RetrofitClient {
 
     private static RetrofitClient retrofitClient;
     private ApiServices apiServices;
+    private String url;
 
-    private RetrofitClient() {
+
+    private RetrofitClient(String url) {
+        this.url = url;
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.connectTimeout(30, TimeUnit.SECONDS);
+        client.connectTimeout(5, TimeUnit.SECONDS);
         client.readTimeout(30, TimeUnit.SECONDS);
         client.writeTimeout(30, TimeUnit.SECONDS);
 
@@ -34,7 +37,7 @@ public class RetrofitClient {
         client.addInterceptor(interceptor);
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BuildConfig.BASEURL)
+                .baseUrl(url)
                 .client(client.build())
                 .build();
         apiServices = retrofit.create(ApiServices.class);
@@ -42,12 +45,20 @@ public class RetrofitClient {
 
     public static RetrofitClient getInstance() {
         if (retrofitClient == null) {
-            retrofitClient = new RetrofitClient();
+            retrofitClient = new RetrofitClient(BuildConfig.BASEURL);
         }
         return retrofitClient;
     }
 
     public ApiServices endpoint() {
         return apiServices;
+    }
+
+    public void changeBaseUrl(String url) {
+        retrofitClient = new RetrofitClient(url);
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

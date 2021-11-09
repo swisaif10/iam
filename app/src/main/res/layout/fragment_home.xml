@@ -243,6 +243,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="200dp"
                     android:background="@drawable/white_background"
                     android:padding="20dp">
 
@@ -268,7 +269,7 @@
                         android:includeFontPadding="false"
                         android:text="@string/show_more_btn"
                         android:textColor="@color/black"
-                        android:textSize="10sp" />
+                        android:textSize="11sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/paymentsList"

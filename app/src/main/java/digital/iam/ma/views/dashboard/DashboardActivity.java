@@ -32,6 +32,7 @@ import java.util.List;
 import digital.iam.ma.R;
 import digital.iam.ma.adapter.LineAdapter;
 import digital.iam.ma.databinding.ActivityDashboardBinding;
+import digital.iam.ma.datamanager.retrofit.RetrofitClient;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnDialogButtonsClickListener;
 import digital.iam.ma.listener.OnRadioChecked;
@@ -307,37 +308,7 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         if (position != this.position) {
             this.position = position;
             activityBinding.lineDropDown.setText(list.get(position));
-            Bundle bundle = new Bundle();
-            switch (selectedFragment) {
-                case 0:
-                    removeFromBackStack(Constants.HOME);
-                    HomeFragment homeFragment = new HomeFragment();
-                    bundle.putInt(Constants.POSITION, position);
-                    homeFragment.setArguments(bundle);
-                    replaceFragment(homeFragment, Constants.HOME);
-                    break;
-                case 1:
-                    removeFromBackStack(Constants.PAYMENT);
-                    PaymentFragment paymentFragment = new PaymentFragment();
-                    bundle.putInt(Constants.POSITION, position);
-                    paymentFragment.setArguments(bundle);
-                    replaceFragment(paymentFragment, Constants.PAYMENT);
-                    break;
-                case 2:
-                    removeFromBackStack(Constants.SERVICE);
-                    ServicesFragment servicesFragment = new ServicesFragment();
-                    bundle.putInt(Constants.POSITION, position);
-                    servicesFragment.setArguments(bundle);
-                    replaceFragment(servicesFragment, Constants.SERVICE);
-                    break;
-                case 3:
-                    removeFromBackStack(Constants.BUNDLE);
-                    BundlesFragment bundlesFragment = new BundlesFragment();
-                    bundle.putInt(Constants.POSITION, position);
-                    bundlesFragment.setArguments(bundle);
-                    replaceFragment(bundlesFragment, Constants.BUNDLE);
-                    break;
-            }
+            refresh();
         }
     }
 
@@ -363,4 +334,53 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
+    /*@Override
+    public void handleShakeEvent(int count) {
+        super.handleShakeEvent(count);
+        Utilities.showConfirmDialog(this, "Êtes vous sûr de vouloir changer la base url ?", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetrofitClient retrofitClient = RetrofitClient.getInstance();
+                if (retrofitClient.getUrl().equals(Constants.DEV_URL))
+                    retrofitClient.changeBaseUrl(Constants.PREPROD_URL);
+                else
+                    retrofitClient.changeBaseUrl(Constants.DEV_URL);
+                refresh();
+            }
+        });
+    }*/
+
+    public void refresh(){
+        Bundle bundle = new Bundle();
+        switch (selectedFragment) {
+            case 0:
+                removeFromBackStack(Constants.HOME);
+                HomeFragment homeFragment = new HomeFragment();
+                bundle.putInt(Constants.POSITION, position);
+                homeFragment.setArguments(bundle);
+                replaceFragment(homeFragment, Constants.HOME);
+                break;
+            case 1:
+                removeFromBackStack(Constants.PAYMENT);
+                PaymentFragment paymentFragment = new PaymentFragment();
+                bundle.putInt(Constants.POSITION, position);
+                paymentFragment.setArguments(bundle);
+                replaceFragment(paymentFragment, Constants.PAYMENT);
+                break;
+            case 2:
+                removeFromBackStack(Constants.SERVICE);
+                ServicesFragment servicesFragment = new ServicesFragment();
+                bundle.putInt(Constants.POSITION, position);
+                servicesFragment.setArguments(bundle);
+                replaceFragment(servicesFragment, Constants.SERVICE);
+                break;
+            case 3:
+                removeFromBackStack(Constants.BUNDLE);
+                BundlesFragment bundlesFragment = new BundlesFragment();
+                bundle.putInt(Constants.POSITION, position);
+                bundlesFragment.setArguments(bundle);
+                replaceFragment(bundlesFragment, Constants.BUNDLE);
+                break;
+        }
+    }
 }

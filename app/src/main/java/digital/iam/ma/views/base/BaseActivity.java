@@ -1,10 +1,15 @@
 package digital.iam.ma.views.base;
 
+import static android.content.pm.PackageManager.GET_META_DATA;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,18 +17,56 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import digital.iam.ma.R;
+import digital.iam.ma.datamanager.retrofit.RetrofitClient;
+import digital.iam.ma.listener.ShakeListener;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.LocaleManager;
+import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
-import static android.content.pm.PackageManager.GET_META_DATA;
-
 public class BaseActivity extends AppCompatActivity {
+
+    private static final String TAG = "base url";
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeListener mShakeDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resetTitles();
+
+        // ShakeListener initialization
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeListener();
+        mShakeDetector.setOnShakeListener(new ShakeListener.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                handleShakeEvent(count);
+            }
+        });
+    }
+
+    public void handleShakeEvent(int count) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
     }
 
     @Override

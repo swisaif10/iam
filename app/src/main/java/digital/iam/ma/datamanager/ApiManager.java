@@ -33,6 +33,7 @@ import retrofit2.Response;
 
 public class ApiManager {
 
+
     private void HandleThrowableException(Throwable e, MutableLiveData mutableLiveData) {
         if (e instanceof UnknownHostException || e instanceof ConnectException || e instanceof SocketTimeoutException) {
             mutableLiveData.setValue(Resource.error("Connexion réseau indisponible. Assurez-vous que votre connexion réseau est active et réessayez.", null));
@@ -534,7 +535,7 @@ public class ApiManager {
         Call<RechargePurchase> call = RetrofitClient.getInstance().endpoint().purchaseRecharge(token, sku, msisdn, _locale);
         call.enqueue(new Callback<RechargePurchase>() {
             @Override
-            public void onResponse(Call<RechargePurchase> call, Response<RechargePurchase> response) {
+            public void onResponse(@NonNull Call<RechargePurchase> call, Response<RechargePurchase> response) {
                 if (response.body().getHeader().getCode() == 200)
                     mutableLiveData.setValue(Resource.success(response.body()));
 
@@ -545,7 +546,7 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(Call<RechargePurchase> call, Throwable t) {
+            public void onFailure(@NonNull Call<RechargePurchase> call, @NonNull Throwable t) {
                 HandleThrowableException(t, mutableLiveData);
             }
         });

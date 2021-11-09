@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
+<network-security-config xmlns:tools="http://schemas.android.com/tools">
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">apigray.mobiblanc.com</domain>
         <domain includeSubdomains="true">rctapigray.mobiblanc.com</domain>
         <domain includeSubdomains="true">web.gray.mobiblanc.com</domain>
         <domain includeSubdomains="true">webgray.mobiblanc.com</domain>
         <domain includeSubdomains="true">www.orimi.com</domain>
+        <domain includeSubdomains="true">10.100.233.216</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
-            <certificates src="user" />
+            <certificates src="user"
+                tools:ignore="AcceptsUserCertificates" />
         </trust-anchors>
     </base-config>
 </network-security-config>
