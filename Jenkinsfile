@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "Master"
+        label "Jenkins-Slave"
     }
     environment {
         NEXUS_VERSION = "nexus3"
