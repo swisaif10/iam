@@ -14,8 +14,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh "export ANDROID_HOME=/var/lib/jenkins/cmdline-tools/tools/"
                 sh "echo $ANDROID_HOME"
-                sh "echo $PATH"
                 sh "chmod +x ./gradlew"
                 sh "./gradlew assemble"
             }
