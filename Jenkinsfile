@@ -63,6 +63,6 @@ pipeline {
                 }
                 emailext body: "$BODY", subject: 'Nouveau APK', to: '${PARAM_RECIPIENTS}'
             }
-        }
-    }*/
+        }*/
+    }
 }
