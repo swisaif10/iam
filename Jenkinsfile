@@ -49,7 +49,7 @@ pipeline {
                     );
                 }
             }
-        }/*
+        }*/
         stage ('Send Mail')
         {
             steps{
