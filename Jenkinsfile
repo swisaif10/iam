@@ -50,7 +50,7 @@ pipeline {
                 }
             }
         }*/
-        stage ('Send Mail')
+        /*stage ('Send Mail')
         {
             steps{
                 script {
@@ -64,5 +64,5 @@ pipeline {
                 emailext body: "$BODY", subject: 'Nouveau APK', to: '${PARAM_RECIPIENTS}'
             }
         }
-    }
+    }*/
 }
