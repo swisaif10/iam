@@ -1,12 +1,12 @@
 pipeline {
     agent {
-        label "Jenkins-Slave"
+        label "Master"
     }
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "repo.blanc.tech"
-        NEXUS_REPOSITORY = "MyInwi_Mobile"
+        NEXUS_URL = "appcenter.blanc.tech"
+        NEXUS_REPOSITORY = "Gray_Mobile"
         NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
         VERSION = ""
         BODY = ""
@@ -18,7 +18,7 @@ pipeline {
                 sh "./gradlew assemble"
             }
         }
-        stage('Upload Apk')
+        /*stage('Upload Apk')
         {
             steps {
                 script {
@@ -49,7 +49,7 @@ pipeline {
                     );
                 }
             }
-        }
+        }/*
         stage ('Send Mail')
         {
             steps{
