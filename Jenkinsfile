@@ -29,7 +29,7 @@ pipeline {
                     [
                         [artifactId: 'Gray', 
                         classifier: '', 
-                        file: 'app/build/outputs/apk/release/app-release.apk', 
+                        file: 'app/build/outputs/apk/dev/debug/app-dev-debug.apk', 
                         type: 'apk'], 
                         [artifactId: 'Gray', 
                         classifier: '', 
