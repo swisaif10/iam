@@ -47,7 +47,7 @@ pipeline {
                 }
             }
         }
-        /*stage ('Send Mail')
+        stage ('Send Mail')
         {
             steps{
                 script {
@@ -64,6 +64,6 @@ pipeline {
                 }
                 emailext body: "$BODY", subject: "$OBJET", to: '${PARAM_RECIPIENTS}'
             }
-        }*/
+        }
     }
 }
