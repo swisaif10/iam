@@ -4,11 +4,11 @@ pipeline {
     }
     environment {
         NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
+        NEXUS_PROTOCOL = "https"
         NEXUS_URL = "appcenter.blanc.tech"
         NEXUS_REPOSITORY = "Gray_Mobile"
         NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
-        VERSION = ""
+        VERSION = "1.0"
         BODY = ""
     }
     stages {
@@ -18,30 +18,28 @@ pipeline {
                 sh "./gradlew assemble"
             }
         }
-        /*stage('Upload Apk')
+        stage('Upload Apk')
         {
             steps {
                 script {
-                    def apkJson = readJSON file: 'app/build/outputs/apk/release/output-metadata.json'
-                    VERSION = apkJson.elements.versionName[0]
+
                     echo "*** File: ${VERSION}"
-                    sh "cp /var/lib/jenkins/install.html $WORKSPACE/install.html"
-                    contentReplace(configs: [fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: "$VERSION", search: 'PARAM_VERSION')], fileEncoding: 'UTF-8', filePath: 'install.html')])
-                    //contentReplace(configs: [fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: "$PortParam", search: 'PARAM_DATE')], fileEncoding: 'UTF-8', filePath: 'install.html')])
+                    contentReplace(configs: [fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: "$PARAM_URL",    search: 'PARAM_URL')], fileEncoding: 'UTF-8', filePath: 'install.html')])
+                    
                     nexusArtifactUploader(
                         nexusVersion: NEXUS_VERSION,
                         protocol: NEXUS_PROTOCOL,
                         nexusUrl: NEXUS_URL,
-                        groupId: "myinwi.Android",
+                        groupId: "Gray.Android",
                         version: VERSION,
                         repository: NEXUS_REPOSITORY,
                         credentialsId: NEXUS_CREDENTIAL_ID,
                         artifacts: [
-                            [artifactId: "myinwi",
+                            [artifactId: "Gray",
                             classifier: '',
                             file: "app/build/outputs/apk/release/app-release.apk",
                             type: "apk"],
-                            [artifactId: "myinwi",
+                            [artifactId: "Gray",
                             classifier: '',
                             file: "install.html",
                             type: "html"]
@@ -49,7 +47,7 @@ pipeline {
                     );
                 }
             }
-        }*/
+        }
         /*stage ('Send Mail')
         {
             steps{
