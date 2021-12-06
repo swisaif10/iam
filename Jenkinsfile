@@ -57,6 +57,7 @@ pipeline {
 <p>passwd: <span style="background-color: #000000; color: #000000;">Nexus@2021</span></p>
 <p>crdlt</p>'''
                 BODY = BODY.replaceAll("HTML_URL", "$HTML_URL")
+                BODY = BODY.replaceAll("PARAM_VERSION", "$PARAM_VERSION")
 
                 OBJET = 'PARAM_OBJET'
                 OBJET = OBJET.replaceAll("PARAM_OBJET","$PARAM_OBJET")
