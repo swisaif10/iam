@@ -52,13 +52,17 @@ pipeline {
             steps{
                 script {
                 BODY = '''<p>bonjour!</p>
-<p>un nouveau APK est disponible sur le <a href="http://repo.blanc.tech/repository/MyInwi_Mobile/myinwi/Android/myinwi/PARAM_VERSION/myinwi-PARAM_VERSION.html" target="_blank">lien</a>.</p>
+<p>un nouveau APK est disponible sur le <a href="HTML_URL" target="_blank">lien</a>.</p>
 <p>login: myinwi</p>
 <p>passwd: <span style="background-color: #000000; color: #000000;">Myinwi2021</span></p>
 <p>crdlt</p>'''
-                BODY = BODY.replaceAll("PARAM_VERSION", "$VERSION")
+                BODY = BODY.replaceAll("HTML_URL", "$HTML_URL")
+
+                OBJET = 'PARAM_OBJET'
+                OBJET = OBJET.replaceAll("PARAM_OBJET","$PARAM_OBJET")
+
                 }
-                emailext body: "$BODY", subject: 'Nouveau APK', to: '${PARAM_RECIPIENTS}'
+                emailext body: "$BODY", subject: "$OBJET", to: '${PARAM_RECIPIENTS}'
             }
         }*/
     }
