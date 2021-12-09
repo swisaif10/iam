@@ -29,6 +29,7 @@
             android:layout_width="20dp"
             android:layout_height="10dp"
             android:rotation="90"
+            android:layout_marginStart="10dp"
             android:src="@drawable/ic_goright"
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"

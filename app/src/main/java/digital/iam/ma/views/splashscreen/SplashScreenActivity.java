@@ -6,10 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProviders;
 
 import digital.iam.ma.R;
+import digital.iam.ma.datamanager.retrofit.RetrofitClient;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnDialogButtonsClickListener;
 import digital.iam.ma.models.controlversion.ControlVersionData;
@@ -102,5 +105,21 @@ public class SplashScreenActivity extends BaseActivity {
         intent.putExtra("resetToken", token);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void handleShakeEvent(int count) {
+        super.handleShakeEvent(count);
+        Utilities.showConfirmDialog(this, "Êtes vous sûr de vouloir changer la base url ?", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RetrofitClient retrofitClient = RetrofitClient.getInstance();
+                if (retrofitClient.getUrl().equals(Constants.DEV_URL))
+                    retrofitClient.changeBaseUrl(Constants.PREPROD_URL);
+                else
+                    retrofitClient.changeBaseUrl(Constants.DEV_URL);
+                controlVersion();
+            }
+        });
     }
 }

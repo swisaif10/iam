@@ -21,4 +21,16 @@ public class FAQ {
     public String getContent() {
         return content;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setExpandable(String expandable) {
+        this.expandable = expandable;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

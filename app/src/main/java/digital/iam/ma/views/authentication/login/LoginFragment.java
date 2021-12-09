@@ -72,7 +72,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         init();
     }
 
@@ -260,5 +259,7 @@ public class LoginFragment extends Fragment {
     public void set(String key, String value) {
         preferenceManager.putValue(key, value);
     }
+
+
 
 }

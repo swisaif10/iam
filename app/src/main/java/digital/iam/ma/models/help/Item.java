@@ -23,4 +23,25 @@ public class Item {
     public List<FAQ> getFaqs() {
         return faqs;
     }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setFaqs(List<FAQ> faqs) {
+        this.faqs = faqs;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "identifier='" + identifier + '\'' +
+                ", title='" + title + '\'' +
+                ", faqs=" + faqs +
+                '}';
+    }
 }

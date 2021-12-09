@@ -2,17 +2,20 @@ package digital.iam.ma.views.dashboard.help;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.ActivityHelpBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
+import digital.iam.ma.models.help.FAQ;
 import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.help.Item;
 import digital.iam.ma.utilities.Constants;
@@ -26,6 +29,7 @@ public class HelpActivity extends BaseActivity {
     private ActivityHelpBinding activityBinding;
     private AccountViewModel viewModel;
     private PreferenceManager preferenceManager;
+    private ArrayList<Item> itemlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +64,15 @@ public class HelpActivity extends BaseActivity {
     }
 
     private void init(List<Item> items) {
+        //initItems();
         if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
             activityBinding.backImage.setRotation(180f);
         activityBinding.backBtn.setOnClickListener(v -> finish());
-
         activityBinding.helpRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         activityBinding.helpRecycler.setAdapter(new HelpAdapter(this, items));
         activityBinding.helpRecycler.setNestedScrollingEnabled(false);
     }
+
+
+
 }

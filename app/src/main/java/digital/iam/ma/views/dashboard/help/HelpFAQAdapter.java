@@ -1,5 +1,6 @@
 package digital.iam.ma.views.dashboard.help;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class HelpFAQAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private void bind(int position) {
             FAQ faq = items.get(position);
             itemBinding.title.setText(faq.getTitle());
-            itemBinding.description.setText(faq.getContent());
+            itemBinding.description.setText(Html.fromHtml(faq.getContent()));
 
             if (faq.getExpandable().equalsIgnoreCase("1"))
                 itemBinding.getRoot().setOnClickListener(v -> {

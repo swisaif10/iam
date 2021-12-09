@@ -233,13 +233,19 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         });
 
         activityBinding.frenchBtn.setOnClickListener(v -> {
-            if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
+            if (!preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("fr"))
                 setNewLocale(this, LocaleManager.FRENCH);
             closeSideMenu();
         });
         activityBinding.arabicBtn.setOnClickListener(v -> {
-            if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("fr"))
+            if (!preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
                 setNewLocale(this, LocaleManager.ARABIC);
+            closeSideMenu();
+        });
+        activityBinding.englishBtn.setOnClickListener(v -> {
+            if (!preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("en")) {
+                setNewLocale(this, LocaleManager.FRENCH);
+            }
             closeSideMenu();
         });
     }
@@ -334,7 +340,7 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    /*@Override
+    @Override
     public void handleShakeEvent(int count) {
         super.handleShakeEvent(count);
         Utilities.showConfirmDialog(this, "Êtes vous sûr de vouloir changer la base url ?", new View.OnClickListener() {
@@ -348,9 +354,9 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
                 refresh();
             }
         });
-    }*/
+    }
 
-    public void refresh(){
+    public void refresh() {
         Bundle bundle = new Bundle();
         switch (selectedFragment) {
             case 0:
@@ -383,4 +389,5 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
                 break;
         }
     }
+
 }

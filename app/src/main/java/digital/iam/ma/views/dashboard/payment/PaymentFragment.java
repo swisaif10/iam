@@ -82,9 +82,14 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         if (payment)
             payOrder(String.valueOf(order.getOrderId()));
         else {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setShowTitle(true);
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(requireContext(), Uri.parse("http://www.orimi.com/pdf-test.pdf"));
+            /*
             Intent intent = new Intent(requireContext(), WebViewActivity.class);
             intent.putExtra("url", "http://www.orimi.com/pdf-test.pdf");
-            startActivity(intent);
+            startActivity(intent);*/
         }
     }
 

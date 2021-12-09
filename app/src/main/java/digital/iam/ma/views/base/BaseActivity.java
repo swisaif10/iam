@@ -18,18 +18,21 @@ import androidx.fragment.app.FragmentTransaction;
 
 import digital.iam.ma.R;
 import digital.iam.ma.datamanager.retrofit.RetrofitClient;
+import digital.iam.ma.listener.OnBaseUrlChanged;
 import digital.iam.ma.listener.ShakeListener;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.LocaleManager;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity  {
 
     private static final String TAG = "base url";
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeListener mShakeDetector;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void handleShakeEvent(int count) {
-
     }
 
     @Override

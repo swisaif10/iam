@@ -43,6 +43,7 @@
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Lorem ipsum dolor sitidunt ut labore et d dptua. At vero eos et accusam et justo"
                 android:textColor="@color/grey2"
+                android:visibility="gone"
                 android:textSize="12sp" />
 
             <TextView

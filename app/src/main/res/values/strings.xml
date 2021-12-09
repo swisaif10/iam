@@ -122,4 +122,5 @@
     <string name="biometrics_message_description">Vous pourrez utiliser vos informations d\'identification biométriques pour la prochaine authentification.</string>
     <string name="authentification">AUTHENTIFICATION</string>
     <string name="n_cin">N° CIN :</string>
+    <string name="anglais_label">Anglais</string>
 </resources>
