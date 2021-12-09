@@ -51,7 +51,7 @@ public interface Utilities {
         }
     }
 
-    static void showUpdateDialog(Context context, String message, String status, OnDialogButtonsClickListener onDialogButtonsClickListener) {
+    static void showUpdateDialog(Context context, String message, String status, String link, OnDialogButtonsClickListener onDialogButtonsClickListener) {
 
         if (context == null) {
             return;
@@ -66,7 +66,10 @@ public interface Utilities {
 
         msg.setText(Html.fromHtml(message));
 
-        if (status.equalsIgnoreCase("402"))
+        if(link.isEmpty() || link =="null")
+            update.setEnabled(false);
+
+        if (status.equalsIgnoreCase("blocked"))
             cancel.setVisibility(View.GONE);
 
         update.setOnClickListener(v -> {

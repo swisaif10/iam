@@ -55,16 +55,17 @@ public class SplashScreenActivity extends BaseActivity {
             case SUCCESS:
                 assert responseData.data != null;
                 String appStatus = responseData.data.getResponse().getStatus();
+                String linkApp = responseData.data.getResponse().getLink();
                 switch (appStatus) {
-                    case "200":
+                    case "current":
                         movToNextActivity();
                         break;
-                    case "401":
-                    case "402":
-                        Utilities.showUpdateDialog(this, responseData.data.getHeader().getMessage(), appStatus, new OnDialogButtonsClickListener() {
+                    case "updated":
+                    case "blocked":
+                        Utilities.showUpdateDialog(this, responseData.data.getHeader().getMessage(), appStatus, linkApp, new OnDialogButtonsClickListener() {
                             @Override
                             public void firstChoice() {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(responseData.data.getResponse().getLink())));
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(linkApp)));
                             }
 
                             @Override
