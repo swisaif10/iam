@@ -5,22 +5,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".views.dashboard.payment.paymentmode.CashPaymentFragment">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/cashBody"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            android:visibility="visible"
-            tools:context=".views.dashboard.payment.paymentmode.CashPaymentFragment">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="300dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -62,11 +53,6 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
 
                         <RadioButton
                             android:layout_width="match_parent"
@@ -141,7 +127,7 @@
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/validateBtn"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="50dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:backgroundTint="@color/button_selector"
@@ -152,11 +138,10 @@
                                 android:textSize="13sp"
                                 app:cornerRadius="5dp" />
                         </RelativeLayout>
-                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/loader"

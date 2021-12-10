@@ -42,7 +42,6 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     private PaymentViewModel viewModel;
     private PreferenceManager preferenceManager;
     private int position = 0;
-    private int selectedId = 0;
 
     public PaymentFragment() {
     }
@@ -134,7 +133,9 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         fragmentBinding.msisdn.setText(((DashboardActivity) requireActivity()).getList().get(position).getMsisdn());
         fragmentBinding.price.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice());
 
-        fragmentBinding.payBtn.setOnClickListener(v -> renewBundle());
+        fragmentBinding.payBtn.setOnClickListener(v -> {
+            fragmentBinding.layoutModePayment.setVisibility(View.VISIBLE);
+        });
         fragmentBinding.paidOrdersBtn.setOnClickListener(v -> {
             if (fragmentBinding.paidOrdersList.getVisibility() == View.VISIBLE) {
                 fragmentBinding.paidOrdersList.setVisibility(View.GONE);
@@ -170,14 +171,43 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     private void doOnModePaymentCheckChanged(RadioGroup group, int checkedId) {
         int checkedRadioId = group.getCheckedRadioButtonId();
 
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+
         if (checkedRadioId == fragmentBinding.radio0.getId()) {
-            selectedId = 0;
+
+            ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+            viewModel.renewBundle(
+                    preferenceManager.getValue(Constants.TOKEN, ""),
+                    ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(),
+                    preferenceManager.getValue(Constants.LANGUAGE, "fr")
+            );
+
             updateRadioGroup(fragmentBinding.radio0);
         } else if (checkedRadioId == fragmentBinding.radio1.getId()) {
-            selectedId = 1;
+
+            Bundle bundle = new Bundle();
+            MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+            bundle.putInt(Constants.POSITION, position);
+            mobilePaymentFragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, mobilePaymentFragment, Constants.MOBILE_PAYMENT)
+                    .addToBackStack(null)
+                    .commit();
+
             updateRadioGroup(fragmentBinding.radio1);
         } else if (checkedRadioId == fragmentBinding.radio2.getId()) {
-            selectedId = 2;
+
+            Bundle bundle2 = new Bundle();
+            CashPaymentFragment cashPaymentFragment = new CashPaymentFragment();
+            bundle2.putInt(Constants.POSITION, position);
+            cashPaymentFragment.setArguments(bundle2);
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container, cashPaymentFragment, Constants.MTCASH_PAYMENT)
+                    .addToBackStack(null)
+                    .commit();
+
             updateRadioGroup(fragmentBinding.radio2);
         }
     }
@@ -205,43 +235,6 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         fragmentBinding.radio0.setButtonTintList(colorStateList);
         fragmentBinding.radio1.setButtonTintList(colorStateList);
         fragmentBinding.radio2.setButtonTintList(colorStateList);
-    }
-
-    private void renewBundle() {
-        fragmentBinding.loader.setVisibility(View.VISIBLE);
-
-        switch (selectedId) {
-            case 0:
-                ((DashboardActivity) requireActivity()).deactivateUserInteraction();
-                viewModel.renewBundle(
-                        preferenceManager.getValue(Constants.TOKEN, ""),
-                        ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(),
-                        preferenceManager.getValue(Constants.LANGUAGE, "fr")
-                );
-                break;
-            case 1:
-                Bundle bundle = new Bundle();
-                MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
-                bundle.putInt(Constants.POSITION, position);
-                mobilePaymentFragment.setArguments(bundle);
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, mobilePaymentFragment, Constants.MOBILE_PAYMENT)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-            case 2:
-                Bundle bundle2 = new Bundle();
-                CashPaymentFragment cashPaymentFragment = new CashPaymentFragment();
-                bundle2.putInt(Constants.POSITION, position);
-                cashPaymentFragment.setArguments(bundle2);
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, cashPaymentFragment, Constants.MTCASH_PAYMENT)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-        }
     }
 
     private void handleRenewBundleData(Resource<CMIPaymentData> responseData) {

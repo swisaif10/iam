@@ -106,11 +106,13 @@
                     android:visibility="gone" />
 
                 <RelativeLayout
+                    android:id="@+id/layoutModePayment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="20dp"
                     android:background="@drawable/white_background"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:padding="20dp">
 
                     <LinearLayout
@@ -141,8 +143,7 @@
                                 android:id="@+id/radio0"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="#FD9450"
-                                android:checked="true"
+                                android:buttonTint="@color/radio_tint"
                                 android:drawableLeft="@drawable/carte_bancaire"
                                 android:drawablePadding="10dp"
                                 android:layoutDirection="rtl"
@@ -160,7 +161,7 @@
                                 android:background="@drawable/radio_off"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="#FD9450"
+                                android:buttonTint="@color/radio_tint"
                                 android:drawableLeft="@drawable/ic_payment_mobile"
                                 android:drawablePadding="10dp"
                                 android:layoutDirection="rtl"
@@ -179,7 +180,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="10dp"
-                                android:buttonTint="#FD9450"
+                                android:buttonTint="@color/radio_tint"
                                 android:drawableLeft="@drawable/ic_mtcash"
                                 android:layoutDirection="rtl"
                                 android:paddingLeft="10dp"

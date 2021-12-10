@@ -5,213 +5,199 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".views.dashboard.payment.paymentmode.MobilePaymentFragment">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/mobileBody"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            android:visibility="visible"
-            tools:context=".views.dashboard.payment.paymentmode.MobilePaymentFragment">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="300dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/backBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/backImage"
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_back"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/blue" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:includeFontPadding="false"
+                    android:text="@string/panier_label"
+                    android:textColor="@color/blue"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-                <LinearLayout
+
+                <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:buttonTint="#FD9450"
+                    android:checked="true"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:layoutDirection="ltr"
+                    android:paddingLeft="10dp"
+                    android:text="@string/payment_mobile_label"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="5dp" />
 
-                    <RelativeLayout
-                        android:id="@+id/backBtn"
-                        android:layout_width="30dp"
-                        android:layout_height="25dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/backImage"
-                            android:layout_width="20dp"
-                            android:layout_height="15dp"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/ic_back"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/blue" />
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:includeFontPadding="false"
-                        android:text="@string/panier_label"
-                        android:textColor="@color/blue"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical">
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:includeFontPadding="false"
+                    android:text="Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu’il est prêt ou que la mise en page est achevée"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:textStyle="normal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/background"
+                    app:cardCornerRadius="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/background"
                         android:orientation="vertical">
 
-                        <RadioButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="#FD9450"
-                            android:checked="true"
-                            android:layoutDirection="ltr"
-                            android:paddingLeft="10dp"
-                            android:text="@string/payment_mobile_label"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            app:cornerRadius="5dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginRight="25dp"
-                            android:fontFamily="@font/montserrat_regular"
-                            android:includeFontPadding="false"
-                            android:text="Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu’il est prêt ou que la mise en page est achevée"
-                            android:textColor="@color/black"
-                            android:textSize="13sp"
-                            android:textStyle="normal" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp" />
-
-                        <androidx.cardview.widget.CardView
-                            app:cardCornerRadius="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/background"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@color/background"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@color/background"
-                                    android:orientation="horizontal"
-                                    android:padding="20dp">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_weight="1"
-                                        android:fontFamily="@font/montserrat_extrabold"
-                                        android:includeFontPadding="false"
-                                        android:text="@string/payment_code_label"
-                                        android:textColor="@color/black"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_weight="1"
-                                        android:fontFamily="@font/montserrat_medium"
-                                        android:gravity="right"
-                                        android:includeFontPadding="false"
-                                        android:text="13389728"
-                                        android:textColor="@color/black"
-                                        android:textSize="13sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="@color/background"
-                                    android:orientation="horizontal"
-                                    android:padding="20dp">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_weight="1"
-                                        android:fontFamily="@font/montserrat_extrabold"
-                                        android:includeFontPadding="false"
-                                        android:text="@string/date_exp_label"
-                                        android:textColor="@color/black"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_weight="1"
-                                        android:fontFamily="@font/montserrat_medium"
-                                        android:gravity="right"
-                                        android:includeFontPadding="false"
-                                        android:text="22/04/2025"
-                                        android:textColor="@color/black"
-                                        android:textSize="13sp" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-
-                        </androidx.cardview.widget.CardView>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp" />
-
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="20dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            android:background="@color/background"
+                            android:orientation="horizontal"
+                            android:padding="20dp">
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/validateBtn"
+                            <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:backgroundTint="@color/button_selector"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/montserrat_extrabold"
-                                android:text="@string/validate_btn_label"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white"
+                                android:includeFontPadding="false"
+                                android:text="@string/payment_code_label"
+                                android:textColor="@color/black"
                                 android:textSize="13sp"
-                                app:cornerRadius="5dp" />
-                        </RelativeLayout>
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:gravity="right"
+                                android:includeFontPadding="false"
+                                android:text="13389728"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/background"
+                            android:orientation="horizontal"
+                            android:padding="20dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/montserrat_extrabold"
+                                android:includeFontPadding="false"
+                                android:text="@string/date_exp_label"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:gravity="right"
+                                android:includeFontPadding="false"
+                                android:text="22/04/2025"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
-                </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/validateBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:backgroundTint="@color/button_selector"
+                        android:fontFamily="@font/montserrat_extrabold"
+                        android:text="@string/validate_btn_label"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        app:cornerRadius="5dp" />
+                </RelativeLayout>
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/loader"
