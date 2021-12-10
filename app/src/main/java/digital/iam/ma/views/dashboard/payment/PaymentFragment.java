@@ -2,19 +2,24 @@ package digital.iam.ma.views.dashboard.payment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentPaymentBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnItemSelectedListener;
@@ -28,7 +33,8 @@ import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.PaymentViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.dashboard.DashboardActivity;
-import digital.iam.ma.views.webview.WebViewActivity;
+import digital.iam.ma.views.dashboard.payment.paymentmode.CashPaymentFragment;
+import digital.iam.ma.views.dashboard.payment.paymentmode.MobilePaymentFragment;
 
 public class PaymentFragment extends Fragment implements OnItemSelectedListener {
 
@@ -36,6 +42,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     private PaymentViewModel viewModel;
     private PreferenceManager preferenceManager;
     private int position = 0;
+    private int selectedId = 0;
 
     public PaymentFragment() {
     }
@@ -155,13 +162,86 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         fragmentBinding.unpaidRecycler.setAdapter(new PaymentsAdapter(requireContext(), response.getPendingOrders(), this));
         fragmentBinding.unpaidRecycler.setNestedScrollingEnabled(false);
 
+        fragmentBinding.radioGroup.setOnCheckedChangeListener(this::doOnModePaymentCheckChanged);
+
         fragmentBinding.body.setVisibility(View.VISIBLE);
+    }
+
+    private void doOnModePaymentCheckChanged(RadioGroup group, int checkedId) {
+        int checkedRadioId = group.getCheckedRadioButtonId();
+
+        if (checkedRadioId == fragmentBinding.radio0.getId()) {
+            selectedId = 0;
+            updateRadioGroup(fragmentBinding.radio0);
+        } else if (checkedRadioId == fragmentBinding.radio1.getId()) {
+            selectedId = 1;
+            updateRadioGroup(fragmentBinding.radio1);
+        } else if (checkedRadioId == fragmentBinding.radio2.getId()) {
+            selectedId = 2;
+            updateRadioGroup(fragmentBinding.radio2);
+        }
+    }
+
+    private void updateRadioGroup(RadioButton selected) {
+
+        fragmentBinding.radio0.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_off));
+        fragmentBinding.radio1.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_off));
+        fragmentBinding.radio2.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_off));
+
+        selected.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_on));
+
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]
+                        {
+                                new int[]{-android.R.attr.state_enabled}, // Disabled
+                                new int[]{android.R.attr.state_enabled}   // Enabled
+                        },
+                new int[]
+                        {
+                                ContextCompat.getColor(getContext(), R.color.grey), // disabled
+                                ContextCompat.getColor(getContext(), R.color.radio_tint)   // enabled
+                        }
+        );
+        fragmentBinding.radio0.setButtonTintList(colorStateList);
+        fragmentBinding.radio1.setButtonTintList(colorStateList);
+        fragmentBinding.radio2.setButtonTintList(colorStateList);
     }
 
     private void renewBundle() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
-        viewModel.renewBundle(preferenceManager.getValue(Constants.TOKEN, ""), ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+
+        switch (selectedId) {
+            case 0:
+                ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+                viewModel.renewBundle(
+                        preferenceManager.getValue(Constants.TOKEN, ""),
+                        ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(),
+                        preferenceManager.getValue(Constants.LANGUAGE, "fr")
+                );
+                break;
+            case 1:
+                Bundle bundle = new Bundle();
+                MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+                bundle.putInt(Constants.POSITION, position);
+                mobilePaymentFragment.setArguments(bundle);
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, mobilePaymentFragment, Constants.MOBILE_PAYMENT)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case 2:
+                Bundle bundle2 = new Bundle();
+                CashPaymentFragment cashPaymentFragment = new CashPaymentFragment();
+                bundle2.putInt(Constants.POSITION, position);
+                cashPaymentFragment.setArguments(bundle2);
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, cashPaymentFragment, Constants.MTCASH_PAYMENT)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+        }
     }
 
     private void handleRenewBundleData(Resource<CMIPaymentData> responseData) {

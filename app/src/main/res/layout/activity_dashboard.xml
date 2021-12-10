@@ -290,6 +290,20 @@
                     app:drawableTint="@color/blue" />
 
                 <TextView
+                    android:id="@+id/contractsBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:gravity="center_vertical"
+                    android:text="@string/contracts_label"
+                    android:textColor="@color/blue"
+                    android:textSize="13sp"
+                    app:drawableStartCompat="@drawable/ic_contrats"
+                    app:drawableTint="@color/blue" />
+
+                <TextView
                     android:id="@+id/helpBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -304,17 +318,17 @@
                     app:drawableTint="@color/blue" />
 
                 <TextView
-                    android:id="@+id/contractsBtn"
+                    android:id="@+id/bankCardsBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center_vertical"
-                    android:text="@string/contracts_label"
+                    android:text="@string/cards_bank_label"
                     android:textColor="@color/blue"
                     android:textSize="13sp"
-                    app:drawableStartCompat="@drawable/ic_contrats"
+                    app:drawableStartCompat="@drawable/ic_bank_cards"
                     app:drawableTint="@color/blue" />
 
             </LinearLayout>

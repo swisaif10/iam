@@ -14,8 +14,8 @@ public class AccountRepository {
         new ApiManager().updatePassword(token, currentPassword, newPassword, lang, mutableLiveData);
     }
 
-    public void getHelp(MutableLiveData<Resource<HelpData>> mutableLiveData) {
-        new ApiManager().getHelp(mutableLiveData);
+    public void getHelp(String lang, MutableLiveData<Resource<HelpData>> mutableLiveData) {
+        new ApiManager().getHelp(lang, mutableLiveData);
     }
 
     public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, int gender, String lang, MutableLiveData<Resource<UpdateProfileData>> mutableLiveData) {

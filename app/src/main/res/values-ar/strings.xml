@@ -11,6 +11,22 @@
     <string name="arabic_label">العربية</string>
     <string name="french_label">Français</string>
     <string name="help_label">مساعدة</string>
+    <string name="cards_bank_label">بطاقاتي المصرفية</string>
+
+    <string name="mode_payment_label">طريقة الدفع</string>
+    <string name="card_bank_label">بطاقة بنكية</string>
+    <string name="app_mobile_label">عبر تطبيق الهاتف المحمول</string>
+    <string name="mtcash_label">السيولة النقدية</string>
+
+    <string name="panier_label">سلة</string>
+    <string name="payment_mtcash_label">الدفع نقدا</string>
+    <string name="description_mtcash_label">لا يمكن إكمال معاملتك. يبدو أنه لا يوجد حساب نقدي مرتبط برقم الهاتف هذا. الرجاء إدخال رقم آخر أو إنشاء حساب نقدي</string>
+    <string name="num_phone_label">رقم الهاتف</string>
+
+    <string name="payment_mobile_label">الدفع عن طريق تطبيق الهاتف</string>
+    <string name="payment_code_label">كود الدفع</string>
+    <string name="date_exp_label">تاريخ نهاية الصلاحية</string>
+
     <string name="contracts_label">عقودي</string>
     <string name="info_label">حسابي</string>
     <string name="close_label">X</string>

@@ -2,22 +2,19 @@ package digital.iam.ma.views.dashboard.help;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.ActivityHelpBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
-import digital.iam.ma.models.help.FAQ;
 import digital.iam.ma.models.help.HelpData;
-import digital.iam.ma.models.help.Item;
+import digital.iam.ma.models.help.HelpListResponse;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
@@ -29,7 +26,6 @@ public class HelpActivity extends BaseActivity {
     private ActivityHelpBinding activityBinding;
     private AccountViewModel viewModel;
     private PreferenceManager preferenceManager;
-    private ArrayList<Item> itemlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +44,14 @@ public class HelpActivity extends BaseActivity {
 
     private void getHelp() {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.getHelp();
+        viewModel.getHelp(preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleHelpData(Resource<HelpData> responseData) {
         activityBinding.loader.setVisibility(View.GONE);
         switch (responseData.status) {
             case SUCCESS:
-                init(responseData.data.getItems());
+                init(responseData.data.getResponse());
                 break;
             case ERROR:
                 Utilities.showErrorPopup(this, responseData.message);
@@ -63,7 +59,7 @@ public class HelpActivity extends BaseActivity {
         }
     }
 
-    private void init(List<Item> items) {
+    private void init(List<HelpListResponse> items) {
         //initItems();
         if (preferenceManager.getValue(Constants.LANGUAGE, "fr").equalsIgnoreCase("ar"))
             activityBinding.backImage.setRotation(180f);

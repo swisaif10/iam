@@ -355,13 +355,15 @@ public class ApiManager {
         });
     }
 
-    public void getHelp(MutableLiveData<Resource<HelpData>> mutableLiveData) {
-        Call<HelpData> call = RetrofitClient.getInstance().endpoint().getHelpData();
+    public void getHelp(String lang, MutableLiveData<Resource<HelpData>> mutableLiveData) {
+        Call<HelpData> call = RetrofitClient.getInstance().endpoint().getHelpData(lang);
         call.enqueue(new Callback<HelpData>() {
             @Override
             public void onResponse(@NonNull Call<HelpData> call, @NonNull Response<HelpData> response) {
-
-                mutableLiveData.setValue(Resource.success(response.body()));
+                if (response.body() != null && response.body().getHeader().getCode() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
             }
 
             @Override

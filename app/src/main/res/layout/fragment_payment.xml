@@ -95,6 +95,107 @@
 
                 </RelativeLayout>
 
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/loader"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/loader"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    android:background="@drawable/white_background"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/modePaymentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:includeFontPadding="false"
+                            android:text="@string/mode_payment_label"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:padding="20dp">
+
+                            <RadioButton
+                                android:background="@drawable/radio_on"
+                                android:id="@+id/radio0"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="#FD9450"
+                                android:checked="true"
+                                android:drawableLeft="@drawable/carte_bancaire"
+                                android:drawablePadding="10dp"
+                                android:layoutDirection="rtl"
+                                android:paddingLeft="10dp"
+                                android:text="@string/card_bank_label"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:padding="15dp"
+                                app:cornerRadius="5dp" />
+
+                            <RadioButton
+                                android:id="@+id/radio1"
+                                android:background="@drawable/radio_off"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="#FD9450"
+                                android:drawableLeft="@drawable/ic_payment_mobile"
+                                android:drawablePadding="10dp"
+                                android:layoutDirection="rtl"
+                                android:paddingLeft="10dp"
+                                android:text="@string/app_mobile_label"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:textSize="16sp"
+                                android:padding="15dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                app:cornerRadius="5dp" />
+
+                            <RadioButton
+                                android:id="@+id/radio2"
+                                android:background="@drawable/radio_off"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:buttonTint="#FD9450"
+                                android:drawableLeft="@drawable/ic_mtcash"
+                                android:layoutDirection="rtl"
+                                android:paddingLeft="10dp"
+                                android:text="@string/mtcash_label"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:textSize="16sp"
+                                android:padding="15dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                app:cornerRadius="5dp" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -323,13 +424,5 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/loader"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/loader"
-            android:visibility="gone" />
     </RelativeLayout>
 </layout>

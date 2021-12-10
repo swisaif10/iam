@@ -43,6 +43,7 @@ public class SplashScreenActivity extends BaseActivity {
 
 
         new Handler(Looper.getMainLooper()).postDelayed(this::controlVersion, 2000);
+        //new Handler(Looper.getMainLooper()).postDelayed(this::movToNextActivity, 2000);
 
     }
 

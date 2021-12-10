@@ -118,7 +118,7 @@ public interface ApiServices {
                               @Path("locale") String lang);
 
     @GET(ApiEndpoints.GET_HELP_URL)
-    Call<HelpData> getHelpData();
+    Call<HelpData> getHelpData(@Path("locale") String lang);
 
     @FormUrlEncoded
     @POST(ApiEndpoints.CMI_URL)

@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import digital.iam.ma.databinding.HelpItemLayoutBinding;
-import digital.iam.ma.models.help.Item;
+import digital.iam.ma.models.help.HelpListResponse;
 
 public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<Item> items;
+    private final List<HelpListResponse> items;
 
-    public HelpAdapter(Context context, List<Item> items) {
+    public HelpAdapter(Context context, List<HelpListResponse> items) {
         this.context = context;
         this.items = items;
     }
@@ -53,10 +53,12 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.ViewHolder> {
         }
 
         private void bind(int position) {
-            Item item = items.get(position);
-            itemBinding.title.setText(item.getTitle());
+            HelpListResponse item = items.get(position);
+            itemBinding.title.setText(item.getCategorie());
+
             itemBinding.faqRecycler.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-            itemBinding.faqRecycler.setAdapter(new HelpFAQAdapter(item.getFaqs(), item.getIdentifier()));
+            itemBinding.faqRecycler.setAdapter(new HelpFAQAdapter(item.getData()));
+
             itemBinding.faqRecycler.setNestedScrollingEnabled(false);
         }
     }

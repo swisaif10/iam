@@ -30,6 +30,5 @@ public interface ApiEndpoints {
     String UPDATE_SERVICES_URL = "{locale}/store/services-update";
     String RECHARGE_PURCHASE = "{locale}/store/recharge/purchase";
 
-    //String GET_HELP_URL = "https://mocki.io/v1/47649be1-946e-488a-84bd-2c52a552ae7c";
-    String GET_HELP_URL = "https://mocki.io/v1/c647f0ac-e0ff-4fff-9395-5466466c1fec";
+    String GET_HELP_URL = "{locale}/faq";
 }

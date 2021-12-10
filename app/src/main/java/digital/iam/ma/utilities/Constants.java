@@ -21,6 +21,8 @@ public interface Constants {
     String LANGUAGE = "LANGUAGE";
     String HOME = "HOME";
     String PAYMENT = "PAYMENT";
+    String MOBILE_PAYMENT = "MOBILE_PAYMENT";
+    String MTCASH_PAYMENT = "MTCASH_PAYMENT";
     String BUNDLE = "BUNDLE";
     String SERVICE = "SERVICE";
     String LINE = "LINE";

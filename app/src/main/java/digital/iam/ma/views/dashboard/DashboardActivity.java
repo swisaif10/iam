@@ -199,6 +199,13 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
             startActivity(new Intent(this, HelpActivity.class));
         });
 
+        activityBinding.bankCardsBtn.setOnClickListener(v -> {
+            selectedFragment = 1;
+            refresh();
+            activityBinding.tabLayout.setSelectedItemId(R.id.action_paiement);
+            closeSideMenu();
+        });
+
         activityBinding.contractsBtn.setOnClickListener(v -> {
             closeSideMenu();
             Intent intent = new Intent(this, ContractActivity.class);

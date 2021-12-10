@@ -44,8 +44,8 @@ public class AccountViewModel extends AndroidViewModel {
         repository.updatePassword(token, currentPassword, newPassword, lang, updatePasswordLiveData);
     }
 
-    public void getHelp() {
-        repository.getHelp(helpLiveData);
+    public void getHelp(String lang) {
+        repository.getHelp(lang, helpLiveData);
     }
 
     public void updateProfile(String token, String firstname, String lastname, String phoneNumber, String address, String city, String postcode, int gender, String lang) {
