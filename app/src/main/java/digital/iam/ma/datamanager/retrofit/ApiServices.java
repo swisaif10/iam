@@ -12,6 +12,7 @@ import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.payment.PaymentData;
 import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
 import digital.iam.ma.models.recharge.RechargePurchase;
@@ -184,5 +185,7 @@ public interface ApiServices {
             @Path("locale") String _locale
     );
 
+    @GET(ApiEndpoints.GET_PAYMENT_LIST_URL)
+    Call<PaymentData> getPaymentListData(@Path("locale") String lang);
 
 }

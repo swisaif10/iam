@@ -141,6 +141,7 @@
                             <RadioButton
                                 android:background="@drawable/radio_on"
                                 android:id="@+id/radio0"
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:buttonTint="@color/radio_tint"
@@ -159,6 +160,7 @@
                             <RadioButton
                                 android:id="@+id/radio1"
                                 android:background="@drawable/radio_off"
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:buttonTint="@color/radio_tint"
@@ -176,6 +178,7 @@
 
                             <RadioButton
                                 android:id="@+id/radio2"
+                                android:visibility="gone"
                                 android:background="@drawable/radio_off"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

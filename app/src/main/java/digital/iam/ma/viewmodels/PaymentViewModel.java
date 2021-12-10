@@ -7,7 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.models.cmi.CMIPaymentData;
+import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.payment.PaymentData;
 import digital.iam.ma.repository.PaymentRepository;
 import digital.iam.ma.utilities.Resource;
 
@@ -17,6 +19,7 @@ public class PaymentViewModel extends AndroidViewModel {
     private final MutableLiveData<Resource<GetOrdersData>> getOrdersLiveData;
     private final MutableLiveData<Resource<CMIPaymentData>> renewBundleLiveData;
     private final MutableLiveData<Resource<CMIPaymentData>> orderPaymentLiveData;
+    private final MutableLiveData<Resource<PaymentData>> paymentListLiveData;
 
     public PaymentViewModel(@NonNull Application application) {
         super(application);
@@ -25,6 +28,7 @@ public class PaymentViewModel extends AndroidViewModel {
         getOrdersLiveData = new MutableLiveData<>();
         renewBundleLiveData = new MutableLiveData<>();
         orderPaymentLiveData = new MutableLiveData<>();
+        paymentListLiveData = new MutableLiveData<>();
     }
 
     public MutableLiveData<Resource<GetOrdersData>> getGetOrdersLiveData() {
@@ -39,6 +43,10 @@ public class PaymentViewModel extends AndroidViewModel {
         return orderPaymentLiveData;
     }
 
+    public MutableLiveData<Resource<PaymentData>> getPaymentListLiveData() {
+        return paymentListLiveData;
+    }
+
     public void getOrders(String token, String lang) {
         repository.getOrders(token, lang, getOrdersLiveData);
     }
@@ -50,4 +58,9 @@ public class PaymentViewModel extends AndroidViewModel {
     public void payOrder(String token, String orderId, String msisdn, String lang) {
         repository.payOrder(token, orderId, msisdn, lang, orderPaymentLiveData);
     }
+
+    public void getPaymentList(String lang) {
+        repository.getPaymentList(lang, paymentListLiveData);
+    }
+
 }

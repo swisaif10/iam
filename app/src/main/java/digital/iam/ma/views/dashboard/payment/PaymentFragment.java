@@ -27,6 +27,7 @@ import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
 import digital.iam.ma.models.orders.Order;
+import digital.iam.ma.models.payment.PaymentData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
@@ -54,6 +55,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         viewModel.getGetOrdersLiveData().observe(this, this::handleGetOrdersData);
         viewModel.getRenewBundleLiveData().observe(this, this::handleRenewBundleData);
         viewModel.getOrderPaymentLiveData().observe(this, this::handleOrderPaymentData);
+        viewModel.getPaymentListLiveData().observe(this, this::handlePaymentListData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -75,6 +77,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         super.onViewCreated(view, savedInstanceState);
 
         getOrders();
+        getPaymentList();
     }
 
     @Override
@@ -297,6 +300,40 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 Utilities.showErrorPopup(requireContext(), responseData.message);
                 break;
         }
+    }
+
+    private void getPaymentList() {
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.getPaymentList(preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+    }
+
+    private void handlePaymentListData(Resource<PaymentData> responseData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
+        switch (responseData.status) {
+            case SUCCESS:
+                assert responseData.data != null;
+                initPaymentList(responseData.data);
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
+    }
+
+    private void initPaymentList(PaymentData response) {
+
+        if (response.getCmi()) {
+            fragmentBinding.radio0.setVisibility(View.VISIBLE);
+        }
+        if (response.getFatourati()) {
+            fragmentBinding.radio1.setVisibility(View.VISIBLE);
+        }
+        if (response.getMtcash()) {
+            fragmentBinding.radio2.setVisibility(View.VISIBLE);
+        }
+
     }
 
 }

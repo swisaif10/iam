@@ -31,4 +31,5 @@ public interface ApiEndpoints {
     String RECHARGE_PURCHASE = "{locale}/store/recharge/purchase";
 
     String GET_HELP_URL = "{locale}/faq";
+    String GET_PAYMENT_LIST_URL = "{locale}/payment/gateways/liste";
 }

@@ -20,6 +20,7 @@ import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
+import digital.iam.ma.models.payment.PaymentData;
 import digital.iam.ma.models.profile.UpdateProfileData;
 import digital.iam.ma.models.recharge.RechargeListData;
 import digital.iam.ma.models.recharge.RechargePurchase;
@@ -549,6 +550,24 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NonNull Call<RechargePurchase> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void getPaymentList(String lang, MutableLiveData<Resource<PaymentData>> mutableLiveData) {
+        Call<PaymentData> call = RetrofitClient.getInstance().endpoint().getPaymentListData(lang);
+        call.enqueue(new Callback<PaymentData>() {
+            @Override
+            public void onResponse(@NonNull Call<PaymentData> call, @NonNull Response<PaymentData> response) {
+                if (response.body() != null && response.code() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.message(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PaymentData> call, @NonNull Throwable t) {
                 HandleThrowableException(t, mutableLiveData);
             }
         });
