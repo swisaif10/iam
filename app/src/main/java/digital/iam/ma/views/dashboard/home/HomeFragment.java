@@ -118,17 +118,6 @@ public class HomeFragment extends Fragment {
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (rechargePurchaseResource.status) {
             case SUCCESS:
-                assert rechargePurchaseResource.data != null;
-                if (checkedMode != 1) {
-                    Uri uri = Uri.parse(rechargePurchaseResource.data.getResponse().getUrl());
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                    builder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right);
-                    builder.setShowTitle(true);
-                    CustomTabsIntent customTabsIntent = builder.build();
-                    customTabsIntent.launchUrl(requireContext(), uri);
-                }
 
                 switch (checkedMode) {
                     case 0:
@@ -303,7 +292,6 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onPurchaseRecharge(String sku, int modePayment) {
-                        Log.d("PAYMENT", "onPurchaseRecharge: " + modePayment);
                         checkedMode = modePayment;
                         fragmentBinding.loader.setVisibility(View.VISIBLE);
                         ((DashboardActivity) requireActivity()).deactivateUserInteraction();
