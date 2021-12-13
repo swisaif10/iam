@@ -11,7 +11,7 @@ public interface ApiEndpoints {
     String UPDATE_PASSWORD_URL = "{locale}/bo/reset-password";
     String UPDATE_PROFILE_URL = "/{locale}/user";
 
-    String SIM_ACTIVATION_URL = "/{locale}/store/forfaits/enable";
+    String SIM_ACTIVATION_URL = "{locale}/store/forfaits/enable";
     String GET_SERVICES_URL = "{locale}/store/services";
     String GET_BUNDLES_URL = "{locale}/store/liste-forfaits";
     String ADD_ITEM_URL = "{locale}/store/cart/add-item";

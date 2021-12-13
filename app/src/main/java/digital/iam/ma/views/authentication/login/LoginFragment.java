@@ -95,7 +95,7 @@ public class LoginFragment extends Fragment {
             if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS) {
                 fragmentBinding.empreinte.setVisibility(View.VISIBLE);
                 fragmentBinding.face.setVisibility(View.VISIBLE);
-                fragmentBinding.eye.setVisibility(View.VISIBLE);
+                fragmentBinding.eye.setVisibility(View.GONE);
             }
             isFirstLogin = false;
         }

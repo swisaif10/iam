@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -38,6 +39,7 @@ public class SplashScreenActivity extends BaseActivity {
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
 
+        Log.d("FirebaseService", "onCreate: " + preferenceManager.getValue(Constants.FIREBASE_TOKEN,""));
         viewModel = ViewModelProviders.of(this).get(SplashScreenViewModel.class);
         viewModel.getControlVersionLiveData().observe(this, this::handleControlVersionData);
 

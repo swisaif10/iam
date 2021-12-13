@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "526419686567",
-    "project_id": "iam-digital-cc6ca",
-    "storage_bucket": "iam-digital-cc6ca.appspot.com"
+    "project_number": "740451456529",
+    "project_id": "moov-digital",
+    "storage_bucket": "moov-digital.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:526419686567:android:50e3b88504d3dcf6d41782",
+        "mobilesdk_app_id": "1:740451456529:android:d15b0440cbf4aae9fc43b0",
         "android_client_info": {
           "package_name": "digital.iam.ma"
         }
       },
       "oauth_client": [
         {
-          "client_id": "526419686567-qq7k1lp12n10goegs0slsa949j97q1kl.apps.googleusercontent.com",
+          "client_id": "740451456529-kjgdrufnscvvpkbebrm5gciuq9725e37.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC76O9ZB0NAJN1BxqkCU9wXWapbLT7HuRk"
+          "current_key": "AIzaSyARP0VsOYsjn2clHoRX7e5HTmuHElAfT-M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "526419686567-qq7k1lp12n10goegs0slsa949j97q1kl.apps.googleusercontent.com",
+              "client_id": "740451456529-kjgdrufnscvvpkbebrm5gciuq9725e37.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "526419686567-gmqeq632fkgrlcvjt86l6dquteuv2kmu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.mobiblanc.IAM"
-              }
             }
           ]
         }
