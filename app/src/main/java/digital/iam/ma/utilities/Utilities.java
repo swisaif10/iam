@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
@@ -20,10 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import digital.iam.ma.R;
@@ -32,6 +35,7 @@ import digital.iam.ma.listener.OnDialogButtonsClickListener;
 import digital.iam.ma.listener.OnRechargeSelectedListener;
 import digital.iam.ma.listener.OnResetPasswordDialogClickListener;
 import digital.iam.ma.listener.OnUpdatePasswordDialogClickListener;
+import digital.iam.ma.models.payment.PaymentData;
 import digital.iam.ma.models.recharge.RechargeItem;
 import digital.iam.ma.models.recharge.RechargeListResponse;
 import digital.iam.ma.models.recharge.RechargeSubItem;
@@ -66,7 +70,7 @@ public interface Utilities {
 
         msg.setText(Html.fromHtml(message));
 
-        if(link.isEmpty() || link =="null")
+        if (link.isEmpty() || link == "null")
             update.setEnabled(false);
 
         if (status.equalsIgnoreCase("blocked"))
@@ -149,7 +153,7 @@ public interface Utilities {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    static void showRechargeDialog(Context context, String msisdn, RechargeListResponse response, OnRechargeSelectedListener onRechargeSelectedListener) {
+    static void showRechargeDialog(Context context, String msisdn, RechargeListResponse response, PaymentData responsePaymentData, OnRechargeSelectedListener onRechargeSelectedListener) {
 
         if (context == null) {
             return;
@@ -163,6 +167,14 @@ public interface Utilities {
         TextView msisdnTv = view.findViewById(R.id.msisdn);
         AutoCompleteTextView rechargeDropDown = view.findViewById(R.id.rechargeDropDown);
         AutoCompleteTextView rechargeChildrenDropDown = view.findViewById(R.id.rechargeChildrenDropDown);
+
+        LinearLayout modePaymentLayout = view.findViewById(R.id.modePaymentLayout);
+        RadioGroup modePaymentRg = view.findViewById(R.id.radioGroup);
+        RadioButton radioButton0 = view.findViewById(R.id.radio0);
+        RadioButton radioButton1 = view.findViewById(R.id.radio1);
+        RadioButton radioButton2 = view.findViewById(R.id.radio2);
+
+        modePaymentLayout.setVisibility(View.GONE);
         rechargeChildrenDropDown.setVisibility(View.GONE);
         final RechargeItem[] rechargeItem = new RechargeItem[1];
         final RechargeSubItem[] rechargeSubItem = new RechargeSubItem[1];
@@ -170,14 +182,12 @@ public interface Utilities {
 
         msisdnTv.setText(msisdn);
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_dropdown_item_layout, response.getRechargesNames());
         rechargeDropDown.setAdapter(adapter);
         rechargeDropDown.setOnTouchListener((v, event) -> {
             rechargeDropDown.showDropDown();
             return false;
         });
-
 
         rechargeDropDown.setOnItemClickListener((parent, view1, position, id) -> {
             rechargeItem[0] = response.getRecharges().get(position);
@@ -197,12 +207,65 @@ public interface Utilities {
             }
 
             rechargeChildrenDropDown.setVisibility(rechargeItem[0].getType().getChildren() == null ? View.GONE : View.VISIBLE);
+            modePaymentLayout.setVisibility(rechargeItem[0].getType().getChildren() == null ? View.GONE : View.VISIBLE);
         });
 
         rechargeChildrenDropDown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 rechargeSubItem[0] = rechargeItem[0].getType().getChildren().get(position);
+                modePaymentRg.setVisibility(View.VISIBLE);
+            }
+        });
+
+        if (responsePaymentData != null) {
+            if (responsePaymentData.getCmi()) {
+                radioButton0.setVisibility(View.VISIBLE);
+            }
+            if (responsePaymentData.getFatourati()) {
+                radioButton1.setVisibility(View.VISIBLE);
+            }
+            if (responsePaymentData.getMtcash()) {
+                radioButton2.setVisibility(View.VISIBLE);
+            }
+        } else {
+            modePaymentLayout.setVisibility(View.GONE);
+        }
+
+
+        final int[] selectedode = new int[1];
+        modePaymentRg.setOnCheckedChangeListener((RadioGroup group, int checkedId) -> {
+            int checkedRadioId = group.getCheckedRadioButtonId();
+
+            radioButton0.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_off));
+            radioButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_off));
+            radioButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_off));
+
+            ColorStateList colorStateList = new ColorStateList(
+                    new int[][]
+                            {
+                                    new int[]{-android.R.attr.state_enabled}, // Disabled
+                                    new int[]{android.R.attr.state_enabled}   // Enabled
+                            },
+                    new int[]
+                            {
+                                    ContextCompat.getColor(context, R.color.grey), // disabled
+                                    ContextCompat.getColor(context, R.color.radio_tint)   // enabled
+                            }
+            );
+            radioButton0.setButtonTintList(colorStateList);
+            radioButton1.setButtonTintList(colorStateList);
+            radioButton2.setButtonTintList(colorStateList);
+
+            if (checkedRadioId == radioButton0.getId()) {
+                selectedode[0] = 0;
+                radioButton0.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_on));
+            } else if (checkedRadioId == radioButton1.getId()) {
+                selectedode[0] = 1;
+                radioButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_on));
+            } else if (checkedRadioId == radioButton2.getId()) {
+                selectedode[0] = 2;
+                radioButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_on));
             }
         });
 
@@ -214,9 +277,12 @@ public interface Utilities {
                 if (!rechargeDropDown.getText().toString().isEmpty()) {
                     dialog.dismiss();
                     if (rechargeSubItem[0] != null) {
-                        onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku());
+                        if (responsePaymentData != null)
+                            onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku(), selectedode[0]);
+                        else
+                            onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku(), 3);
                     } else {
-                        onRechargeSelectedListener.onPurchaseRecharge(rechargeItem[0].getType().getSku());
+                        onRechargeSelectedListener.onPurchaseRecharge(rechargeItem[0].getType().getSku(), selectedode[0]);
                     }
                 } else {
                     showErrorPopup(context, "Sélectionner une recharge svp");
@@ -461,7 +527,7 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showConfirmDialog(Context context,String message, View.OnClickListener onClickListener) {
+    static void showConfirmDialog(Context context, String message, View.OnClickListener onClickListener) {
 
         if (context == null) {
             return;

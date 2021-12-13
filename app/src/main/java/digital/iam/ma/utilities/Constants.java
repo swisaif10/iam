@@ -27,7 +27,7 @@ public interface Constants {
     String SERVICE = "SERVICE";
     String LINE = "LINE";
     String POSITION = "POSITION";
-    //String DEV_URL  = "https://apigray.mobiblanc.com/api/";
-    String DEV_URL  = "https://rctapigray.mobiblanc.com/api/";
+    String DEV_URL  = "https://apigray.mobiblanc.com/api/";
+    //String DEV_URL  = "https://rctapigray.mobiblanc.com/api/";
     String PREPROD_URL  = "http://10.100.233.216:443/api_mobile/";
 }

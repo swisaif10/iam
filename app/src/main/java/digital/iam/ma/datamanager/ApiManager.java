@@ -121,12 +121,17 @@ public class ApiManager {
         call.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(@NonNull Call<ResponseData> call, @NonNull Response<ResponseData> response) {
-                if (response.body().getHeader().getCode() == 200)
-                    mutableLiveData.setValue(Resource.success(response.body()));
-                else if (response.body().getHeader().getCode() == 401)
-                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
-                else
-                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+                if (response.body() != null && response.body().getHeader() != null) {
+                    if (response.body().getHeader().getCode() == 200)
+                        mutableLiveData.setValue(Resource.success(response.body()));
+                    else if (response.body().getHeader().getCode() == 401 || response.body().getHeader().getCode() == 404)
+                        mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                    else
+                        mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+                } else {
+                    mutableLiveData.setValue(Resource.error(response.message(), null));
+
+                }
             }
 
             @Override
@@ -161,12 +166,16 @@ public class ApiManager {
         call.enqueue(new Callback<ServicesListData>() {
             @Override
             public void onResponse(@NonNull Call<ServicesListData> call, @NonNull Response<ServicesListData> response) {
-                if (response.body().getHeader().getCode() == 200)
-                    mutableLiveData.setValue(Resource.success(response.body()));
-                else if (response.body().getHeader().getCode() == 401)
-                    mutableLiveData.setValue(Resource.invalidToken(response.body()));
-                else
-                    mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+                if (response.code() == 204) {
+                    mutableLiveData.setValue(Resource.error(response.message(), null));
+                } else {
+                    if (response.body().getHeader().getCode() == 200)
+                        mutableLiveData.setValue(Resource.success(response.body()));
+                    else if (response.body().getHeader().getCode() == 401 || response.body().getHeader().getCode() == 404)
+                        mutableLiveData.setValue(Resource.invalidToken(response.body()));
+                    else
+                        mutableLiveData.setValue(Resource.error(response.body().getHeader().getMessage(), null));
+                }
             }
 
             @Override

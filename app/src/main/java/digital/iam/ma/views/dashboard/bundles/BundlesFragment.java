@@ -3,15 +3,19 @@ package digital.iam.ma.views.dashboard.bundles;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -38,12 +42,15 @@ import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.bundles.BundleItem;
 import digital.iam.ma.models.bundles.BundlesData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
+import digital.iam.ma.models.payment.PaymentData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.BundlesViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.dashboard.DashboardActivity;
+import digital.iam.ma.views.dashboard.payment.paymentmode.CashPaymentFragment;
+import digital.iam.ma.views.dashboard.payment.paymentmode.MobilePaymentFragment;
 
 public class BundlesFragment extends Fragment {
 
@@ -69,6 +76,8 @@ public class BundlesFragment extends Fragment {
         //viewModel.getMyBundleLiveData().observe(this, this::handleMyBundleDetailsData);
         viewModel.getGetBundlesLiveData().observe(this, this::handleBundlesData);
         viewModel.getSwitchBundleLiveData().observe(this, this::handleSwitchBundleData);
+        viewModel.getPaymentListLiveData().observe(this, this::handlePaymentListData);
+        viewModel.getRenewBundleLiveData().observe(this, this::handleRenewBundleData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -88,6 +97,7 @@ public class BundlesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getBundlesList();
+        getPaymentList();
     }
 
     @Override
@@ -230,7 +240,57 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
 
         fragmentBinding.body.setVisibility(View.VISIBLE);
-        fragmentBinding.changeBundleBtn.setOnClickListener(v -> switchBundle());
+        fragmentBinding.changeBundleBtn.setOnClickListener(v -> {
+            fragmentBinding.layoutModePayment.setVisibility(View.VISIBLE);
+            fragmentBinding.changeBundleBtn.setEnabled(false);
+        });
+
+        fragmentBinding.radioGroup.setOnCheckedChangeListener(this::doOnModePaymentCheckChanged);
+    }
+
+    private int selectedPayment;
+
+    private void doOnModePaymentCheckChanged(RadioGroup group, int checkedId) {
+        int checkedRadioId = group.getCheckedRadioButtonId();
+
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        switchBundle();
+
+        if (checkedRadioId == fragmentBinding.radio0.getId()) {
+            selectedPayment = 0;
+            updateRadioGroup(fragmentBinding.radio0);
+        } else if (checkedRadioId == fragmentBinding.radio1.getId()) {
+            selectedPayment = 1;
+            updateRadioGroup(fragmentBinding.radio1);
+        } else if (checkedRadioId == fragmentBinding.radio2.getId()) {
+            selectedPayment = 2;
+            updateRadioGroup(fragmentBinding.radio2);
+        }
+    }
+
+    private void updateRadioGroup(RadioButton selected) {
+
+        fragmentBinding.radio0.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_off));
+        fragmentBinding.radio1.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_off));
+        fragmentBinding.radio2.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_off));
+
+        selected.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radio_on));
+
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]
+                        {
+                                new int[]{-android.R.attr.state_enabled}, // Disabled
+                                new int[]{android.R.attr.state_enabled}   // Enabled
+                        },
+                new int[]
+                        {
+                                ContextCompat.getColor(getContext(), R.color.grey), // disabled
+                                ContextCompat.getColor(getContext(), R.color.radio_tint)   // enabled
+                        }
+        );
+        fragmentBinding.radio0.setButtonTintList(colorStateList);
+        fragmentBinding.radio1.setButtonTintList(colorStateList);
+        fragmentBinding.radio2.setButtonTintList(colorStateList);
     }
 
     private BundleItem searchBundleByDetails(List<BundleItem> bundles, int internet, int call) {
@@ -263,6 +323,19 @@ public class BundlesFragment extends Fragment {
                 intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 CustomTabsIntent customTabsIntent = intentBuilder.build();
                 customTabsIntent.launchUrl(requireActivity(), uri);
+
+                switch (selectedPayment) {
+                    case 0:
+                        redirectCompteBcr();
+                        break;
+                    case 1:
+                        redirectViaAppMobile();
+                        break;
+                    case 2:
+                        redirectViaMtCash();
+                        break;
+                }
+
                 break;
             case INVALID_TOKEN:
                 assert responseData.data != null;
@@ -278,4 +351,100 @@ public class BundlesFragment extends Fragment {
         }
 
     }
+
+    private void redirectCompteBcr() {
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.renewBundle(
+                preferenceManager.getValue(Constants.TOKEN, ""),
+                ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(),
+                preferenceManager.getValue(Constants.LANGUAGE, "fr")
+        );
+    }
+
+    private void redirectViaAppMobile() {
+        Bundle bundle = new Bundle();
+        MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+        bundle.putInt(Constants.POSITION, position);
+        mobilePaymentFragment.setArguments(bundle);
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, mobilePaymentFragment, Constants.MOBILE_PAYMENT)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void redirectViaMtCash() {
+        Bundle bundle2 = new Bundle();
+        CashPaymentFragment cashPaymentFragment = new CashPaymentFragment();
+        bundle2.putInt(Constants.POSITION, position);
+        cashPaymentFragment.setArguments(bundle2);
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, cashPaymentFragment, Constants.MTCASH_PAYMENT)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void getPaymentList() {
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        viewModel.getPaymentList(preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+    }
+
+    private void handlePaymentListData(Resource<PaymentData> responseData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
+        switch (responseData.status) {
+            case SUCCESS:
+                assert responseData.data != null;
+                initPaymentList(responseData.data);
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
+    }
+
+    private void initPaymentList(PaymentData response) {
+
+        if (response.getCmi()) {
+            fragmentBinding.radio0.setVisibility(View.VISIBLE);
+        }
+        if (response.getFatourati()) {
+            fragmentBinding.radio1.setVisibility(View.VISIBLE);
+        }
+        if (response.getMtcash()) {
+            fragmentBinding.radio2.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void handleRenewBundleData(Resource<CMIPaymentData> responseData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
+        switch (responseData.status) {
+            case SUCCESS:
+                assert responseData.data != null;
+                Uri uri = Uri.parse(responseData.data.getResponse().getUrl());
+                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+                intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right);
+                CustomTabsIntent customTabsIntent = intentBuilder.build();
+                customTabsIntent.launchUrl(requireActivity(), uri);
+                break;
+            case INVALID_TOKEN:
+                assert responseData.data != null;
+                Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), responseData.message);
+                break;
+        }
+    }
+
 }

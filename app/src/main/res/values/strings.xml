@@ -39,7 +39,7 @@
     <string name="available_services_title">Service disponibles</string>
     <string name="affected_services_title">Service affectés</string>
     <string name="pay_btn_text">Payer</string>
-    <string name="payments_title">Des avis de paiements</string>
+    <string name="payments_title">Mes avis de paiements</string>
     <string name="price_text">Prix</string>
     <string name="details_text">Détails</string>
     <string name="status_text">Statut</string>
