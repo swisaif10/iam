@@ -118,15 +118,6 @@ public class HomeFragment extends Fragment {
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (rechargePurchaseResource.status) {
             case SUCCESS:
-                assert rechargePurchaseResource.data != null;
-                Uri uri = Uri.parse(rechargePurchaseResource.data.getResponse().getUrl());
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                builder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                builder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
-                        android.R.anim.slide_out_right);
-                builder.setShowTitle(true);
-                CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(requireContext(), uri);
 
                 switch (checkedMode) {
                     case 0:

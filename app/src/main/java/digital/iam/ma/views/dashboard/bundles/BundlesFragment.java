@@ -316,13 +316,6 @@ public class BundlesFragment extends Fragment {
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
-                assert responseData.data != null;
-                Uri uri = Uri.parse(responseData.data.getResponse().getUrl());
-                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-                intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                CustomTabsIntent customTabsIntent = intentBuilder.build();
-                customTabsIntent.launchUrl(requireActivity(), uri);
 
                 switch (selectedPayment) {
                     case 0:
