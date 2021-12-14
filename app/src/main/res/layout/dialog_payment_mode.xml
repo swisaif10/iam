@@ -26,8 +26,7 @@
             android:id="@+id/modePaymentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,7 +61,7 @@
                     android:paddingLeft="10dp"
                     android:text="@string/card_bank_label"
                     android:textSize="16sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cornerRadius="5dp" />
 
                 <RadioButton
@@ -81,7 +80,7 @@
                     android:paddingLeft="10dp"
                     android:text="@string/app_mobile_label"
                     android:textSize="16sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cornerRadius="5dp" />
 
                 <RadioButton
@@ -92,7 +91,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/radio_off"
                     android:buttonTint="@color/radio_tint"
-                    android:drawableStart="@drawable/ic_mtcash"
+                    android:drawableLeft="@drawable/ic_mtcash"
                     android:drawablePadding="10dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:layoutDirection="rtl"
@@ -100,7 +99,7 @@
                     android:paddingStart="10dp"
                     android:text="@string/mtcash_label"
                     android:textSize="16sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cornerRadius="5dp" />
             </RadioGroup>
 

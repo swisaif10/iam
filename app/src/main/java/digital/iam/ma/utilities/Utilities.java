@@ -163,10 +163,12 @@ public interface Utilities {
         final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
 
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_payment_mode, null, false);
+
         RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
         RadioButton radioButton0 = view.findViewById(R.id.radio0);
         RadioButton radioButton1 = view.findViewById(R.id.radio1);
         RadioButton radioButton2 = view.findViewById(R.id.radio2);
+
         Button confirm = view.findViewById(R.id.confirmBtn);
         RelativeLayout modePaymentLayout = view.findViewById(R.id.layoutModePayment);
         final int[] selectedode = new int[1];
