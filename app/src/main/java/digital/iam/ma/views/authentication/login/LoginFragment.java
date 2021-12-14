@@ -86,8 +86,8 @@ public class LoginFragment extends Fragment {
                 login(fragmentBinding.username.getText().toString(), fragmentBinding.password.getText().toString());
         });
         fragmentBinding.empreinte.setOnClickListener(v -> enableTouchID());
-        fragmentBinding.face.setOnClickListener(v -> enableTouchID());
-        fragmentBinding.eye.setOnClickListener(v -> enableTouchID());
+        fragmentBinding.face.setOnClickListener(v -> enableFaceId());
+        //fragmentBinding.eye.setOnClickListener(v -> enableTouchID());
 
         if (!preferenceManager.getValue(Constants.EMAIL, "").equalsIgnoreCase("")
                 && !preferenceManager.getValue(Constants.PASSWORD, "").equalsIgnoreCase("")) {
@@ -222,9 +222,39 @@ public class LoginFragment extends Fragment {
                 super.onAuthenticationFailed();
             }
         });
-
         biometricPrompt.authenticate(promptInfo);
+    }
 
+    private void enableFaceId() {
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Connexion biométrique")
+                .setSubtitle("Connectez-vous à l’aide de vos informations d’identification biométriques")
+                .setNegativeButtonText("Annuler")
+                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+                .build();
+        
+        Executor executor = ContextCompat.getMainExecutor(requireContext());
+        BiometricPrompt biometricPrompt = new BiometricPrompt(requireActivity(),
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                login(preferenceManager.getValue(Constants.EMAIL, ""), preferenceManager.getValue(Constants.PASSWORD, ""));
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+        biometricPrompt.authenticate(promptInfo);
     }
 
     private void resetPassword(String email) {

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -33,6 +34,7 @@ import digital.iam.ma.R;
 import digital.iam.ma.listener.OnConfirmClickListener;
 import digital.iam.ma.listener.OnDialogButtonsClickListener;
 import digital.iam.ma.listener.OnRechargeSelectedListener;
+import digital.iam.ma.listener.OnRenew;
 import digital.iam.ma.listener.OnResetPasswordDialogClickListener;
 import digital.iam.ma.listener.OnUpdatePasswordDialogClickListener;
 import digital.iam.ma.models.payment.PaymentData;
@@ -147,6 +149,93 @@ public interface Utilities {
             dialog.dismiss();
         });
         no.setOnClickListener(v -> dialog.dismiss());
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    static void showPaymentDialog(Context context, PaymentData responsePaymentData, OnRenew onRenew) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_payment_mode, null, false);
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        RadioButton radioButton0 = view.findViewById(R.id.radio0);
+        RadioButton radioButton1 = view.findViewById(R.id.radio1);
+        RadioButton radioButton2 = view.findViewById(R.id.radio2);
+        Button confirm = view.findViewById(R.id.confirmBtn);
+        RelativeLayout modePaymentLayout = view.findViewById(R.id.layoutModePayment);
+        final int[] selectedode = new int[1];
+
+        if (responsePaymentData != null) {
+            if (responsePaymentData.getCmi()) {
+                radioButton0.setVisibility(View.VISIBLE);
+            }
+            if (responsePaymentData.getFatourati()) {
+                radioButton1.setVisibility(View.VISIBLE);
+            }
+            if (responsePaymentData.getMtcash()) {
+                radioButton2.setVisibility(View.VISIBLE);
+            }
+        } else {
+            modePaymentLayout.setVisibility(View.GONE);
+        }
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int checkedRadioId = radioGroup.getCheckedRadioButtonId();
+
+                radioButton0.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_off));
+                radioButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_off));
+                radioButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_off));
+
+                ColorStateList colorStateList = new ColorStateList(
+                        new int[][]
+                                {
+                                        new int[]{-android.R.attr.state_enabled}, // Disabled
+                                        new int[]{android.R.attr.state_enabled}   // Enabled
+                                },
+                        new int[]
+                                {
+                                        ContextCompat.getColor(context, R.color.grey), // disabled
+                                        ContextCompat.getColor(context, R.color.radio_tint)   // enabled
+                                }
+                );
+                radioButton0.setButtonTintList(colorStateList);
+                radioButton1.setButtonTintList(colorStateList);
+                radioButton2.setButtonTintList(colorStateList);
+
+                if (checkedRadioId == radioButton0.getId()) {
+                    selectedode[0] = 0;
+                    radioButton0.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_on));
+                } else if (checkedRadioId == radioButton1.getId()) {
+                    selectedode[0] = 1;
+                    radioButton1.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_on));
+                } else if (checkedRadioId == radioButton2.getId()) {
+                    selectedode[0] = 2;
+                    radioButton2.setBackground(ContextCompat.getDrawable(context, R.drawable.radio_on));
+                }
+            }
+        });
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            private static final String TAG = "BUY";
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (responsePaymentData != null)
+                    onRenew.onRenew("", selectedode[0]);
+                else
+                    onRenew.onRenew("", 3);
+            }
+        });
+
         container.setOnClickListener(v -> dialog.dismiss());
         dialog.setContentView(view);
         dialog.show();

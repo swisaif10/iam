@@ -26,6 +26,7 @@ import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnRechargeSelectedListener;
+import digital.iam.ma.listener.OnRenew;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.consumption.MyConsumptionResponse;
@@ -181,7 +182,31 @@ public class HomeFragment extends Fragment {
             });
         }));
         fragmentBinding.rechargeBtn.setOnClickListener(v -> getRechargesList());
-        fragmentBinding.renewBundleBtn.setOnClickListener(v -> Utilities.showConfirmRenewPopup(requireContext(), v12 -> renewBundle()));
+        //fragmentBinding.renewBundleBtn.setOnClickListener(v -> Utilities.showConfirmRenewPopup(requireContext(), v12 -> renewBundle()));
+
+        fragmentBinding.renewBundleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utilities.showPaymentDialog(getContext(), responsePaymentData, new OnRenew() {
+                    @Override
+                    public void onRenew(String sku, int mode) {
+                        switch(mode){
+                            case 0:
+                                renewBundle();
+                                break;
+                            case 1:
+                                ((DashboardActivity) requireActivity()).replaceFragment(new MobilePaymentFragment(), "MobilePayment");
+                                break;
+                            case 2:
+                                ((DashboardActivity) requireActivity()).replaceFragment(new CashPaymentFragment(), "cashPayment");
+                                break;
+
+
+                        }
+                    }
+                });
+            }
+        });
 
         fragmentBinding.showMoreBtn.setOnClickListener(v -> ((DashboardActivity) requireActivity()).selectPaymentsTab());
 

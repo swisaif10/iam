@@ -24,8 +24,9 @@ public class MobilePaymentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        assert getArguments() != null;
-        position = getArguments().getInt("POSITION");
+        //assert getArguments() != null;
+        if (getArguments() != null)
+            position = getArguments().getInt("POSITION");
     }
 
     @Override

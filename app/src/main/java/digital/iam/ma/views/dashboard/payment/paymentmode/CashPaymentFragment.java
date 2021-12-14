@@ -25,8 +25,9 @@ public class CashPaymentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        assert getArguments() != null;
-        position = getArguments().getInt("POSITION");
+        //assert getArguments() != null;
+        if (getArguments() != null)
+            position = getArguments().getInt("POSITION");
     }
 
     @Override
@@ -40,7 +41,7 @@ public class CashPaymentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        cashPaymentBinding.backImage.setOnClickListener(v->{
+        cashPaymentBinding.backImage.setOnClickListener(v -> {
             requireActivity().onBackPressed();
         });
     }

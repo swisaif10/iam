@@ -23,6 +23,7 @@ import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentPaymentBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnItemSelectedListener;
+import digital.iam.ma.listener.OnRenew;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
@@ -41,6 +42,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private FragmentPaymentBinding fragmentBinding;
     private PaymentViewModel viewModel;
+    private PaymentData paymentData;
     private PreferenceManager preferenceManager;
     private int position = 0;
 
@@ -88,8 +90,26 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     @Override
     public void onItemSelected(Order order, Boolean payment) {
-        if (payment)
-            payOrder(String.valueOf(order.getOrderId()));
+        if (payment){
+            Utilities.showPaymentDialog(getContext(), this.paymentData, new OnRenew() {
+                @Override
+                public void onRenew(String sku, int mode) {
+                    switch(mode){
+                        case 0:
+                            payOrder(String.valueOf(order.getOrderId()));
+                            break;
+                        case 1:
+                            ((DashboardActivity) requireActivity()).replaceFragment(new MobilePaymentFragment(), "MobilePayment");
+                            break;
+                        case 2:
+                            ((DashboardActivity) requireActivity()).replaceFragment(new CashPaymentFragment(), "cashPayment");
+                            break;
+
+
+                    }
+                }
+            });
+        }
         else {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setShowTitle(true);
@@ -314,6 +334,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
+                this.paymentData = responseData.data;
                 initPaymentList(responseData.data);
                 break;
             case ERROR:
