@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Insets;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -255,6 +257,34 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
             }
             closeSideMenu();
         });
+
+        // CALL
+        activityBinding.call1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dial = new Intent(Intent.ACTION_DIAL);
+                dial.setData(Uri.parse("tel:" + activityBinding.call1.getText().toString().trim().replace("-","")));
+                try {
+                    startActivity(dial);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(DashboardActivity.this, "There is no application to perform this action", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        activityBinding.call2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dial = new Intent(Intent.ACTION_DIAL);
+                dial.setData(Uri.parse("tel:" + activityBinding.call2.getText().toString().trim()));
+                try {
+                    startActivity(dial);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(DashboardActivity.this, "There is no application to perform this action", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     private void closeSideMenu() {

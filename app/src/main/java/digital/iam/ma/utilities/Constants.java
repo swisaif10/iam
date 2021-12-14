@@ -3,6 +3,7 @@ package digital.iam.ma.utilities;
 public interface Constants {
     String SHARED_PREFS_NAME = "digital.iam.ma";
     String TOKEN = "TOKEN";
+    String ID = "ID";
     String EMAIL = "EMAIL";
     String PASSWORD = "PASSWORD";
     String FIRSTNAME = "FIRSTNAME";

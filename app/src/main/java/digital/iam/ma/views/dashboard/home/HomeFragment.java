@@ -30,6 +30,8 @@ import digital.iam.ma.listener.OnRenew;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.consumption.MyConsumptionResponse;
+import digital.iam.ma.models.fatourati.FatouratiResponse;
+import digital.iam.ma.models.login.Line;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
 import digital.iam.ma.models.orders.Order;
@@ -42,6 +44,7 @@ import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.BundlesViewModel;
 import digital.iam.ma.viewmodels.HomeViewModel;
+import digital.iam.ma.viewmodels.PaymentViewModel;
 import digital.iam.ma.viewmodels.RechargeViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.dashboard.DashboardActivity;
@@ -52,12 +55,14 @@ public class HomeFragment extends Fragment {
 
     private static final String REQUEST_CODE = "100";
 
-    private FragmentHomeBinding fragmentBinding;
+    FragmentHomeBinding fragmentBinding;
     private HomeViewModel viewModel;
     private PreferenceManager preferenceManager;
     private RechargeViewModel rechargeViewModel;
     private BundlesViewModel bundlesViewModel;
     private PaymentData responsePaymentData;
+    private PaymentViewModel paymentViewModel;
+    private Line line;
     private int position = 0;
     private int checkedMode;
 
@@ -98,20 +103,55 @@ public class HomeFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         rechargeViewModel = ViewModelProviders.of(this).get(RechargeViewModel.class);
+        paymentViewModel = ViewModelProviders.of(this).get(PaymentViewModel.class);
         bundlesViewModel = ViewModelProviders.of(this).get(BundlesViewModel.class);
         viewModel.getMyConsumptionLiveData().observe(this, this::handleMyConsumptionData);
         viewModel.getGetOrdersLiveData().observe(this, this::handleGetOrdersData);
         viewModel.getRechargeListLiveData().observe(this, this::handleGetRechargesListData);
         viewModel.getRenewBundleLiveData().observe(this, this::handleRenewBundleData);
+        paymentViewModel.getFatouratiLiveData().observe(this, this::handleFatouratiData);
         rechargeViewModel.getRechargePurchase().observe(this, this::handleRechargePurchase);
         bundlesViewModel.getPaymentListLiveData().observe(this, this::handlePaymentListData);
 
-        assert getArguments() != null;
-        position = getArguments().getInt(Constants.POSITION);
+        //assert getArguments() != null;
+        if (getArguments() != null)
+            position = getArguments().getInt(Constants.POSITION);
+
+        line = ((DashboardActivity) requireActivity()).getList().get(position);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
+    }
+
+    private void handleFatouratiData(Resource<FatouratiResponse> fatouratiResponseResource) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
+        switch (fatouratiResponseResource.status) {
+            case SUCCESS:
+                if (fatouratiResponseResource.data.response.code == 200){
+                    String ref = "";
+                    if (fatouratiResponseResource.data != null)
+                        ref += fatouratiResponseResource.data.getResponse().getRefFat();
+                    Log.d("REF", "handleFatouratiData: " + ref);
+                    MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("REF", ref);
+                    mobilePaymentFragment.setArguments(bundle);
+                    ((DashboardActivity) requireActivity()).replaceFragment(mobilePaymentFragment, "MobilePayment");
+                }
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), fatouratiResponseResource.message);
+                break;
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), fatouratiResponseResource.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
+                break;
+        }
     }
 
     private void handleRechargePurchase(Resource<RechargePurchase> rechargePurchaseResource) {
@@ -189,13 +229,34 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Utilities.showPaymentDialog(getContext(), responsePaymentData, new OnRenew() {
                     @Override
-                    public void onRenew(String sku, int mode) {
-                        switch(mode){
+                    public void onPurchase(int mode) {
+                        switch (mode) {
                             case 0:
                                 renewBundle();
                                 break;
                             case 1:
-                                ((DashboardActivity) requireActivity()).replaceFragment(new MobilePaymentFragment(), "MobilePayment");
+                                StringBuilder fullname = new StringBuilder();
+                                fullname.append(preferenceManager.getValue(Constants.FIRSTNAME, ""));
+                                fullname.append(" ");
+                                fullname.append(preferenceManager.getValue(Constants.LASTNAME, ""));
+                                fragmentBinding.loader.setVisibility(View.VISIBLE);
+                                ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+                                String price = line.getPrice().trim().replaceAll("DH/mois", "");
+
+                                paymentViewModel.getFatourati(
+                                        String.valueOf((int) Float.parseFloat(price.replace(",","."))),
+                                        String.valueOf(line.getOrderId()),
+                                        preferenceManager.getValue(Constants.EMAIL, ""),
+                                        fullname.toString(),
+                                        preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
+                                        preferenceManager.getValue(Constants.ID, ""),
+                                        line.getMsisdn(),
+                                        "purchase",
+                                        "500",
+                                        preferenceManager.getValue(Constants.ADDRESS, ""),
+                                        preferenceManager.getValue(Constants.TOKEN, ""),
+                                        preferenceManager.getValue(Constants.LANGUAGE, "fr")
+                                );
                                 break;
                             case 2:
                                 ((DashboardActivity) requireActivity()).replaceFragment(new CashPaymentFragment(), "cashPayment");
@@ -262,13 +323,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void getOrders() {
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
         viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleGetOrdersData(Resource<GetOrdersData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
         ((DashboardActivity) requireActivity()).activateUserInteraction();
-
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;

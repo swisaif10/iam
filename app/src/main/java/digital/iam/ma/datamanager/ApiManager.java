@@ -16,6 +16,7 @@ import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.controlversion.ControlVersionData;
+import digital.iam.ma.models.fatourati.FatouratiResponse;
 import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
@@ -577,6 +578,25 @@ public class ApiManager {
 
             @Override
             public void onFailure(@NonNull Call<PaymentData> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+
+    public void getFatourati(String total_amount, String order_id, String client_email, String client_name, String client_tel, String client_id, String msisdn, String payment_type, String cart_id, String client_address, String token, String _locale, MutableLiveData<Resource<FatouratiResponse>> mutableLiveData) {
+        Call<FatouratiResponse> call = RetrofitClient.getInstance().endpoint().getFatouraty(total_amount, order_id, client_email, client_name, client_tel, client_id, msisdn, payment_type, cart_id, client_address, token, _locale);
+        call.enqueue(new Callback<FatouratiResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<FatouratiResponse> call, @NonNull Response<FatouratiResponse> response) {
+                if (response.body() != null && response.code() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.message(), null));
+            }
+
+            @Override
+            public void onFailure(Call<FatouratiResponse> call, Throwable t) {
                 HandleThrowableException(t, mutableLiveData);
             }
         });

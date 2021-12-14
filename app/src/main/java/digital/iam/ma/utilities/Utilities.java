@@ -154,7 +154,7 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showPaymentDialog(Context context, PaymentData responsePaymentData, OnRenew onRenew) {
+    static void showPaymentDialog(Context context, PaymentData responsePaymentData, OnRenew onPurchase) {
 
         if (context == null) {
             return;
@@ -230,9 +230,9 @@ public interface Utilities {
             public void onClick(View v) {
                 dialog.dismiss();
                 if (responsePaymentData != null)
-                    onRenew.onRenew("", selectedode[0]);
+                    onPurchase.onPurchase(selectedode[0]);
                 else
-                    onRenew.onRenew("", 3);
+                    onPurchase.onPurchase(3);
             }
         });
 

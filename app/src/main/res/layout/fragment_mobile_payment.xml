@@ -48,24 +48,29 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical">
 
 
-                <RadioButton
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="#FD9450"
                     android:checked="true"
+                    android:layout_marginTop="20dp"
+                    android:visibility="visible"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/montserrat_bold"
                     android:layoutDirection="ltr"
                     android:paddingLeft="10dp"
                     android:text="@string/payment_mobile_label"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     app:cornerRadius="5dp" />
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -75,12 +80,12 @@
                     android:layout_marginRight="25dp"
                     android:fontFamily="@font/montserrat_regular"
                     android:includeFontPadding="false"
-                    android:text="Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page, le texte définitif venant remplacer le faux-texte dès qu’il est prêt ou que la mise en page est achevée"
                     android:textColor="@color/black"
                     android:textSize="13sp"
                     android:textStyle="normal" />
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="20dp" />
 
@@ -88,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="20dp"
                     android:background="@color/background"
                     app:cardCornerRadius="10dp">
@@ -119,6 +124,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/ref"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -126,7 +132,7 @@
                                 android:fontFamily="@font/montserrat_medium"
                                 android:gravity="right"
                                 android:includeFontPadding="false"
-                                android:text="13389728"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -158,7 +164,7 @@
                                 android:fontFamily="@font/montserrat_medium"
                                 android:gravity="right"
                                 android:includeFontPadding="false"
-                                android:text="22/04/2025"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="13sp" />
                         </LinearLayout>

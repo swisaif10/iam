@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment;
 
 import digital.iam.ma.databinding.FragmentMobilePaymentBinding;
 import digital.iam.ma.views.dashboard.DashboardActivity;
+import digital.iam.ma.views.dashboard.home.HomeFragment;
 
 public class MobilePaymentFragment extends Fragment {
 
     private FragmentMobilePaymentBinding fragmentBinding;
     private int position = 0;
+    private String ref = "";
 
     public MobilePaymentFragment() {
     }
@@ -25,8 +27,11 @@ public class MobilePaymentFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //assert getArguments() != null;
-        if (getArguments() != null)
+        if (getArguments() != null){
             position = getArguments().getInt("POSITION");
+            ref = getArguments().getString("REF");
+        }
+
     }
 
     @Override
@@ -45,8 +50,10 @@ public class MobilePaymentFragment extends Fragment {
         });
 
         fragmentBinding.backImage.setOnClickListener(v -> {
-            requireActivity().onBackPressed();
+            //requireActivity().onBackPressed();
+            ((DashboardActivity) requireActivity()).replaceFragment(new HomeFragment(), "HOME");
         });
+        fragmentBinding.ref.setText(ref);
     }
 
     @Override

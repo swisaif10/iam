@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import digital.iam.ma.Gray;
 import digital.iam.ma.databinding.FragmentLoginBinding;
 import digital.iam.ma.databinding.FragmentLoginNewBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
@@ -85,8 +86,9 @@ public class LoginFragment extends Fragment {
                     && !fragmentBinding.password.getText().toString().equalsIgnoreCase(""))
                 login(fragmentBinding.username.getText().toString(), fragmentBinding.password.getText().toString());
         });
-        fragmentBinding.empreinte.setOnClickListener(v -> enableTouchID());
-        fragmentBinding.face.setOnClickListener(v -> enableFaceId());
+        //BiometricManager.Authenticators.BIOMETRIC_STRONG
+        fragmentBinding.empreinte.setOnClickListener(v -> biometricAuthentication(BiometricManager.Authenticators.BIOMETRIC_STRONG));
+        fragmentBinding.face.setOnClickListener(v -> biometricAuthentication(BiometricManager.Authenticators.BIOMETRIC_WEAK));
         //fragmentBinding.eye.setOnClickListener(v -> enableTouchID());
 
         if (!preferenceManager.getValue(Constants.EMAIL, "").equalsIgnoreCase("")
@@ -170,6 +172,7 @@ public class LoginFragment extends Fragment {
                     preferenceManager.putValue(Constants.POSTAL_CODE, responseData.data.getResponse().getShippingPostcode());
                     preferenceManager.putValue(Constants.CIN, responseData.data.getResponse().getCin());
                     preferenceManager.putValue(Constants.GENDER, responseData.data.getResponse().getGender());
+                    preferenceManager.putValue(Constants.ID, responseData.data.getResponse().getId());
                     System.out.println("Token : " + responseData.data.getResponse().getToken());
                     if (isFirstLogin) {
                         preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
@@ -225,12 +228,12 @@ public class LoginFragment extends Fragment {
         biometricPrompt.authenticate(promptInfo);
     }
 
-    private void enableFaceId() {
+    private void biometricAuthentication(int biometric) {
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Connexion biométrique")
                 .setSubtitle("Connectez-vous à l’aide de vos informations d’identification biométriques")
                 .setNegativeButtonText("Annuler")
-                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+                .setAllowedAuthenticators(biometric)
                 .build();
         
         Executor executor = ContextCompat.getMainExecutor(requireContext());

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnItemSelectedListener;
 import digital.iam.ma.listener.OnRenew;
 import digital.iam.ma.models.cmi.CMIPaymentData;
+import digital.iam.ma.models.fatourati.FatouratiResponse;
+import digital.iam.ma.models.login.Line;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.orders.GetOrdersResponse;
 import digital.iam.ma.models.orders.Order;
@@ -45,6 +48,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     private PaymentData paymentData;
     private PreferenceManager preferenceManager;
     private int position = 0;
+    private Line line;
 
     public PaymentFragment() {
     }
@@ -58,13 +62,48 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         viewModel.getRenewBundleLiveData().observe(this, this::handleRenewBundleData);
         viewModel.getOrderPaymentLiveData().observe(this, this::handleOrderPaymentData);
         viewModel.getPaymentListLiveData().observe(this, this::handlePaymentListData);
+        viewModel.getFatouratiLiveData().observe(this, this::handleFatouratiData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
 
-        assert getArguments() != null;
-        position = getArguments().getInt("POSITION");
+        if (getArguments() != null){
+            position = getArguments().getInt("POSITION");
+        }
+
+        line = ((DashboardActivity) requireActivity()).getList().get(position);
+
+    }
+
+    private void handleFatouratiData(Resource<FatouratiResponse> fatouratiResponseResource) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
+        switch (fatouratiResponseResource.status) {
+            case SUCCESS:
+                if (fatouratiResponseResource.data.response.code == 200){
+                    String ref = "";
+                    if (fatouratiResponseResource.data != null)
+                        ref += fatouratiResponseResource.data.getResponse().getRefFat();
+                    Log.d("REF", "handleFatouratiData: " + ref);
+                    MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("REF", ref);
+                    mobilePaymentFragment.setArguments(bundle);
+                    ((DashboardActivity) requireActivity()).replaceFragment(mobilePaymentFragment, "MobilePayment");
+                }
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), fatouratiResponseResource.message);
+                break;
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), fatouratiResponseResource.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
+                break;
+        }
     }
 
     @Override
@@ -93,13 +132,33 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         if (payment){
             Utilities.showPaymentDialog(getContext(), this.paymentData, new OnRenew() {
                 @Override
-                public void onRenew(String sku, int mode) {
+                public void onPurchase(int mode) {
                     switch(mode){
                         case 0:
                             payOrder(String.valueOf(order.getOrderId()));
                             break;
                         case 1:
-                            ((DashboardActivity) requireActivity()).replaceFragment(new MobilePaymentFragment(), "MobilePayment");
+                            Log.d("ORDER", "onPurchase: " + order.getOrderTotal());
+                            fragmentBinding.loader.setVisibility(View.VISIBLE);
+                            ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+                            String price = order.getOrderTotal().replace("MAD","");
+                            String fullname = preferenceManager.getValue(Constants.FIRSTNAME, "") +
+                                    " " +
+                                    preferenceManager.getValue(Constants.LASTNAME, "");
+                            viewModel.getFatourati(
+                                    price.trim(),
+                                    String.valueOf(order.getOrderId()),
+                                    preferenceManager.getValue(Constants.EMAIL, ""),
+                                    fullname,
+                                    preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
+                                    preferenceManager.getValue(Constants.ID, ""),
+                                    line.getMsisdn(),
+                                    "purchase",
+                                    "500",
+                                    preferenceManager.getValue(Constants.ADDRESS, ""),
+                                    preferenceManager.getValue(Constants.TOKEN, ""),
+                                    preferenceManager.getValue(Constants.LANGUAGE, "fr")
+                            );
                             break;
                         case 2:
                             ((DashboardActivity) requireActivity()).replaceFragment(new CashPaymentFragment(), "cashPayment");

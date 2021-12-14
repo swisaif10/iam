@@ -32,4 +32,7 @@ public interface ApiEndpoints {
 
     String GET_HELP_URL = "{locale}/faq";
     String GET_PAYMENT_LIST_URL = "{locale}/payment/gateways/liste";
+
+    // Fatouraty
+    String FATOURATY_URL = "{locale}/payment/fatourati/init";
 }

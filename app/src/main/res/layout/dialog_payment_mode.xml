@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/radio_on"
+                    android:background="@drawable/radio_off"
                     android:buttonTint="@color/radio_tint"
                     android:drawableLeft="@drawable/carte_bancaire"
                     android:drawablePadding="10dp"
@@ -62,7 +62,7 @@
                     android:paddingLeft="10dp"
                     android:text="@string/card_bank_label"
                     android:textSize="16sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cornerRadius="5dp" />
 
                 <RadioButton
@@ -81,7 +81,7 @@
                     android:paddingLeft="10dp"
                     android:text="@string/app_mobile_label"
                     android:textSize="16sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cornerRadius="5dp" />
 
                 <RadioButton
@@ -92,7 +92,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/radio_off"
                     android:buttonTint="@color/radio_tint"
-                    android:drawableStart="@drawable/ic_mtcash"
+                    android:drawableEnd="@drawable/ic_mtcash"
                     android:drawablePadding="10dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:layoutDirection="rtl"
@@ -100,7 +100,7 @@
                     android:paddingStart="10dp"
                     android:text="@string/mtcash_label"
                     android:textSize="16sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cornerRadius="5dp" />
             </RadioGroup>
 

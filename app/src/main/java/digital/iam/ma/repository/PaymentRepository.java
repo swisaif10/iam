@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.datamanager.ApiManager;
 import digital.iam.ma.models.cmi.CMIPaymentData;
+import digital.iam.ma.models.fatourati.FatouratiResponse;
 import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.payment.PaymentData;
@@ -26,4 +27,10 @@ public class PaymentRepository {
     public void getPaymentList(String lang, MutableLiveData<Resource<PaymentData>> mutableLiveData) {
         new ApiManager().getPaymentList(lang, mutableLiveData);
     }
+
+    public void getFatourati(String total_amount, String order_id, String client_email, String client_name, String client_tel, String client_id, String msisdn, String payment_type, String cart_id, String client_address, String token, String _locale, MutableLiveData<Resource<FatouratiResponse>> mutableLiveData) {
+        new ApiManager().getFatourati(total_amount, order_id, client_email, client_name, client_tel, client_id, msisdn, payment_type, cart_id, client_address, token, _locale, mutableLiveData);
+    }
+
+
 }

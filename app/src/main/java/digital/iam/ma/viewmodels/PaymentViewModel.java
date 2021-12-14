@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.models.cmi.CMIPaymentData;
+import digital.iam.ma.models.fatourati.FatouratiResponse;
 import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.orders.GetOrdersData;
 import digital.iam.ma.models.payment.PaymentData;
@@ -20,6 +21,8 @@ public class PaymentViewModel extends AndroidViewModel {
     private final MutableLiveData<Resource<CMIPaymentData>> renewBundleLiveData;
     private final MutableLiveData<Resource<CMIPaymentData>> orderPaymentLiveData;
     private final MutableLiveData<Resource<PaymentData>> paymentListLiveData;
+    private final MutableLiveData<Resource<FatouratiResponse>> fatouratiLiveData;
+
 
     public PaymentViewModel(@NonNull Application application) {
         super(application);
@@ -29,6 +32,7 @@ public class PaymentViewModel extends AndroidViewModel {
         renewBundleLiveData = new MutableLiveData<>();
         orderPaymentLiveData = new MutableLiveData<>();
         paymentListLiveData = new MutableLiveData<>();
+        fatouratiLiveData = new MutableLiveData<>();
     }
 
     public MutableLiveData<Resource<GetOrdersData>> getGetOrdersLiveData() {
@@ -47,6 +51,10 @@ public class PaymentViewModel extends AndroidViewModel {
         return paymentListLiveData;
     }
 
+    public MutableLiveData<Resource<FatouratiResponse>> getFatouratiLiveData() {
+        return fatouratiLiveData;
+    }
+
     public void getOrders(String token, String lang) {
         repository.getOrders(token, lang, getOrdersLiveData);
     }
@@ -61,6 +69,10 @@ public class PaymentViewModel extends AndroidViewModel {
 
     public void getPaymentList(String lang) {
         repository.getPaymentList(lang, paymentListLiveData);
+    }
+
+    public void getFatourati(String total_amount, String order_id, String client_email, String client_name, String client_tel, String client_id, String msisdn, String payment_type, String cart_id, String client_address, String token, String _locale) {
+        repository.getFatourati(total_amount, order_id, client_email, client_name, client_tel, client_id, msisdn, payment_type, cart_id, client_address, token, _locale, fatouratiLiveData);
     }
 
 }

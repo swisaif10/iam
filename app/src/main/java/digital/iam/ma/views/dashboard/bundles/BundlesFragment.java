@@ -186,6 +186,7 @@ public class BundlesFragment extends Fragment {
                     selectedSku = item.getSku();
                     fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
                     fragmentBinding.changeBundleBtn.setEnabled(!selectedSku.equalsIgnoreCase(actualSku));
+                    //fragmentBinding.changeBundleBtn.setVisibility(View.GONE);
                 }
             }
 
@@ -219,6 +220,7 @@ public class BundlesFragment extends Fragment {
                     selectedSku = item.getSku();
                     fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
                     fragmentBinding.changeBundleBtn.setEnabled(!selectedSku.equalsIgnoreCase(actualSku));
+                    //fragmentBinding.changeBundleBtn.setVisibility(View.GONE);
                 }
             }
 
@@ -243,6 +245,7 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.changeBundleBtn.setOnClickListener(v -> {
             fragmentBinding.layoutModePayment.setVisibility(View.VISIBLE);
             fragmentBinding.changeBundleBtn.setEnabled(false);
+            fragmentBinding.changeBundleBtn.setVisibility(View.GONE);
         });
 
         fragmentBinding.radioGroup.setOnCheckedChangeListener(this::doOnModePaymentCheckChanged);
@@ -314,6 +317,7 @@ public class BundlesFragment extends Fragment {
     private void handleSwitchBundleData(Resource<CMIPaymentData> responseData) {
         fragmentBinding.loader.setVisibility(View.GONE);
         ((DashboardActivity) requireActivity()).activateUserInteraction();
+        fragmentBinding.changeBundleBtn.setVisibility(View.VISIBLE);
         switch (responseData.status) {
             case SUCCESS:
 

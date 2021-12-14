@@ -14,6 +14,8 @@ public class LoginResponseData {
     @Expose
     private String lastname;
     @Expose
+    private String id;
+    @Expose
     private String email;
     @SerializedName("shipping_addresse")
     private String shippingAddress;
@@ -126,5 +128,13 @@ public class LoginResponseData {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

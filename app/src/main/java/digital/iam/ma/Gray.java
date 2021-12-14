@@ -7,12 +7,15 @@ import android.content.res.Configuration;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.flurry.android.FlurryAgent;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
+import digital.iam.ma.firebase.FirebaseService;
 import digital.iam.ma.utilities.LocaleManager;
 
 public class Gray extends Application {
 
     private static Context context;
+
 
     @Override
     public void onCreate() {

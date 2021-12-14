@@ -15,7 +15,7 @@
 
     <string name="mode_payment_label">Mode de paiement</string>
     <string name="card_bank_label">Carte bancaire</string>
-    <string name="app_mobile_label">Via l’application mobile</string>
+    <string name="app_mobile_label">Via l’application mobile bancaire</string>
     <string name="mtcash_label">MT CASH</string>
 
     <string name="panier_label">Panier</string>
@@ -23,7 +23,7 @@
     <string name="description_mtcash_label">Votre transaction ne peut pas aboutir Il semblerait qu’aucun compte MTCASH ne soit associé à ce numéro de téléphone. Veuillez saisir un autre numéro ou créer un compte MTCASH</string>
     <string name="num_phone_label">NUMÉRO DE TÉLÉPHONE</string>
 
-    <string name="payment_mobile_label">Paiement via l’application mobile</string>
+    <string name="payment_mobile_label">Paiement via l’application mobile bancaire</string>
     <string name="payment_code_label">Code de paiement</string>
     <string name="date_exp_label">Date d’expiration</string>
 

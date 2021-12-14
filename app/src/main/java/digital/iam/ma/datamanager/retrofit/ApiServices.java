@@ -8,6 +8,7 @@ import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.controlversion.ControlVersionData;
+import digital.iam.ma.models.fatourati.FatouratiResponse;
 import digital.iam.ma.models.help.HelpData;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
@@ -185,7 +186,26 @@ public interface ApiServices {
             @Path("locale") String _locale
     );
 
+    @FormUrlEncoded
+    @POST(ApiEndpoints.FATOURATY_URL)
+    Call<FatouratiResponse> getFatouraty(
+            @Field("total_amount") String total_amount,
+            @Field("order_id") String order_id,
+            @Field("client_email") String client_email,
+            @Field("client_name") String client_name,
+            @Field("client_tel") String client_tel,
+            @Field("client_id") String client_id,
+            @Field("msisdn") String msisdn,
+            @Field("payment_type") String payment_type,
+            @Field("cart_id") String cart_id,
+            @Field("client_address") String client_address,
+            @Field("token") String token,
+            @Path("locale") String locale
+    );
+
     @GET(ApiEndpoints.GET_PAYMENT_LIST_URL)
     Call<PaymentData> getPaymentListData(@Path("locale") String lang);
+
+
 
 }

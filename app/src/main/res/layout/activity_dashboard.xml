@@ -380,6 +380,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/call_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -393,16 +394,17 @@
                     app:drawableStartCompat="@drawable/ic_call" />
 
                 <TextView
+                    android:id="@+id/call_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
-                    android:drawableTint="@color/blue"
                     android:fontFamily="@font/montserrat_medium"
                     android:gravity="center"
                     android:text="@string/phone_string2"
                     android:textColor="@color/blue"
                     android:textSize="12sp"
-                    app:drawableStartCompat="@drawable/ic_call" />
+                    app:drawableStartCompat="@drawable/ic_call"
+                    app:drawableTint="@color/blue" />
 
                 <RelativeLayout
                     android:id="@+id/logoutBtn"
@@ -414,12 +416,12 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:drawablePadding="10dp"
-                        android:drawableTint="@color/blue"
                         android:fontFamily="@font/montserrat_medium"
                         android:text="@string/logout_btn_label"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
-                        app:drawableStartCompat="@drawable/ic_deconnexion" />
+                        app:drawableStartCompat="@drawable/ic_deconnexion"
+                        app:drawableTint="@color/blue" />
                 </RelativeLayout>
             </LinearLayout>
 

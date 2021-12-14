@@ -24,7 +24,7 @@ import digital.iam.ma.views.authentication.AuthenticationActivity;
 
 public class ResetPasswordFragment extends Fragment {
 
-    private FragmentResetPasswordBinding fragmentBinding;
+    FragmentResetPasswordBinding fragmentBinding;
     private PreferenceManager preferenceManager;
     private AuthenticationViewModel viewModel;
     private String resetToken;
