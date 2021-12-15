@@ -61,4 +61,6 @@ public class MobilePaymentFragment extends Fragment {
         super.onResume();
         ((DashboardActivity) requireActivity()).showHideTabLayout(View.VISIBLE);
     }
+
+
 }

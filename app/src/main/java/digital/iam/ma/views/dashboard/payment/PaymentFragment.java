@@ -47,6 +47,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     private PaymentViewModel viewModel;
     private PaymentData paymentData;
     private PreferenceManager preferenceManager;
+    private GetOrdersResponse ordersResponse;
     private int position = 0;
     private Line line;
 
@@ -210,7 +211,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     }
 
     private void init(GetOrdersResponse response) {
-
+        this.ordersResponse = response;
         fragmentBinding.bundleName.setText(((DashboardActivity) requireActivity()).getList().get(position).getBundleName());
         fragmentBinding.msisdn.setText(((DashboardActivity) requireActivity()).getList().get(position).getMsisdn());
         fragmentBinding.price.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice());
@@ -266,7 +267,9 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
             updateRadioGroup(fragmentBinding.radio0);
         } else if (checkedRadioId == fragmentBinding.radio1.getId()) {
-
+            updateRadioGroup(fragmentBinding.radio1);
+            // RECHARGE
+            /*
             Bundle bundle = new Bundle();
             MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
             bundle.putInt(Constants.POSITION, position);
@@ -275,9 +278,31 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                     .beginTransaction()
                     .replace(R.id.container, mobilePaymentFragment, Constants.MOBILE_PAYMENT)
                     .addToBackStack(null)
-                    .commit();
+                    .commit();*/
 
-            updateRadioGroup(fragmentBinding.radio1);
+            fragmentBinding.loader.setVisibility(View.VISIBLE);
+            ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+            String price = fragmentBinding.price.getText().toString().trim().replaceAll("DH/mois", "");
+            // String price = ordersResponse.getPendingOrders().get(position).getOrderTotal().replace("MAD","");
+            Log.d("TAG", "doOnModePaymentCheckChanged: " + price);
+            String fullname = preferenceManager.getValue(Constants.FIRSTNAME, "") +
+                    " " +
+                    preferenceManager.getValue(Constants.LASTNAME, "");
+            viewModel.getFatourati(
+                    String.valueOf((int) Float.parseFloat(price.replace(",", "."))),
+                    String.valueOf(ordersResponse.getPendingOrders().get(position).getOrderId()),
+                    preferenceManager.getValue(Constants.EMAIL, ""),
+                    fullname,
+                    preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
+                    preferenceManager.getValue(Constants.ID, ""),
+                    line.getMsisdn(),
+                    "purchase",
+                    "500",
+                    preferenceManager.getValue(Constants.ADDRESS, ""),
+                    preferenceManager.getValue(Constants.TOKEN, ""),
+                    preferenceManager.getValue(Constants.LANGUAGE, "fr")
+            );
+
         } else if (checkedRadioId == fragmentBinding.radio2.getId()) {
 
             Bundle bundle2 = new Bundle();

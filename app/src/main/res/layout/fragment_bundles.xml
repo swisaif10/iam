@@ -361,7 +361,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="10dp"
-                                android:background="@drawable/radio_on"
+                                android:background="@drawable/radio_off"
                                 android:buttonTint="@color/radio_tint"
                                 android:drawableLeft="@drawable/carte_bancaire"
                                 android:drawablePadding="10dp"

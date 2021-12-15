@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.List;
 
+import at.grabner.circleprogress.AnimationState;
+import at.grabner.circleprogress.AnimationStateChangedListener;
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
@@ -129,7 +131,7 @@ public class HomeFragment extends Fragment {
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (fatouratiResponseResource.status) {
             case SUCCESS:
-                if (fatouratiResponseResource.data.response.code == 200){
+                if (fatouratiResponseResource.data.response.code == 200) {
                     String ref = "";
                     if (fatouratiResponseResource.data != null)
                         ref += fatouratiResponseResource.data.getResponse().getRefFat();
@@ -154,18 +156,49 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    // RECHARGE
     private void handleRechargePurchase(Resource<RechargePurchase> rechargePurchaseResource) {
         fragmentBinding.loader.setVisibility(View.GONE);
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (rechargePurchaseResource.status) {
             case SUCCESS:
-
                 switch (checkedMode) {
                     case 0:
-                        renewBundle();
+                        if (rechargePurchaseResource.data != null){
+                            Uri uri = Uri.parse(rechargePurchaseResource.data.getResponse().getUrl());
+                            CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+                            intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                            intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
+                                    android.R.anim.slide_out_right);
+                            CustomTabsIntent customTabsIntent = intentBuilder.build();
+                            customTabsIntent.launchUrl(requireActivity(), uri);
+                        }
                         break;
                     case 1:
-                        redirectViaAppMobile();
+                        fragmentBinding.loader.setVisibility(View.VISIBLE);
+                        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+                        String price = line.getPrice().trim().replaceAll("DH/mois", "");
+
+                        String fullname =
+                                preferenceManager.getValue(Constants.FIRSTNAME, "") +
+                                " " +
+                                preferenceManager.getValue(Constants.LASTNAME, "");
+
+                        paymentViewModel.getFatourati(
+                                String.valueOf((int) Float.parseFloat(price.replace(",", "."))),
+                                String.valueOf(line.getOrderId()),
+                                preferenceManager.getValue(Constants.EMAIL, ""),
+                                fullname,
+                                preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
+                                preferenceManager.getValue(Constants.ID, ""),
+                                line.getMsisdn(),
+                                "purchase",
+                                "500",
+                                preferenceManager.getValue(Constants.ADDRESS, ""),
+                                preferenceManager.getValue(Constants.TOKEN, ""),
+                                preferenceManager.getValue(Constants.LANGUAGE, "fr")
+                        );
+                        //redirectViaAppMobile();
                         break;
                     case 2:
                         redirectViaMtCash();
@@ -244,7 +277,7 @@ public class HomeFragment extends Fragment {
                                 String price = line.getPrice().trim().replaceAll("DH/mois", "");
 
                                 paymentViewModel.getFatourati(
-                                        String.valueOf((int) Float.parseFloat(price.replace(",","."))),
+                                        String.valueOf((int) Float.parseFloat(price.replace(",", "."))),
                                         String.valueOf(line.getOrderId()),
                                         preferenceManager.getValue(Constants.EMAIL, ""),
                                         fullname.toString(),

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,14 @@ import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.bundles.BundleItem;
 import digital.iam.ma.models.bundles.BundlesData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
+import digital.iam.ma.models.fatourati.FatouratiResponse;
+import digital.iam.ma.models.login.Line;
 import digital.iam.ma.models.payment.PaymentData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.BundlesViewModel;
+import digital.iam.ma.viewmodels.PaymentViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 import digital.iam.ma.views.dashboard.payment.paymentmode.CashPaymentFragment;
@@ -56,12 +60,14 @@ public class BundlesFragment extends Fragment {
 
     private FragmentBundlesBinding fragmentBinding;
     private BundlesViewModel viewModel;
+    private PaymentViewModel paymentViewModel;
     private PreferenceManager preferenceManager;
     private String selectedSku = "";
     private String actualSku = "";
     private Boolean canInternetSeek;
     private Boolean canCallSeek;
     private int position = 0;
+    private Line line;
 
 
     public BundlesFragment() {
@@ -73,17 +79,50 @@ public class BundlesFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(BundlesViewModel.class);
+        paymentViewModel = ViewModelProviders.of(this).get(PaymentViewModel.class);
         //viewModel.getMyBundleLiveData().observe(this, this::handleMyBundleDetailsData);
         viewModel.getGetBundlesLiveData().observe(this, this::handleBundlesData);
         viewModel.getSwitchBundleLiveData().observe(this, this::handleSwitchBundleData);
         viewModel.getPaymentListLiveData().observe(this, this::handlePaymentListData);
         viewModel.getRenewBundleLiveData().observe(this, this::handleRenewBundleData);
+        paymentViewModel.getFatouratiLiveData().observe(this, this::handleFatouratiData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
-        assert getArguments() != null;
-        position = getArguments().getInt(Constants.POSITION);
+        if (getArguments() != null)
+            position = getArguments().getInt(Constants.POSITION);
+        line = ((DashboardActivity) requireActivity()).getList().get(position);
+    }
+
+    private void handleFatouratiData(Resource<FatouratiResponse> fatouratiResponseResource) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
+        switch (fatouratiResponseResource.status) {
+            case SUCCESS:
+                if (fatouratiResponseResource.data.response.code == 200) {
+                    String ref = "";
+                    if (fatouratiResponseResource.data != null)
+                        ref += fatouratiResponseResource.data.getResponse().getRefFat();
+                    Log.d("REF", "handleFatouratiData: " + ref);
+                    MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("REF", ref);
+                    mobilePaymentFragment.setArguments(bundle);
+                    ((DashboardActivity) requireActivity()).replaceFragment(mobilePaymentFragment, "MobilePayment");
+                }
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), fatouratiResponseResource.message);
+                break;
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), fatouratiResponseResource.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
+                break;
+        }
     }
 
     @Override
@@ -184,6 +223,7 @@ public class BundlesFragment extends Fragment {
 
                     BundleItem item = searchBundleByDetails(bundles, key, call.last());
                     selectedSku = item.getSku();
+                    Log.d("TAG", "onSeeking: " + selectedSku);
                     fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
                     fragmentBinding.changeBundleBtn.setEnabled(!selectedSku.equalsIgnoreCase(actualSku));
                     //fragmentBinding.changeBundleBtn.setVisibility(View.GONE);
@@ -218,6 +258,7 @@ public class BundlesFragment extends Fragment {
 
                     BundleItem item = searchBundleByDetails(bundles, key, value);
                     selectedSku = item.getSku();
+                    Log.d("TAG", "onSeeking: " + selectedSku);
                     fragmentBinding.bundlePrice.setText(String.valueOf(item.getPrice()));
                     fragmentBinding.changeBundleBtn.setEnabled(!selectedSku.equalsIgnoreCase(actualSku));
                     //fragmentBinding.changeBundleBtn.setVisibility(View.GONE);
@@ -258,7 +299,6 @@ public class BundlesFragment extends Fragment {
 
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         switchBundle();
-
         if (checkedRadioId == fragmentBinding.radio0.getId()) {
             selectedPayment = 0;
             updateRadioGroup(fragmentBinding.radio0);
@@ -320,13 +360,43 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.changeBundleBtn.setVisibility(View.VISIBLE);
         switch (responseData.status) {
             case SUCCESS:
-
                 switch (selectedPayment) {
                     case 0:
-                        redirectCompteBcr();
+                        Uri uri = Uri.parse(responseData.data.getResponse().getUrl());
+                        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+                        intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                        intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
+                                android.R.anim.slide_out_right);
+                        CustomTabsIntent customTabsIntent = intentBuilder.build();
+                        customTabsIntent.launchUrl(requireActivity(), uri);
                         break;
                     case 1:
-                        redirectViaAppMobile();
+                        fragmentBinding.loader.setVisibility(View.VISIBLE);
+                        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+                        String price = line.getPrice().trim().replaceAll("DH/mois", "");
+
+                        String price1 = line.getSKu();
+                        Log.d("PRICE", "handleSwitchBundleData: " + price1);
+
+                        String fullname =
+                                preferenceManager.getValue(Constants.FIRSTNAME, "") +
+                                        " " +
+                                        preferenceManager.getValue(Constants.LASTNAME, "");
+                        paymentViewModel.getFatourati(
+                                String.valueOf((int) Float.parseFloat(price.replace(",", "."))),
+                                String.valueOf(line.getOrderId()),
+                                preferenceManager.getValue(Constants.EMAIL, ""),
+                                fullname,
+                                preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
+                                preferenceManager.getValue(Constants.ID, ""),
+                                line.getMsisdn(),
+                                "purchase",
+                                "500",
+                                preferenceManager.getValue(Constants.ADDRESS, ""),
+                                preferenceManager.getValue(Constants.TOKEN, ""),
+                                preferenceManager.getValue(Constants.LANGUAGE, "fr")
+                        );
+                        //redirectViaAppMobile();
                         break;
                     case 2:
                         redirectViaMtCash();
@@ -351,11 +421,20 @@ public class BundlesFragment extends Fragment {
 
     private void redirectCompteBcr() {
         ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        viewModel.switchBundle(
+                preferenceManager.getValue(Constants.TOKEN,""),
+                ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(),
+                selectedSku,
+                preferenceManager.getValue(Constants.LANGUAGE,"fr")
+
+        );
+        /*
         viewModel.renewBundle(
                 preferenceManager.getValue(Constants.TOKEN, ""),
                 ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(),
                 preferenceManager.getValue(Constants.LANGUAGE, "fr")
-        );
+        );*/
     }
 
     private void redirectViaAppMobile() {

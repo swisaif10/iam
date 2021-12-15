@@ -364,20 +364,29 @@ public interface Utilities {
             @Override
             public void onClick(View v) {
                 if (!rechargeDropDown.getText().toString().isEmpty()) {
-                    dialog.dismiss();
-                    if (rechargeSubItem[0] != null) {
-                        if (responsePaymentData != null)
-                            onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku(), selectedode[0]);
-                        else
-                            onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku(), 3);
+                    if (modePaymentRg.getCheckedRadioButtonId() != -1) {
+                        dialog.dismiss();
+                        if (rechargeSubItem[0] != null) {
+                            if (responsePaymentData != null) {
+                                Log.d("RECHARGE", "onClick: " + rechargeSubItem[0].getSku());
+                                onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku(), selectedode[0]);
+                            } else
+                                onRechargeSelectedListener.onPurchaseRecharge(rechargeSubItem[0].getSku(), 3);
+                        } else {
+                            onRechargeSelectedListener.onPurchaseRecharge(rechargeItem[0].getType().getSku(), selectedode[0]);
+                        }
                     } else {
-                        onRechargeSelectedListener.onPurchaseRecharge(rechargeItem[0].getType().getSku(), selectedode[0]);
+                        showErrorPopup(context, "Veuillez séléctionner une mode de paiment");
                     }
                 } else {
                     showErrorPopup(context, "Sélectionner une recharge svp");
                 }
             }
         });
+
+        /*
+
+         */
 
         container.setOnClickListener(v -> dialog.dismiss());
         dialog.setContentView(view);
