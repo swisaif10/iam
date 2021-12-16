@@ -1,15 +1,18 @@
 package digital.iam.ma.views.dashboard.payment.paymentmode;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import digital.iam.ma.databinding.FragmentMobilePaymentBinding;
+import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 import digital.iam.ma.views.dashboard.home.HomeFragment;
 
@@ -27,7 +30,7 @@ public class MobilePaymentFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //assert getArguments() != null;
-        if (getArguments() != null){
+        if (getArguments() != null) {
             position = getArguments().getInt("POSITION");
             ref = getArguments().getString("REF");
         }
@@ -50,8 +53,8 @@ public class MobilePaymentFragment extends Fragment {
         });
 
         fragmentBinding.backImage.setOnClickListener(v -> {
-            //requireActivity().onBackPressed();
-            ((DashboardActivity) requireActivity()).replaceFragment(new HomeFragment(), "HOME");
+            ((DashboardActivity) requireActivity()).onBackPressed();
+            //((DashboardActivity) requireActivity()).replaceFragment(new HomeFragment(), "HOME");
         });
         fragmentBinding.ref.setText(ref);
     }

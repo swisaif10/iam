@@ -104,8 +104,8 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
     public void onBackPressed() {
         if (menuIsVisible) {
             closeSideMenu();
-        } else if (selectedFragment == 0) {
-            finish();
+//        } else if (selectedFragment == 0) {
+//            finish();
         } else {
             selectedFragment = 0;
             HomeFragment homeFragment = new HomeFragment();

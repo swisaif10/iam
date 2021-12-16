@@ -139,32 +139,11 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                             break;
                         case 1:
                             Log.d("ORDER", "onPurchase: " + order.getOrderTotal());
-                            fragmentBinding.loader.setVisibility(View.VISIBLE);
-                            ((DashboardActivity) requireActivity()).deactivateUserInteraction();
-                            String price = order.getOrderTotal().replace("MAD","");
-                            String fullname = preferenceManager.getValue(Constants.FIRSTNAME, "") +
-                                    " " +
-                                    preferenceManager.getValue(Constants.LASTNAME, "");
-                            viewModel.getFatourati(
-                                    price.trim(),
-                                    String.valueOf(order.getOrderId()),
-                                    preferenceManager.getValue(Constants.EMAIL, ""),
-                                    fullname,
-                                    preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
-                                    preferenceManager.getValue(Constants.ID, ""),
-                                    line.getMsisdn(),
-                                    "purchase",
-                                    "500",
-                                    preferenceManager.getValue(Constants.ADDRESS, ""),
-                                    preferenceManager.getValue(Constants.TOKEN, ""),
-                                    preferenceManager.getValue(Constants.LANGUAGE, "fr")
-                            );
+                            payOrderViaAppMobile(order);
                             break;
                         case 2:
                             ((DashboardActivity) requireActivity()).replaceFragment(new CashPaymentFragment(), "cashPayment");
                             break;
-
-
                     }
                 }
             });
@@ -179,6 +158,29 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
             intent.putExtra("url", "http://www.orimi.com/pdf-test.pdf");
             startActivity(intent);*/
         }
+    }
+
+    private void payOrderViaAppMobile(Order order){
+        fragmentBinding.loader.setVisibility(View.VISIBLE);
+        ((DashboardActivity) requireActivity()).deactivateUserInteraction();
+        String price = order.getOrderTotal().replace("MAD","");
+        String fullname = preferenceManager.getValue(Constants.FIRSTNAME, "") +
+                " " +
+                preferenceManager.getValue(Constants.LASTNAME, "");
+        viewModel.getFatourati(
+                price.trim(),
+                String.valueOf(order.getOrderId()),
+                preferenceManager.getValue(Constants.EMAIL, ""),
+                fullname,
+                preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
+                preferenceManager.getValue(Constants.ID, ""),
+                line.getMsisdn(),
+                "purchase",
+                "500",
+                preferenceManager.getValue(Constants.ADDRESS, ""),
+                preferenceManager.getValue(Constants.TOKEN, ""),
+                preferenceManager.getValue(Constants.LANGUAGE, "fr")
+        );
     }
 
     private void getOrders() {
@@ -280,15 +282,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
             updateRadioGroup(fragmentBinding.radio1);
         } else if (checkedRadioId == fragmentBinding.radio2.getId()) {
 
-            Bundle bundle2 = new Bundle();
-            CashPaymentFragment cashPaymentFragment = new CashPaymentFragment();
-            bundle2.putInt(Constants.POSITION, position);
-            cashPaymentFragment.setArguments(bundle2);
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, cashPaymentFragment, Constants.MTCASH_PAYMENT)
-                    .addToBackStack(null)
-                    .commit();
+            ((DashboardActivity) requireActivity()).replaceFragment(new CashPaymentFragment(), "cashPayment");
 
             updateRadioGroup(fragmentBinding.radio2);
         }
