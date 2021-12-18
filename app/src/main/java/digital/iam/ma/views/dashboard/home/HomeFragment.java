@@ -22,8 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.List;
 
-import at.grabner.circleprogress.AnimationState;
-import at.grabner.circleprogress.AnimationStateChangedListener;
 import digital.iam.ma.R;
 import digital.iam.ma.databinding.FragmentHomeBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
@@ -103,6 +101,14 @@ public class HomeFragment extends Fragment {
             });
         }
 
+       /* if (getArguments() != null && getArguments().getString(Constants.QR_CODE) != null){
+            ActivateSimFragment fragment = new ActivateSimFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.QR_CODE, getArguments().getString(Constants.QR_CODE));
+            fragment.setArguments(bundle);
+            ((DashboardActivity)requireActivity()).replaceFragment(fragment, "QR_FRAGMENT");
+        }*/
+
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         rechargeViewModel = ViewModelProviders.of(this).get(RechargeViewModel.class);
         paymentViewModel = ViewModelProviders.of(this).get(PaymentViewModel.class);
@@ -131,17 +137,17 @@ public class HomeFragment extends Fragment {
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (fatouratiResponseResource.status) {
             case SUCCESS:
-                if (fatouratiResponseResource.data.response.code == 200) {
-                    String ref = "";
-                    if (fatouratiResponseResource.data != null)
+                if (fatouratiResponseResource.data != null)
+                    if (fatouratiResponseResource.data.response.code == 200) {
+                        String ref = "";
                         ref += fatouratiResponseResource.data.getResponse().getRefFat();
-                    Log.d("REF", "handleFatouratiData: " + ref);
-                    MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("REF", ref);
-                    mobilePaymentFragment.setArguments(bundle);
-                    ((DashboardActivity) requireActivity()).replaceFragment(mobilePaymentFragment, "MobilePayment");
-                }
+                        Log.d("REF", "handleFatouratiData: " + ref);
+                        MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("REF", ref);
+                        mobilePaymentFragment.setArguments(bundle);
+                        ((DashboardActivity) requireActivity()).replaceFragment(mobilePaymentFragment, "MobilePayment");
+                    }
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), fatouratiResponseResource.message);
@@ -164,7 +170,7 @@ public class HomeFragment extends Fragment {
             case SUCCESS:
                 switch (checkedMode) {
                     case 0:
-                        if (rechargePurchaseResource.data != null){
+                        if (rechargePurchaseResource.data != null) {
                             Uri uri = Uri.parse(rechargePurchaseResource.data.getResponse().getUrl());
                             CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
                             intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -181,8 +187,8 @@ public class HomeFragment extends Fragment {
 
                         String fullname =
                                 preferenceManager.getValue(Constants.FIRSTNAME, "") +
-                                " " +
-                                preferenceManager.getValue(Constants.LASTNAME, "");
+                                        " " +
+                                        preferenceManager.getValue(Constants.LASTNAME, "");
 
                         paymentViewModel.getFatourati(
                                 String.valueOf((int) Float.parseFloat(price.replace(",", "."))),
@@ -303,10 +309,11 @@ public class HomeFragment extends Fragment {
         });
 
         fragmentBinding.showMoreBtn.setOnClickListener(v -> ((DashboardActivity) requireActivity()).selectPaymentsTab());
-
+        preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, ((DashboardActivity) requireActivity()).getList().get(position).getState());
         if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
             fragmentBinding.activateSimBtn.setVisibility(View.VISIBLE);
             fragmentBinding.rechargeBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E1E1E1")));
+            fragmentBinding.rechargeBtn.setEnabled(false);
             fragmentBinding.renewBundleBtn.setVisibility(View.GONE);
         } else if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("active")) {
             fragmentBinding.activateSimBtn.setVisibility(View.GONE);

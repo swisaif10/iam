@@ -50,6 +50,7 @@ import digital.iam.ma.views.base.BaseActivity;
 import digital.iam.ma.views.dashboard.bundles.BundlesFragment;
 import digital.iam.ma.views.dashboard.contract.ContractActivity;
 import digital.iam.ma.views.dashboard.help.HelpActivity;
+import digital.iam.ma.views.dashboard.home.ActivateSimFragment;
 import digital.iam.ma.views.dashboard.home.HomeFragment;
 import digital.iam.ma.views.dashboard.payment.PaymentFragment;
 import digital.iam.ma.views.dashboard.personalinfo.PersonalInformationActivity;
@@ -92,7 +93,6 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         viewModel.getLogoutLiveData().observe(this, this::handleLogoutData);
         initLineDropDown();
         init();
-
         activityBinding.lineDropDown.setOnClickListener(v -> {
             lineClick = !lineClick;
             activityBinding.lineRecyclerView.setVisibility(lineClick ? View.VISIBLE : View.GONE);
@@ -168,8 +168,6 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         } else {
             activityBinding.arabicBtn.setPaintFlags(activityBinding.arabicBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         }
-
-
         activityBinding.tabLayout.setOnNavigationItemSelectedListener(this);
         activityBinding.tabLayout.setSelectedItemId(R.id.action_compte);
 

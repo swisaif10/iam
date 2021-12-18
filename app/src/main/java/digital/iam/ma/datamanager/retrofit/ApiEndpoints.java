@@ -35,4 +35,8 @@ public interface ApiEndpoints {
 
     // Fatouraty
     String FATOURATY_URL = "{locale}/payment/fatourati/init";
+
+    // Contract
+    String CONTRACT_URL = "{locale}/store/contract/{status}";
+
 }

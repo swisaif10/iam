@@ -6,6 +6,7 @@ import digital.iam.ma.models.cart.get.GetItemsData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.contract.Contract;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.controlversion.ControlVersionData;
 import digital.iam.ma.models.fatourati.FatouratiResponse;
@@ -177,6 +178,7 @@ public interface ApiServices {
     @POST(ApiEndpoints.UPDATE_SERVICES_URL)
     Call<SuspendContractData> updateServices(@Body UpdateServicesData updateServicesData,
                                              @Path("locale") String lang);
+
     @FormUrlEncoded
     @POST(ApiEndpoints.RECHARGE_PURCHASE)
     Call<RechargePurchase> purchaseRecharge(
@@ -206,6 +208,12 @@ public interface ApiServices {
     @GET(ApiEndpoints.GET_PAYMENT_LIST_URL)
     Call<PaymentData> getPaymentListData(@Path("locale") String lang);
 
-
-
+    @FormUrlEncoded
+    @POST(ApiEndpoints.CONTRACT_URL)
+    Call<Contract> changeContract(
+            @Field("token") String token,
+            @Field("msisdn") String msisdn,
+            @Path("locale") String locale,
+            @Path("status") String status
+    );
 }

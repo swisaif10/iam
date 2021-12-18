@@ -32,4 +32,5 @@ public interface Constants {
     //String DEV_URL  = "https://rctapigray.mobiblanc.com/api/";
     String PREPROD_URL  = "http://10.100.233.216:443/api_mobile/";
     String FIREBASE_TOKEN = "FIREBASE_TOKEN";
+    String QR_CODE = "QR_CODE";
 }

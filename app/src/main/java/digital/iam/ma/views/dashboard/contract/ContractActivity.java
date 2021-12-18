@@ -3,7 +3,9 @@ package digital.iam.ma.views.dashboard.contract;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,6 +22,7 @@ import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnConfirmClickListener;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.consumption.MyConsumptionResponse;
+import digital.iam.ma.models.contract.Contract;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.login.Line;
 import digital.iam.ma.utilities.Constants;
@@ -28,7 +31,6 @@ import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.ContractViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.base.BaseActivity;
-import digital.iam.ma.views.dashboard.DashboardActivity;
 
 public class ContractActivity extends BaseActivity implements OnConfirmClickListener {
 
@@ -53,21 +55,54 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
         viewModel.getChangeSIMLiveData().observe(this, this::handleChangeSIMData);
         viewModel.getResendPUKLiveData().observe(this, this::handleResendPUKData);
         viewModel.getMyConsumptionLiveData().observe(this, this::handleMyConsumptionData);
+        viewModel.getChangeContract().observe(this, this::handleChangeContarct);
         Intent intent = getIntent();
-        position = intent.getIntExtra(Constants.LINE,0);
+        position = intent.getIntExtra(Constants.LINE, 0);
         getMyConsumption();
+    }
+
+    private void handleChangeContarct(Resource<Contract> contractResource) {
+        activityBinding.loader.setVisibility(View.GONE);
+        switch (contractResource.status) {
+            case SUCCESS:
+                if (contractResource.data != null)
+                    Toast.makeText(ContractActivity.this, contractResource.data.getHeader().getMessage(), Toast.LENGTH_SHORT).show();
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(this, contractResource.message);
+                break;
+            case INVALID_TOKEN:
+                if (contractResource.data != null)
+                    Utilities.showErrorPopupWithClick(this, contractResource.data.getHeader().getMessage(), v -> {
+                        preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                        startActivity(new Intent(this, AuthenticationActivity.class));
+                        finishAffinity();
+                    });
+                break;
+        }
+
     }
 
     @Override
     public void onConfirmClick(String reason, String code, String type) {
+        Log.d("CONTRACT", "onConfirmClick: " + type);
+        String status = "";
         switch (type) {
             case "suspend":
-                suspendContract(reason);
+                status += "suspension";
+                changeContract(status);
                 break;
+                /*
+                suspendContract(reason);
+                break;*/
             case "renew":
+                status += "reactivation";
+                changeContract(status);
                 break;
             case "end":
-                endContract(reason, code);
+                status += "resiliation";
+                changeContract(status);
+                //endContract(reason, code);
                 break;
             case "change_sim":
                 changeSIM();
@@ -76,6 +111,11 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
                 resendPUK(code);
                 break;
         }
+    }
+
+    public void changeContract(String type) {
+        activityBinding.loader.setVisibility(View.VISIBLE);
+        viewModel.changeContract(preferenceManager.getValue(Constants.TOKEN, ""), getList().get(position).getMsisdn(), preferenceManager.getValue(Constants.LANGUAGE, "fr"), type);
     }
 
     private void getMyConsumption() {
@@ -126,7 +166,8 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
         activityBinding.renewContractBtn.setOnClickListener(v -> Utilities.showContractDialog(this, getString(R.string.renew_contract_title), getString(R.string.renew_contract_dialog_description)
                 + line.getExpireDate().replace("-", "/") + getString(R.string.bundle_name_label)
                 + line.getBundleName() + getString(R.string.to_label) + line.getPrice() + getString(R.string.dh_label), "renew", this));
-        activityBinding.endContractBtn.setOnClickListener(v -> sendOTP());
+        //activityBinding.endContractBtn.setOnClickListener(v -> sendOTP());
+        activityBinding.endContractBtn.setOnClickListener( v ->                 Utilities.showContractDialog(this, getString(R.string.end_contract_title), getString(R.string.end_contract_dialog_description), "end", this));
         activityBinding.changeSIMBtn.setOnClickListener(v -> Utilities.showContractDialog(this, getString(R.string.change_sim_title), getString(R.string.change_sim_message), "change_sim", this));
         activityBinding.resendCodePUKBtn.setOnClickListener(v -> Utilities.showContractDialog(this, getString(R.string.resend_puk_title), getString(R.string.resend_puk_message), "resend_puk", this));
 
@@ -135,7 +176,7 @@ public class ContractActivity extends BaseActivity implements OnConfirmClickList
 
     private void suspendContract(String reason) {
         activityBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.suspendContract(preferenceManager.getValue(Constants.TOKEN, ""),getList().get(position).getMsisdn(), reason, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.suspendContract(preferenceManager.getValue(Constants.TOKEN, ""), getList().get(position).getMsisdn(), reason, preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleSuspendContractData(Resource<SuspendContractData> responseData) {

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.datamanager.ApiManager;
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.contract.Contract;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.utilities.Resource;
 
@@ -31,5 +32,9 @@ public class ContractRepository {
 
     public void getMyConsumption(String token, String msisdn, String lang, MutableLiveData<Resource<MyConsumptionData>> mutableLiveData) {
         new ApiManager().getMyConsumption(token, msisdn, lang, mutableLiveData);
+    }
+
+    public void changeContract(String token, String msisdn, String locale, String status, MutableLiveData<Resource<Contract>> mutableLiveData){
+        new ApiManager().changeContract(token, msisdn, locale, status, mutableLiveData);
     }
 }

@@ -14,6 +14,7 @@ import digital.iam.ma.models.cart.get.GetItemsData;
 import digital.iam.ma.models.cmi.CMIPaymentData;
 import digital.iam.ma.models.commons.ResponseData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.contract.Contract;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.controlversion.ControlVersionData;
 import digital.iam.ma.models.fatourati.FatouratiResponse;
@@ -596,7 +597,25 @@ public class ApiManager {
             }
 
             @Override
-            public void onFailure(Call<FatouratiResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<FatouratiResponse> call, @NonNull Throwable t) {
+                HandleThrowableException(t, mutableLiveData);
+            }
+        });
+    }
+
+    public void changeContract(String token, String msisdn, String locale, String status, MutableLiveData<Resource<Contract>> mutableLiveData){
+        Call<Contract> call = RetrofitClient.getInstance().endpoint().changeContract(token, msisdn, locale, status);
+        call.enqueue(new Callback<Contract>() {
+            @Override
+            public void onResponse(@NonNull Call<Contract> call, @NonNull Response<Contract> response) {
+                if (response.body() != null && response.code() == 200)
+                    mutableLiveData.setValue(Resource.success(response.body()));
+                else
+                    mutableLiveData.setValue(Resource.error(response.message(), null));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Contract> call, @NonNull Throwable t) {
                 HandleThrowableException(t, mutableLiveData);
             }
         });

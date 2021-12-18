@@ -131,7 +131,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/show_password_selector"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:tint="#204CCB" />
                 </RelativeLayout>
             </LinearLayout>

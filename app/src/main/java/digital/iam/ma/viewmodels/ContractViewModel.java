@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import digital.iam.ma.models.consumption.MyConsumptionData;
+import digital.iam.ma.models.contract.Contract;
 import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.repository.ContractRepository;
 import digital.iam.ma.utilities.Resource;
@@ -20,6 +21,7 @@ public class ContractViewModel extends AndroidViewModel {
     private final MutableLiveData<Resource<SuspendContractData>> changeSIMLiveData;
     private final MutableLiveData<Resource<SuspendContractData>> resendPUKLiveData;
     private final MutableLiveData<Resource<MyConsumptionData>> myConsumptionLiveData;
+    private final MutableLiveData<Resource<Contract>> changeContract;
 
 
     public ContractViewModel(@NonNull Application application) {
@@ -32,6 +34,11 @@ public class ContractViewModel extends AndroidViewModel {
         changeSIMLiveData = new MutableLiveData<>();
         resendPUKLiveData = new MutableLiveData<>();
         myConsumptionLiveData = new MutableLiveData<>();
+        changeContract = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<Resource<Contract>> getChangeContract() {
+        return changeContract;
     }
 
     public MutableLiveData<Resource<SuspendContractData>> getSuspendContractLiveData() {
@@ -80,5 +87,9 @@ public class ContractViewModel extends AndroidViewModel {
 
     public void getMyConsumption(String token, String msisdn, String lang) {
         repository.getMyConsumption(token, msisdn, lang, myConsumptionLiveData);
+    }
+
+    public void changeContract(String token, String msisdn, String locale, String status){
+        repository.changeContract(token, msisdn, locale, status, changeContract);
     }
 }

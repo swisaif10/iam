@@ -470,11 +470,11 @@ public interface Utilities {
         messageTV.setText(message);
         switch (type) {
             case "suspend":
-                reason.setVisibility(View.VISIBLE);
+                reason.setVisibility(View.GONE);
                 break;
             case "end":
-                reason.setVisibility(View.VISIBLE);
-                code.setVisibility(View.VISIBLE);
+                reason.setVisibility(View.GONE);
+                code.setVisibility(View.GONE);
                 break;
             case "resend_puk":
                 code.setHint(R.string.phone_number_hint);
@@ -487,6 +487,9 @@ public interface Utilities {
         }
         cancel.setOnClickListener(v -> dialog.dismiss());
         confirm.setOnClickListener(v -> {
+            dialog.dismiss();
+            onConfirmClickListener.onConfirmClick("", "", type);
+            /*
             if (reason.getVisibility() == View.GONE && code.getVisibility() == View.GONE) {
                 dialog.dismiss();
                 onConfirmClickListener.onConfirmClick("", "", type);
@@ -499,7 +502,7 @@ public interface Utilities {
             } else if (reason.getVisibility() == View.VISIBLE && isNotEmpty(reason) && code.getVisibility() == View.VISIBLE && isNotEmpty(code)) {
                 dialog.dismiss();
                 onConfirmClickListener.onConfirmClick(reason.getText().toString(), code.getText().toString(), type);
-            }
+            }*/
         });
         close.setOnClickListener(v -> dialog.dismiss());
         container.setOnClickListener(v -> hideSoftKeyboard(context, view));
