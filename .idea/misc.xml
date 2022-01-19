@@ -3,41 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/background_qr.xml" value="0.34479166666666666" />
-        <entry key="app/src/main/res/drawable/paiement_selector.xml" value="0.35260416666666666" />
-        <entry key="app/src/main/res/drawable/radio_off.xml" value="0.33796296296296297" />
-        <entry key="app/src/main/res/drawable/rouded_shape.xml" value="0.35260416666666666" />
-        <entry key="app/src/main/res/drawable/shadow.xml" value="0.35260416666666666" />
-        <entry key="app/src/main/res/layout/activate_sim_dialog.xml" value="0.11041666666666666" />
-        <entry key="app/src/main/res/layout/activity_bar_code.xml" value="0.32864583333333336" />
-        <entry key="app/src/main/res/layout/activity_contract.xml" value="0.32864583333333336" />
-        <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_help.xml" value="0.3302083333333333" />
-        <entry key="app/src/main/res/layout/base_url_chooser.xml" value="0.3302083333333333" />
-        <entry key="app/src/main/res/layout/buy_recharge_dialog.xml" value="0.33645833333333336" />
-        <entry key="app/src/main/res/layout/camera_barcode.xml" value="0.32864583333333336" />
-        <entry key="app/src/main/res/layout/confirm_recharge_dialog.xml" value="0.33645833333333336" />
-        <entry key="app/src/main/res/layout/confirm_renew_dialog.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/custom_dropdown_item_layout.xml" value="0.2734375" />
-        <entry key="app/src/main/res/layout/custom_line_drop_down.xml" value="0.2734375" />
-        <entry key="app/src/main/res/layout/dialog_contract_options.xml" value="0.32864583333333336" />
-        <entry key="app/src/main/res/layout/dialog_payment_mode.xml" value="0.3302083333333333" />
-        <entry key="app/src/main/res/layout/fragment_activate_sim.xml" value="0.3302083333333333" />
-        <entry key="app/src/main/res/layout/fragment_bundles.xml" value="0.2749094202898551" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_login_new.xml" value="0.2749094202898551" />
-        <entry key="app/src/main/res/layout/fragment_mobile_payment.xml" value="0.32864583333333336" />
-        <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_reset_password.xml" value="0.3302083333333333" />
-        <entry key="app/src/main/res/layout/fragment_services.xml" value="0.2749094202898551" />
-        <entry key="app/src/main/res/layout/help_faq_item_layout.xml" value="0.3302083333333333" />
-        <entry key="app/src/main/res/layout/help_item_layout.xml" value="0.2346014492753623" />
-        <entry key="app/src/main/res/layout/logout_dialog.xml" value="0.11041666666666666" />
-        <entry key="app/src/main/res/layout/payment_item_layout.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/recover_password_dialog.xml" value="0.32864583333333336" />
-        <entry key="app/src/main/res/layout/server_error_dialog.xml" value="0.11041666666666666" />
-        <entry key="app/src/main/res/menu/tab_menu.xml" value="0.33645833333333336" />
+        <entry key="app/src/main/res/layout/activate_sim_dialog.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.12395833333333334" />
+        <entry key="app/src/main/res/layout/buy_recharge_dialog.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/confirm_recharge_dialog.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/confirm_renew_dialog.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/custom_dropdown_item_layout.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/custom_line_drop_down.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/customer_service_item_layout.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/dialog_contract_options.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/dialog_payment_mode.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/root_detection_dialog.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/update_password_dialog.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/version_update_dialog.xml" value="0.335" />
       </map>
     </option>
   </component>

@@ -1,0 +1,17 @@
+
+K
+java:S3740("/Provide the parametrized type for this generic.(ùë­8éÌˆ‘ç/
+i	java:S100("NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùë­8¥Íˆ‘ç/
+_	java:S107˜"=Method has 10 parameters, which is greater than 7 authorized.(Ô±ïíûÿÿÿÿ8ùÎˆ‘ç/
+_	java:S107Ì"=Method has 13 parameters, which is greater than 7 authorized.(÷öÛªşÿÿÿÿ8ùÎˆ‘ç/
+n	java:S117¤"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ı¼Ä8ûÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8ûÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8ûÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8üÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8üÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8üÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8üÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8ıÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8ıÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8ıÎˆ‘ç/
+s	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷öÛªşÿÿÿÿ8ıÎˆ‘ç/

@@ -652,6 +652,28 @@ public interface Utilities {
         dialog.show();
     }
 
+    static void showRootDialog(Context context, String message, View.OnClickListener onClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.root_detection_dialog, null, false);
+        Button confirm = view.findViewById(R.id.confirmBtn);
+        TextView message1 = view.findViewById(R.id.message);
+        ConstraintLayout container = view.findViewById(R.id.container);
+        message1.setText(message);
+        confirm.setOnClickListener(v -> {
+            dialog.dismiss();
+            onClickListener.onClick(v);
+        });
+        dialog.setCancelable(false);
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
     static void showLogoutDialog(Context context, String message, OnDialogButtonsClickListener onDialogButtonsClickListener) {
 
         if (context == null) {
