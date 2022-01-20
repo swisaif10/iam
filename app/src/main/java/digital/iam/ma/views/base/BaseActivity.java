@@ -28,14 +28,12 @@ import digital.iam.ma.utilities.RootUtils;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
-public class BaseActivity extends AppCompatActivity  {
+public class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "base url";
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeListener mShakeDetector;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +62,8 @@ public class BaseActivity extends AppCompatActivity  {
         super.onResume();
         // Add the following line to register the Session Manager Listener onResume
         mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
-        if(RootUtils.isDeviceRooted()){
-           // showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
-
-            Utilities.showRootDialog(this, "This device is rooted. You can't use this app.", new View.OnClickListener() {
+        if (RootUtils.isDeviceRooted()) {
+            Utilities.showRootDialog(this, getString(R.string.rooted_message_dialog), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -79,27 +75,6 @@ public class BaseActivity extends AppCompatActivity  {
             });
         }
     }
-
-    public void showAlertDialogAndExitApp(String message) {
-
-        AlertDialog alertDialog = new AlertDialog.Builder(BaseActivity.this).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-
-        alertDialog.show();
-    }
-
 
     @Override
     protected void onPause() {
