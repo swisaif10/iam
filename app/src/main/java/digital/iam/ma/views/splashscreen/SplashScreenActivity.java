@@ -19,6 +19,7 @@ import digital.iam.ma.listener.OnDialogButtonsClickListener;
 import digital.iam.ma.models.controlversion.ControlVersionData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.Resource;
+import digital.iam.ma.utilities.RootUtils;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.SplashScreenViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
@@ -43,8 +44,8 @@ public class SplashScreenActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this).get(SplashScreenViewModel.class);
         viewModel.getControlVersionLiveData().observe(this, this::handleControlVersionData);
 
+        checkIfRooted();
 
-        new Handler(Looper.getMainLooper()).postDelayed(this::controlVersion, 2000);
         //new Handler(Looper.getMainLooper()).postDelayed(this::movToNextActivity, 2000);
 
     }
@@ -125,5 +126,22 @@ public class SplashScreenActivity extends BaseActivity {
                 controlVersion();
             }
         });
+    }
+
+    public void checkIfRooted(){
+        if (RootUtils.isDeviceRooted()) {
+            Utilities.showRootDialog(this, getString(R.string.rooted_message_dialog), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }else {
+            new Handler(Looper.getMainLooper()).postDelayed(this::controlVersion, 2000);
+        }
     }
 }

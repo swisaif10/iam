@@ -1,0 +1,47 @@
+
+b
+java:S32525"LUse static access with "android.content.Context" for "INPUT_METHOD_SERVICE".(à¦ïÅ
+E
+java:S1874I"0Remove this use of "fromHtml"; it is deprecated.(ÅÀÎW
+—
+java:S1186m"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(«û³±
+œ
+java:S1186r"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ê¥¾àûÿÿÿÿ
+i
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(¹ÍÀ
+n
+java:S3776õ"RRefactor this method to reduce its Cognitive Complexity from 40 to the 15 allowed.(øÒÑÉùÿÿÿÿ
+P
+java:S1854"9Remove this useless assignment to local variable "price".(³É†
+A
+java:S1481"*Remove this unused "price" local variable.(³É†
+8	java:S131×""Add a default case to this switch.(ÜŸ•
+W	java:S125í"<This block of commented-out lines of code should be removed.(Ø’³şÿÿÿÿ
+T
+java:S1854š"=Remove this useless assignment to local variable "container".(öƒ¦¹
+E
+java:S1481š".Remove this unused "container" local variable.(öƒ¦¹
+F
+java:S1874²"0Remove this use of "fromHtml"; it is deprecated.(ÅÀÎW
+C
+java:S1068ã"'Remove this unused "TAG" private field.(ëÊ¸†ıÿÿÿÿ
+C
+java:S1068ê"'Remove this unused "TAG" private field.(ëÊ¸†ıÿÿÿÿ
+D
+java:S1604»"(Make this anonymous inner class a lambda(áİ—Ûÿÿÿÿÿ
+?
+java:S1604®"(Make this anonymous inner class a lambda(ó°ªÑ
+A
+java:S5411¯"*Use the primitive boolean expression here.(Ôƒõş
+@
+java:S5411²"*Use the primitive boolean expression here.(®¨Ğ
+@
+java:S5411µ"*Use the primitive boolean expression here.(šÂË$
+A
+java:S5411·"*Use the primitive boolean expression here.(Ôƒõş
+@
+java:S5411º"*Use the primitive boolean expression here.(®¨Ğ
+@
+java:S5411½"*Use the primitive boolean expression here.(šÂË$
+R
+java:S4973K"<Strings and Boxed types should be compared using "equals()".(££È³

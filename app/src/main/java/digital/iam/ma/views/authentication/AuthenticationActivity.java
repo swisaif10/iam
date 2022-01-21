@@ -1,11 +1,13 @@
 package digital.iam.ma.views.authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import digital.iam.ma.R;
 import digital.iam.ma.datamanager.retrofit.RetrofitClient;
 import digital.iam.ma.utilities.Constants;
+import digital.iam.ma.utilities.RootUtils;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.views.authentication.login.LoginFragment;
 import digital.iam.ma.views.authentication.resetpassword.ResetPasswordFragment;
@@ -45,5 +47,22 @@ public class AuthenticationActivity extends BaseActivity {
                 //refresh();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (RootUtils.isDeviceRooted()) {
+            Utilities.showRootDialog(this, getString(R.string.rooted_message_dialog), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
     }
 }

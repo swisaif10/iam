@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activate_sim_dialog.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/activity_authentication.xml" value="0.1125" />
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.12395833333333334" />
         <entry key="app/src/main/res/layout/buy_recharge_dialog.xml" value="0.140625" />
         <entry key="app/src/main/res/layout/confirm_recharge_dialog.xml" value="0.140625" />
@@ -13,6 +14,7 @@
         <entry key="app/src/main/res/layout/customer_service_item_layout.xml" value="0.140625" />
         <entry key="app/src/main/res/layout/dialog_contract_options.xml" value="0.140625" />
         <entry key="app/src/main/res/layout/dialog_payment_mode.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/fragment_login_new.xml" value="0.1125" />
         <entry key="app/src/main/res/layout/root_detection_dialog.xml" value="0.140625" />
         <entry key="app/src/main/res/layout/update_password_dialog.xml" value="0.140625" />
         <entry key="app/src/main/res/layout/version_update_dialog.xml" value="0.335" />
