@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.contract.Contract;
 import digital.iam.ma.models.contract.SuspendContractData;
+import digital.iam.ma.models.lines.Lines;
 import digital.iam.ma.repository.ContractRepository;
 import digital.iam.ma.utilities.Resource;
 
@@ -22,6 +23,7 @@ public class ContractViewModel extends AndroidViewModel {
     private final MutableLiveData<Resource<SuspendContractData>> resendPUKLiveData;
     private final MutableLiveData<Resource<MyConsumptionData>> myConsumptionLiveData;
     private final MutableLiveData<Resource<Contract>> changeContract;
+    private final MutableLiveData<Resource<Lines>> lines;
 
 
     public ContractViewModel(@NonNull Application application) {
@@ -35,6 +37,11 @@ public class ContractViewModel extends AndroidViewModel {
         resendPUKLiveData = new MutableLiveData<>();
         myConsumptionLiveData = new MutableLiveData<>();
         changeContract = new MutableLiveData<>();
+        lines = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<Resource<Lines>> getLines() {
+        return lines;
     }
 
     public MutableLiveData<Resource<Contract>> getChangeContract() {
@@ -89,7 +96,11 @@ public class ContractViewModel extends AndroidViewModel {
         repository.getMyConsumption(token, msisdn, lang, myConsumptionLiveData);
     }
 
-    public void changeContract(String token, String msisdn, String locale, String status){
+    public void changeContract(String token, String msisdn, String locale, String status) {
         repository.changeContract(token, msisdn, locale, status, changeContract);
+    }
+
+    public void getLines(String token, String locale) {
+        repository.getLines(token, locale, lines);
     }
 }

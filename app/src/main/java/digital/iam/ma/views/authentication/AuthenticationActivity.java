@@ -31,7 +31,7 @@ public class AuthenticationActivity extends BaseActivity {
             finish();
     }
 
-    @Override
+    /*@Override
     public void handleShakeEvent(int count) {
         super.handleShakeEvent(count);
         Utilities.showConfirmDialog(this, "Êtes vous sûr de vouloir changer la base url ?", new View.OnClickListener() {
@@ -45,5 +45,5 @@ public class AuthenticationActivity extends BaseActivity {
                 //refresh();
             }
         });
-    }
+    }*/
 }

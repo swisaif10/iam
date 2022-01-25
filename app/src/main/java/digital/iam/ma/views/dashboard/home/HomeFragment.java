@@ -246,12 +246,20 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("RESUME100", "onResume: ");
+        getMyConsumption();
+        getPaymentList();
         ((DashboardActivity) requireActivity()).showHideTabLayout(View.VISIBLE);
+        init();
     }
 
     private void init() {
         fragmentBinding.activateSimBtn.setOnClickListener(v -> Utilities.showActivateSimDialog(requireContext(), v1 -> {
-            ((DashboardActivity) requireActivity()).addFragment(new ActivateSimFragment());
+            ActivateSimFragment activateSimFragment = new ActivateSimFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("POSITION", position);
+            activateSimFragment.setArguments(bundle);
+            ((DashboardActivity) requireActivity()).addFragment(activateSimFragment);
             requireActivity().getSupportFragmentManager().setFragmentResultListener(REQUEST_CODE, this, (requestKey, result) -> {
                 if (requestKey.equals(REQUEST_CODE)) {
                     fragmentBinding.activateSimBtn.setVisibility(View.GONE);
@@ -309,8 +317,9 @@ public class HomeFragment extends Fragment {
         });
 
         fragmentBinding.showMoreBtn.setOnClickListener(v -> ((DashboardActivity) requireActivity()).selectPaymentsTab());
+
         preferenceManager.putValue(Constants.IS_LINE_ACTIVATED, ((DashboardActivity) requireActivity()).getList().get(position).getState());
-        if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("pending")) {
+        if (preferenceManager.getValue(Constants.IS_LINE_ACTIVATED, "").equalsIgnoreCase("suspended")) {
             fragmentBinding.activateSimBtn.setVisibility(View.VISIBLE);
             fragmentBinding.rechargeBtn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E1E1E1")));
             fragmentBinding.rechargeBtn.setEnabled(false);
@@ -351,14 +360,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void initConsumption(MyConsumptionResponse response) {
-        fragmentBinding.dataConsumptionReview.setValue(Float.parseFloat(response.getInternet().getPercent()));
+        fragmentBinding.dataConsumptionReview.setValue(Float.parseFloat(response.getInternet().getPercent().replace("%", "")));
         fragmentBinding.percentData.setText(String.format("%s%%", response.getInternet().getPercent()));
-        fragmentBinding.consumedData.setText(String.valueOf(response.getInternet().getBundle()));
+        fragmentBinding.consumedData.setText(response.getInternet().getBundle());
 
-        fragmentBinding.voiceConsumptionReview.setValue(Float.parseFloat(response.getCalls().getPercent()));
+        fragmentBinding.voiceConsumptionReview.setValue(Float.parseFloat(response.getCalls().getPercent().replace("%", "")));
         fragmentBinding.percentVoice.setText(String.format("%s%%", response.getCalls().getPercent()));
-        fragmentBinding.consumedVoice.setText(String.valueOf(response.getCalls().getBundle()));
-
+        fragmentBinding.consumedVoice.setText(response.getCalls().getBundle());
         fragmentBinding.body.setVisibility(View.VISIBLE);
     }
 
@@ -422,7 +430,8 @@ public class HomeFragment extends Fragment {
                         checkedMode = modePayment;
                         fragmentBinding.loader.setVisibility(View.VISIBLE);
                         ((DashboardActivity) requireActivity()).deactivateUserInteraction();
-                        rechargeViewModel.rechargePurchase(preferenceManager.getValue(Constants.TOKEN, ""), sku, ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), "fr");
+                        // MODE
+                        rechargeViewModel.rechargePurchase(preferenceManager.getValue(Constants.TOKEN, ""), sku, ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(), getPaymentmode(modePayment), "fr");
                     }
                 });
                 break;
@@ -517,4 +526,15 @@ public class HomeFragment extends Fragment {
                 .commit();
     }
 
+    public String getPaymentmode(int index) {
+        switch (index) {
+            case 0:
+                return "cmi";
+            case 1:
+                return "fatourati";
+            case 2:
+                return "mtcash";
+        }
+        return "";
+    }
 }

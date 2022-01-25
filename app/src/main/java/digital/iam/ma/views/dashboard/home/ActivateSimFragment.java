@@ -27,11 +27,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
 import com.google.mlkit.vision.barcode.Barcode;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.common.InputImage;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -39,10 +41,13 @@ import java.util.concurrent.TimeUnit;
 import digital.iam.ma.databinding.FragmentActivateSimBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.commons.ResponseData;
+import digital.iam.ma.models.lines.Lines;
+import digital.iam.ma.models.login.Line;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.NumericKeyBoardTransformationMethod;
 import digital.iam.ma.utilities.Resource;
 import digital.iam.ma.utilities.Utilities;
+import digital.iam.ma.viewmodels.ContractViewModel;
 import digital.iam.ma.viewmodels.HomeViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
 import digital.iam.ma.views.dashboard.DashboardActivity;
@@ -51,9 +56,12 @@ public class ActivateSimFragment extends Fragment {
 
     private FragmentActivateSimBinding fragmentBinding;
     private HomeViewModel viewModel;
+    private ContractViewModel contractViewModel;
     private PreferenceManager preferenceManager;
     final BarcodeScanner scanner = BarcodeScanning.getClient();
     ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    private int position = 0;
+    Line line = null;
 
     public ActivateSimFragment() {
         // Required empty public constructor
@@ -66,9 +74,42 @@ public class ActivateSimFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         viewModel.getActivateSIMLiveData().observe(this, this::handleSIMActivationData);
 
+        contractViewModel = ViewModelProviders.of(this).get(ContractViewModel.class);
+        contractViewModel.getLines().observe(this, this::handleGetLines);
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
+        if (getArguments() != null && getArguments().containsKey("POSITION")) {
+            position = getArguments().getInt("POSITION");
+        }
+
+        line = ((DashboardActivity) requireActivity()).getList().get(position);
+    }
+
+    private void handleGetLines(Resource<Lines> linesResource) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        switch (linesResource.status) {
+            case SUCCESS:
+                setList(Constants.LINE_DETAILS, linesResource.data.getResponse().getLines());
+                //((DashboardActivity) requireActivity()).initLineDropDown();
+                Bundle bundle = new Bundle();
+                HomeFragment homeFragment = new HomeFragment();
+                bundle.putInt("POSITION", position);
+                homeFragment.setArguments(bundle);
+                ((DashboardActivity)requireActivity()).replaceFragment(homeFragment, Constants.HOME);
+                /*((DashboardActivity) requireActivity()).getSupportFragmentManager().setFragmentResult("100", new Bundle());
+                requireActivity().getSupportFragmentManager().popBackStack();*/
+                break;
+            case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), linesResource.data.getHeader().getMessage(), v -> {
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
+                break;
+            case ERROR:
+                Utilities.showErrorPopup(requireContext(), linesResource.message);
+                break;
+        }
     }
 
     @Override
@@ -170,17 +211,17 @@ public class ActivateSimFragment extends Fragment {
                         barcodes -> {
                             for (Barcode barcode : barcodes) {
                                 //if (barcode.getValueType() == Barcode.TYPE_TEXT) {
-                                    String value = barcode.getDisplayValue();
-                                    if (value != null && !value.equals("")) {
-                                        try {
-                                            TimeUnit.MILLISECONDS.sleep(500);
-                                        } catch (InterruptedException exception) {
-                                            exception.printStackTrace();
-                                        }
-                                        fragmentBinding.cameraContainer.setVisibility(View.GONE);
-                                        fragmentBinding.code.setText(value);
-                                        return;
+                                String value = barcode.getDisplayValue();
+                                if (value != null && !value.equals("")) {
+                                    try {
+                                        TimeUnit.MILLISECONDS.sleep(500);
+                                    } catch (InterruptedException exception) {
+                                        exception.printStackTrace();
                                     }
+                                    fragmentBinding.cameraContainer.setVisibility(View.GONE);
+                                    fragmentBinding.code.setText(value);
+                                    return;
+                                }
                                 //}
                             }
                             imageProxy.close();
@@ -199,15 +240,15 @@ public class ActivateSimFragment extends Fragment {
 
     private void activateSim() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
-        viewModel.activateSIM(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.MSISDN, ""), fragmentBinding.code.getText().toString(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+        viewModel.activateSIM(preferenceManager.getValue(Constants.TOKEN, ""), line.getMsisdn(), fragmentBinding.code.getText().toString(), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleSIMActivationData(Resource<ResponseData> responseData) {
-        fragmentBinding.loader.setVisibility(View.GONE);
         switch (responseData.status) {
             case SUCCESS:
-                ((DashboardActivity) requireActivity()).getSupportFragmentManager().setFragmentResult("100", new Bundle());
-                requireActivity().getSupportFragmentManager().popBackStack();
+                contractViewModel.getLines(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
+                /*((DashboardActivity) requireActivity()).getSupportFragmentManager().setFragmentResult("100", new Bundle());
+                requireActivity().getSupportFragmentManager().popBackStack();*/
                 break;
             case INVALID_TOKEN:
                 Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
@@ -229,4 +270,15 @@ public class ActivateSimFragment extends Fragment {
             fragmentBinding.scanQR.setEnabled(false);
         }
     }
+
+    public <T> void setList(String key, List<T> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        set(key, json);
+    }
+
+    public void set(String key, String value) {
+        preferenceManager.putValue(key, value);
+    }
+
 }

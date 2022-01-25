@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import digital.iam.ma.BuildConfig;
 import digital.iam.ma.databinding.FragmentDiscoverOffersBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.utilities.Constants;
@@ -98,7 +99,7 @@ public class DiscoverOffersFragment extends Fragment {
             }
         });
         fragmentBinding.webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        fragmentBinding.webView.loadUrl("https://webgray.mobiblanc.com/buy-package/choose");
+        fragmentBinding.webView.loadUrl(BuildConfig.DISCOVER);
 
     }
 

@@ -9,7 +9,7 @@ public interface ApiEndpoints {
     String RESET_PASSWORD_URL = "{locale}/fo/token-reset-password";
     String ADD_NEW_PASSWORD_URL = "{locale}/fo/set-new-password";
     String UPDATE_PASSWORD_URL = "{locale}/bo/reset-password";
-    String UPDATE_PROFILE_URL = "/{locale}/user";
+    String UPDATE_PROFILE_URL = "{locale}/user";
 
     String SIM_ACTIVATION_URL = "{locale}/store/forfaits/enable";
     String GET_SERVICES_URL = "{locale}/store/services";
@@ -38,5 +38,10 @@ public interface ApiEndpoints {
 
     // Contract
     String CONTRACT_URL = "{locale}/store/contract/{status}";
+
+    String LINES_URL = "{locale}/customer-lines";
+
+    // {"header":{"code":200,"message":"OK"},"response":{"internet":{"forfait":"50 Go","percent":31,"consumed":15.5},"voix":{"forfait":"5 Heures","percent":39,"consumed":46.8}}}
+
 
 }

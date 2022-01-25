@@ -83,7 +83,7 @@
     <string name="no_hint">Non</string>
     <string name="yes_hint">Oui</string>
     <string name="sim_received_dialog_title">Avez-vous reçu votre\ncarte SIM ?</string>
-<!--    <string name="sim_received_dialog_description">Une fois votre SIM récupérée et afin d’activer votre ligne, vous avez besoin d’activer votre ligne depuis votre espace client</string>-->
+    <!--    <string name="sim_received_dialog_description">Une fois votre SIM récupérée et afin d’activer votre ligne, vous avez besoin d’activer votre ligne depuis votre espace client</string>-->
     <string name="sim_received_dialog_description">Vous avez besoin d\'activer votre ligne par le scanne de code à barre de la carte</string>
     <string name="logout_discreption">Etes vous sûr de vouloir vous déconnecter ?</string>
     <string name="help_title">Assitance</string>
@@ -94,15 +94,20 @@
     <string name="confirm_btn_label">Confirmer</string>
     <string name="reason_hint">Saisir un motif</string>
     <string name="contract_code_hint">Saisir le code du contrat</string>
-    <string name="resend_btn_label">Renvoyer</string>
+    <!--<string name="resend_btn_label">Renvoyer</string>-->
+    <string name="resend_btn_label">Récupérer</string>
     <string name="phone_number_hint">Saisis votre numéro de téléphone</string>
     <string name="suspend_contract_title">Confirmer la suspension de\nmon contrat</string>
     <string name="suspend_contract_message">Si vous confirmez et mettez en suspens votre contrat maintenant, vous pourrez le réinitialiser à tout moment en passant par votre espace client Gray</string>
     <string name="renew_contract_title">Renouveler mon\ncontrat</string>
     <string name="end_contract_title">Confirmer la résiliation de\nmon contrat</string>
     <string name="change_sim_title">Carte SIM bloquée\nou volée</string>
-    <string name="change_sim_message">Pour débloquer votre carte SIM, merci de prendre contact avec notre service client Gray au 777 (Abonnés) / 888 (Jawal)</string>
+    <!--    <string name="change_sim_message">Pour débloquer votre carte SIM, merci de prendre contact avec notre service client Gray au 777 (Abonnés) / 888 (Jawal)</string>-->
+    <string name="change_sim_message">Vous voulez suspendre temporairement votre carte SIM ?</string>
+<!--
     <string name="resend_puk_title">Renvoyer le code PUK</string>
+-->
+    <string name="resend_puk_title">Récupérer code PUK</string>
     <string name="resend_puk_message">Ce service vous permet de récupérer votre code PUK lorsque votre carte SIM est bloquée</string>
     <string name="bundle_menu_item_label">Mon forfait</string>
     <string name="payments_menu_item_label">Mes\npaiements</string>

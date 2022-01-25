@@ -16,10 +16,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import digital.iam.ma.R;
 import digital.iam.ma.datamanager.retrofit.RetrofitClient;
+import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.listener.OnBaseUrlChanged;
 import digital.iam.ma.listener.ShakeListener;
+import digital.iam.ma.models.login.Line;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.LocaleManager;
 import digital.iam.ma.utilities.Utilities;
@@ -31,6 +42,7 @@ public class BaseActivity extends AppCompatActivity  {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeListener mShakeDetector;
+    private PreferenceManager preferenceManager;
 
 
 
@@ -38,7 +50,9 @@ public class BaseActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resetTitles();
-
+        preferenceManager = new PreferenceManager.Builder(this, Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
         // ShakeListener initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
@@ -119,6 +133,35 @@ public class BaseActivity extends AppCompatActivity  {
             trans.commit();
             manager.popBackStack();
         }
+    }
+
+    public List<Line> getList() {
+        List<Line> arrayItems ;
+        String serializedObject = preferenceManager.getValue(Constants.LINE_DETAILS, "");
+        if (serializedObject != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Line>>() {
+            }.getType();
+            arrayItems = gson.fromJson(serializedObject, type);
+            Collections.sort(arrayItems, new Comparator<Line>() {
+                @Override
+                public int compare(Line o1, Line o2) {
+                    return o1.getMsisdn().compareTo(o2.getMsisdn());
+                }
+            });
+            return arrayItems;
+        }
+        return null;
+    }
+
+    public <T> void setList(String key, List<T> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        set(key, json);
+    }
+
+    public void set(String key, String value) {
+        preferenceManager.putValue(key, value);
     }
 
 }

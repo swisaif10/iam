@@ -181,10 +181,13 @@ public class BundlesFragment extends Fragment {
         fragmentBinding.bundleName.setText(((DashboardActivity) requireActivity()).getList().get(position).getBundleName());
         fragmentBinding.msisdn.setText(((DashboardActivity) requireActivity()).getList().get(position).getMsisdn());
         fragmentBinding.date.setText(String.format("%s %s\n%s %s", getString(R.string.end_at), ((DashboardActivity) requireActivity()).getList().get(position).getExpireDate().replace("-", "/"), getString(R.string.start_at), ((DashboardActivity) requireActivity()).getList().get(position).getStartDate().replace("-", "/")));
+        Log.d("PRICE100", "init: " + ((DashboardActivity) requireActivity()).getList().get(position).getPrice());
         if (((DashboardActivity) requireActivity()).getList().get(position).getPrice().contains("/")) {
             fragmentBinding.total.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice().substring(0, ((DashboardActivity) requireActivity()).getList().get(position).getPrice().indexOf(" ")));
-            fragmentBinding.unit.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice().substring(((DashboardActivity) requireActivity()).getList().get(position).getPrice().indexOf(" ") + 1).replaceFirst(" ", "\n"));
+        }else{
+            fragmentBinding.total.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice());
         }
+        fragmentBinding.unit.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice().substring(((DashboardActivity) requireActivity()).getList().get(position).getPrice().indexOf(" ") + 1).replaceFirst(" ", "\n"));
 
         actualSku = ((DashboardActivity) requireActivity()).getList().get(position).getSKu();
 
@@ -204,11 +207,13 @@ public class BundlesFragment extends Fragment {
         }
 
         fragmentBinding.internetSeekBar.setNestedScrollingEnabled(false);
-        fragmentBinding.internetSeekBar.setTickCount(internetBundlesList.size());
+        if (!internetBundlesList.isEmpty())
+            fragmentBinding.internetSeekBar.setTickCount(internetBundlesList.size());
         fragmentBinding.internetSeekBar.customTickTexts(internetBundlesList.toArray(new String[0]));
         fragmentBinding.internetSeekBar.customTickTextsTypeface(Objects.requireNonNull(ResourcesCompat.getFont(requireContext(), R.font.montserrat_bold)));
         fragmentBinding.callsSeekBar.setNestedScrollingEnabled(false);
-        fragmentBinding.callsSeekBar.setTickCount(callsBundlesList.size());
+        if (!callsBundlesList.isEmpty())
+            fragmentBinding.callsSeekBar.setTickCount(callsBundlesList.size());
         fragmentBinding.callsSeekBar.customTickTexts(callsBundlesList.toArray(new String[0]));
         fragmentBinding.callsSeekBar.customTickTextsTypeface(Objects.requireNonNull(ResourcesCompat.getFont(requireContext(), R.font.montserrat_bold)));
 
@@ -423,10 +428,10 @@ public class BundlesFragment extends Fragment {
         ((DashboardActivity) requireActivity()).deactivateUserInteraction();
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         viewModel.switchBundle(
-                preferenceManager.getValue(Constants.TOKEN,""),
+                preferenceManager.getValue(Constants.TOKEN, ""),
                 ((DashboardActivity) requireActivity()).getList().get(position).getMsisdn(),
                 selectedSku,
-                preferenceManager.getValue(Constants.LANGUAGE,"fr")
+                preferenceManager.getValue(Constants.LANGUAGE, "fr")
 
         );
         /*

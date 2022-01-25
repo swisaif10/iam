@@ -69,10 +69,11 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
             position = getArguments().getInt("POSITION");
         }
 
+        Log.d("POSITION100", "onCreate: POSITION " + position );
         line = ((DashboardActivity) requireActivity()).getList().get(position);
 
     }
@@ -82,16 +83,17 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
         ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (fatouratiResponseResource.status) {
             case SUCCESS:
-                if (fatouratiResponseResource.data.response.code == 200){
-                    String ref = "";
-                    if (fatouratiResponseResource.data != null)
+                if (fatouratiResponseResource.data != null){
+                    if (fatouratiResponseResource.data.response.code == 200) {
+                        String ref = "";
                         ref += fatouratiResponseResource.data.getResponse().getRefFat();
-                    Log.d("REF", "handleFatouratiData: " + ref);
-                    MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("REF", ref);
-                    mobilePaymentFragment.setArguments(bundle);
-                    ((DashboardActivity) requireActivity()).replaceFragment(mobilePaymentFragment, "MobilePayment");
+                        Log.d("REF", "handleFatouratiData: " + ref);
+                        MobilePaymentFragment mobilePaymentFragment = new MobilePaymentFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("REF", ref);
+                        mobilePaymentFragment.setArguments(bundle);
+                        ((DashboardActivity) requireActivity()).replaceFragment(mobilePaymentFragment, "MobilePayment");
+                    }
                 }
                 break;
             case ERROR:
@@ -130,11 +132,11 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     @Override
     public void onItemSelected(Order order, Boolean payment) {
-        if (payment){
+        if (payment) {
             Utilities.showPaymentDialog(getContext(), this.paymentData, new OnRenew() {
                 @Override
                 public void onPurchase(int mode) {
-                    switch(mode){
+                    switch (mode) {
                         case 0:
                             payOrder(String.valueOf(order.getOrderId()));
                             break;
@@ -142,7 +144,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                             Log.d("ORDER", "onPurchase: " + order.getOrderTotal());
                             fragmentBinding.loader.setVisibility(View.VISIBLE);
                             ((DashboardActivity) requireActivity()).deactivateUserInteraction();
-                            String price = order.getOrderTotal().replace("MAD","");
+                            String price = order.getOrderTotal().replace("MAD", "");
                             String fullname = preferenceManager.getValue(Constants.FIRSTNAME, "") +
                                     " " +
                                     preferenceManager.getValue(Constants.LASTNAME, "");
@@ -169,8 +171,7 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
                     }
                 }
             });
-        }
-        else {
+        } else {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setShowTitle(true);
             CustomTabsIntent customTabsIntent = builder.build();
@@ -184,13 +185,12 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void getOrders() {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
+        fragmentBinding.body.setVisibility(View.GONE);
         ((DashboardActivity) requireActivity()).deactivateUserInteraction();
         viewModel.getOrders(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.LANGUAGE, "fr"));
     }
 
     private void handleGetOrdersData(Resource<GetOrdersData> responseData) {
-        fragmentBinding.loader.setVisibility(View.GONE);
-        ((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;
@@ -212,9 +212,9 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
     private void init(GetOrdersResponse response) {
         this.ordersResponse = response;
-        fragmentBinding.bundleName.setText(((DashboardActivity) requireActivity()).getList().get(position).getBundleName());
-        fragmentBinding.msisdn.setText(((DashboardActivity) requireActivity()).getList().get(position).getMsisdn());
-        fragmentBinding.price.setText(((DashboardActivity) requireActivity()).getList().get(position).getPrice());
+        fragmentBinding.bundleName.setText(line.getBundleName());
+        fragmentBinding.msisdn.setText(line.getMsisdn());
+        fragmentBinding.price.setText(line.getPrice());
 
         fragmentBinding.payBtn.setOnClickListener(v -> {
             fragmentBinding.layoutModePayment.setVisibility(View.VISIBLE);
@@ -248,6 +248,9 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
 
         fragmentBinding.radioGroup.setOnCheckedChangeListener(this::doOnModePaymentCheckChanged);
 
+
+        fragmentBinding.loader.setVisibility(View.GONE);
+        ((DashboardActivity) requireActivity()).activateUserInteraction();
         fragmentBinding.body.setVisibility(View.VISIBLE);
     }
 
@@ -413,8 +416,8 @@ public class PaymentFragment extends Fragment implements OnItemSelectedListener 
     }
 
     private void handlePaymentListData(Resource<PaymentData> responseData) {
-        fragmentBinding.loader.setVisibility(View.GONE);
-        ((DashboardActivity) requireActivity()).activateUserInteraction();
+        //fragmentBinding.loader.setVisibility(View.GONE);
+        //((DashboardActivity) requireActivity()).activateUserInteraction();
         switch (responseData.status) {
             case SUCCESS:
                 assert responseData.data != null;

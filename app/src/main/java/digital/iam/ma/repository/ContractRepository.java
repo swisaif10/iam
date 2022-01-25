@@ -6,6 +6,7 @@ import digital.iam.ma.datamanager.ApiManager;
 import digital.iam.ma.models.consumption.MyConsumptionData;
 import digital.iam.ma.models.contract.Contract;
 import digital.iam.ma.models.contract.SuspendContractData;
+import digital.iam.ma.models.lines.Lines;
 import digital.iam.ma.utilities.Resource;
 
 public class ContractRepository {
@@ -36,5 +37,9 @@ public class ContractRepository {
 
     public void changeContract(String token, String msisdn, String locale, String status, MutableLiveData<Resource<Contract>> mutableLiveData){
         new ApiManager().changeContract(token, msisdn, locale, status, mutableLiveData);
+    }
+
+    public void getLines(String token, String locale ,MutableLiveData<Resource<Lines>> mutableLiveData){
+        new ApiManager().getLines(token, locale, mutableLiveData);
     }
 }

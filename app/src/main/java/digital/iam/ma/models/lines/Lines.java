@@ -1,14 +1,14 @@
-package digital.iam.ma.models.contract;
+package digital.iam.ma.models.lines;
 
 import com.google.gson.annotations.Expose;
 
 import digital.iam.ma.models.commons.Header;
 
-public class SuspendContractData {
+public class Lines {
     @Expose
-    private Header header;
+    public Header header;
     @Expose
-    private Response response;
+    public Response response;
 
     public Header getHeader() {
         return header;
@@ -26,4 +26,3 @@ public class SuspendContractData {
         this.response = response;
     }
 }
-

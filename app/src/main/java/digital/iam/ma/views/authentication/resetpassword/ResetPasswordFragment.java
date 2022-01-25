@@ -112,6 +112,11 @@ public class ResetPasswordFragment extends Fragment {
                 goToLogin();
                 break;
             case INVALID_TOKEN:
+                Utilities.showErrorPopupWithClick(requireContext(), responseData.data.getHeader().getMessage(), v -> {
+                    preferenceManager.clearValue(Constants.IS_LOGGED_IN);
+                    startActivity(new Intent(requireActivity(), AuthenticationActivity.class));
+                    requireActivity().finishAffinity();
+                });
                 break;
             case ERROR:
                 Utilities.showErrorPopup(requireContext(), responseData.message);

@@ -24,8 +24,6 @@ import com.google.gson.Gson;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import digital.iam.ma.Gray;
-import digital.iam.ma.databinding.FragmentLoginBinding;
 import digital.iam.ma.databinding.FragmentLoginNewBinding;
 import digital.iam.ma.datamanager.sharedpref.PreferenceManager;
 import digital.iam.ma.models.login.LoginData;
@@ -174,10 +172,13 @@ public class LoginFragment extends Fragment {
                     preferenceManager.putValue(Constants.GENDER, responseData.data.getResponse().getGender());
                     preferenceManager.putValue(Constants.ID, responseData.data.getResponse().getId());
                     System.out.println("Token : " + responseData.data.getResponse().getToken());
-                    if (isFirstLogin) {
+                    //if (isFirstLogin) {
+                    if (!fragmentBinding.username.getText().toString().isEmpty()) {
                         preferenceManager.putValue(Constants.EMAIL, fragmentBinding.username.getText().toString());
                         preferenceManager.putValue(Constants.PASSWORD, fragmentBinding.password.getText().toString());
                     }
+
+                    //}
                     preferenceManager.putValue(Constants.IS_LOGGED_IN, true);
                     Intent intent = new Intent(requireActivity(), DashboardActivity.class);
                     intent.putExtra("is_first_login", isFirstLogin);
@@ -235,7 +236,7 @@ public class LoginFragment extends Fragment {
                 .setNegativeButtonText("Annuler")
                 .setAllowedAuthenticators(biometric)
                 .build();
-        
+
         Executor executor = ContextCompat.getMainExecutor(requireContext());
         BiometricPrompt biometricPrompt = new BiometricPrompt(requireActivity(),
                 executor, new BiometricPrompt.AuthenticationCallback() {
@@ -292,7 +293,5 @@ public class LoginFragment extends Fragment {
     public void set(String key, String value) {
         preferenceManager.putValue(key, value);
     }
-
-
 
 }

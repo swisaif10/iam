@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AA000000">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_background"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.65">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_semibold"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:switchMinWidth="45dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="test" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:switchMinWidth="45dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="test" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/okBtn"
+            android:layout_width="180dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/button_selector"
+            android:fontFamily="@font/montserrat_medium"
+            android:stateListAnimator="@null"
+            android:text="@string/ok_btn"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,17 +6,17 @@ import com.google.gson.annotations.SerializedName;
 public class Item {
 
     @Expose
-    private Double consumed;
+    private Object consumed;
     @SerializedName("forfait")
     private String bundle;
     @Expose
     private String percent;
 
-    public Double getConsumed() {
+    public Object getConsumed() {
         return consumed;
     }
 
-    public void setConsumed(Double consumed) {
+    public void setConsumed(Object consumed) {
         this.consumed = consumed;
     }
 

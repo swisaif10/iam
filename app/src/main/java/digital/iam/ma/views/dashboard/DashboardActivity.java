@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import digital.iam.ma.R;
@@ -330,15 +331,17 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
 
     @SuppressLint("ClickableViewAccessibility")
     public void initLineDropDown() {
+        this.list.clear();
         List<Line> mList = getList();
         for (Line line : mList) {
             list.add(line.getMsisdn());
         }
-        activityBinding.lineRecyclerView.setAdapter(new LineAdapter(this, this.list, this));
+        //Collections.sort(this.list);
+        activityBinding.lineRecyclerView.setAdapter(new LineAdapter(this, position, this.list, this));
         activityBinding.lineRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         activityBinding.lineRecyclerView.setHasFixedSize(true);
-        activityBinding.lineDropDown.setText(list.get(0));
+        activityBinding.lineDropDown.setText(list.get(position));
     }
 
     @Override
@@ -353,18 +356,7 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         }
     }
 
-    public List<Line> getList() {
-        List<Line> arrayItems;
-        String serializedObject = preferenceManager.getValue(Constants.LINE_DETAILS, null);
-        if (serializedObject != null) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Line>>() {
-            }.getType();
-            arrayItems = gson.fromJson(serializedObject, type);
-            return arrayItems;
-        }
-        return null;
-    }
+
 
     public void deactivateUserInteraction() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -375,7 +367,7 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    @Override
+    /*@Override
     public void handleShakeEvent(int count) {
         super.handleShakeEvent(count);
         Utilities.showConfirmDialog(this, "Êtes vous sûr de vouloir changer la base url ?", new View.OnClickListener() {
@@ -389,7 +381,7 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
                 refresh();
             }
         });
-    }
+    }*/
 
     public void refresh() {
         Bundle bundle = new Bundle();
@@ -425,4 +417,9 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initLineDropDown();
+    }
 }

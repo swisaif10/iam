@@ -26,7 +26,7 @@ public class RechargeViewModel extends AndroidViewModel {
         return rechargePurchase;
     }
 
-    public void rechargePurchase(String token, String sku, String msisdn, String _locale) {
-        repository.rechargePurchase(token, sku, msisdn, _locale, rechargePurchase);
+    public void rechargePurchase(String token, String sku, String msisdn,String method_payment, String _locale) {
+        repository.rechargePurchase(token, sku, msisdn,method_payment, _locale, rechargePurchase);
     }
 }

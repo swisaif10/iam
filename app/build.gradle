@@ -22,6 +22,7 @@ android {
         versionCode 1
         versionName "1.2"
         buildConfigField("String", "FLURRY_KEY", keysProperties['flurry_key'])
+        //buildConfigField("String", "DISCOVER_URL", DISCOVER)
     }
 
     buildFeatures {
@@ -44,10 +45,12 @@ android {
         dev {
             dimension "app"
             buildConfigField "String", "BASEURL", DEV_URL
+            buildConfigField "String", "DISCOVER", DISCOVER_DEV
         }
         preprod {
             dimension "app"
             buildConfigField "String", "BASEURL", PREPROD_URL
+            buildConfigField "String", "DISCOVER", DISCOVER_PROD
         }
     }
 

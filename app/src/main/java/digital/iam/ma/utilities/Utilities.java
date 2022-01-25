@@ -477,12 +477,16 @@ public interface Utilities {
                 code.setVisibility(View.GONE);
                 break;
             case "resend_puk":
-                code.setHint(R.string.phone_number_hint);
-                code.setVisibility(View.VISIBLE);
+                //code.setHint(R.string.phone_number_hint);
+                //code.setVisibility(View.VISIBLE);
                 confirm.setText(R.string.resend_btn_label);
-                code.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                code.setTransformationMethod(new NumericKeyBoardTransformationMethod());
-                code.setTypeface(ResourcesCompat.getFont(context, R.font.avenir_book));
+                //code.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                //code.setTransformationMethod(new NumericKeyBoardTransformationMethod());
+                //code.setTypeface(ResourcesCompat.getFont(context, R.font.avenir_book));
+                break;
+            case "change_sim":
+                cancel.setText(context.getResources().getString(R.string.no_hint));
+                confirm.setText(context.getResources().getString(R.string.yes_hint));
                 break;
         }
         cancel.setOnClickListener(v -> dialog.dismiss());
@@ -548,6 +552,56 @@ public interface Utilities {
         ConstraintLayout container = view.findViewById(R.id.container);
 
         msg.setText(message);
+
+        ok.setOnClickListener(v -> dialog.dismiss());
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    static void showErrorPopupAndFinnish(Context context, String message, View.OnClickListener view1) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.server_error_dialog, null, false);
+        Button ok = view.findViewById(R.id.okBtn);
+        TextView msg = view.findViewById(R.id.message);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        msg.setText(message);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                onClick(v);
+            }
+        });
+        //ok.setOnClickListener(v -> dialog.dismiss(););
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    static void showCodePuk(Context context,String title1, String message) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.new_code_puk, null, false);
+        Button ok = view.findViewById(R.id.okBtn);
+        TextView msg = view.findViewById(R.id.message);
+        TextView title = view.findViewById(R.id.title);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        msg.setText(message);
+        title.setText(title1);
 
         ok.setOnClickListener(v -> dialog.dismiss());
         container.setOnClickListener(v -> dialog.dismiss());

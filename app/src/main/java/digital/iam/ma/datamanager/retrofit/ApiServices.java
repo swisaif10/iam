@@ -11,6 +11,7 @@ import digital.iam.ma.models.contract.SuspendContractData;
 import digital.iam.ma.models.controlversion.ControlVersionData;
 import digital.iam.ma.models.fatourati.FatouratiResponse;
 import digital.iam.ma.models.help.HelpData;
+import digital.iam.ma.models.lines.Lines;
 import digital.iam.ma.models.login.LoginData;
 import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.models.orders.GetOrdersData;
@@ -185,6 +186,7 @@ public interface ApiServices {
             @Field("token") String token,
             @Field("sku") String sku,
             @Field("msisdn") String msisdn,
+            @Field("method_payment") String method_payment,
             @Path("locale") String _locale
     );
 
@@ -215,5 +217,12 @@ public interface ApiServices {
             @Field("msisdn") String msisdn,
             @Path("locale") String locale,
             @Path("status") String status
+    );
+
+    @FormUrlEncoded
+    @POST(ApiEndpoints.LINES_URL)
+    Call<Lines> getLines(
+            @Field("token") String token,
+            @Path("locale") String locale
     );
 }

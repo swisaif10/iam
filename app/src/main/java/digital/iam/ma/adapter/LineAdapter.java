@@ -18,15 +18,17 @@ import digital.iam.ma.R;
 import digital.iam.ma.listener.OnRadioChecked;
 
 public class LineAdapter extends RecyclerView.Adapter<LineAdapter.ViewHolder> {
-    List<String> list;
-    Context context;
-    OnRadioChecked onRadioChecked;
+    private List<String> list;
+    private Context context;
+    private OnRadioChecked onRadioChecked;
     private RadioButton lastCheckedRB = null;
+    private int position;
 
-    public LineAdapter(Context context, List<String> list, OnRadioChecked onRadioChecked) {
+    public LineAdapter(Context context,int position, List<String> list, OnRadioChecked onRadioChecked) {
         this.list = list;
         this.context = context;
         this.onRadioChecked = onRadioChecked;
+        this.position = position;
     }
 
     @NonNull
@@ -38,7 +40,7 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LineAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.line.setText(list.get(position));
-        if (position == 0 && lastCheckedRB == null) {
+        if (position == this.position && lastCheckedRB == null) {
             holder.selectedLine.setChecked(true);
             lastCheckedRB = holder.selectedLine;
         }

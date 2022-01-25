@@ -79,7 +79,7 @@
     <string name="ok_btn">موافق</string>
     <string name="Bundles_title">الفورفيات</string>
     <string name="mes_forfaits">الفورفيات</string>
-    <string name="update_bundle_btn_label">تغيير طردي</string>
+    <string name="update_bundle_btn_label">تغيير عرضي</string>
     <string name="no_hint">إلغاء</string>
     <string name="yes_hint">موافق</string>
     <string name="logout_discreption">هل أنت متأكد أنك تريد تسجيل الخروج من حسابك ؟</string>

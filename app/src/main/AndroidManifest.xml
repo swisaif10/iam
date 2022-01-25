@@ -24,9 +24,10 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup"
         tools:targetApi="n">
-        <activity
+        <!--<activity
             android:name=".views.dashboard.BarCodeReader.BarCodeActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="MissingClass" />-->
         <activity
             android:name=".views.dashboard.contract.ContractActivity"
             android:windowSoftInputMode="adjustResize" />
