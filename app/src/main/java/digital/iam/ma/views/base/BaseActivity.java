@@ -3,6 +3,7 @@ package digital.iam.ma.views.base;
 import static android.content.pm.PackageManager.GET_META_DATA;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,18 +35,17 @@ import digital.iam.ma.listener.ShakeListener;
 import digital.iam.ma.models.login.Line;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.LocaleManager;
+import digital.iam.ma.utilities.RootUtils;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.views.dashboard.DashboardActivity;
 
-public class BaseActivity extends AppCompatActivity  {
+public class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "base url";
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeListener mShakeDetector;
     private PreferenceManager preferenceManager;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

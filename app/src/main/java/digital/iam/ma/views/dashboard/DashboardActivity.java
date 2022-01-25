@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +46,7 @@ import digital.iam.ma.models.logout.LogoutData;
 import digital.iam.ma.utilities.Constants;
 import digital.iam.ma.utilities.LocaleManager;
 import digital.iam.ma.utilities.Resource;
+import digital.iam.ma.utilities.RootUtils;
 import digital.iam.ma.utilities.Utilities;
 import digital.iam.ma.viewmodels.DashboardViewModel;
 import digital.iam.ma.views.authentication.AuthenticationActivity;
@@ -383,6 +386,25 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         });
     }*/
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (RootUtils.isDeviceRooted()) {
+            Utilities.showRootDialog(this, getString(R.string.rooted_message_dialog), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }else{
+            initLineDropDown();
+        }
+    }
+
     public void refresh() {
         Bundle bundle = new Bundle();
         switch (selectedFragment) {
@@ -417,9 +439,4 @@ public class DashboardActivity extends BaseActivity implements BottomNavigationV
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initLineDropDown();
-    }
 }

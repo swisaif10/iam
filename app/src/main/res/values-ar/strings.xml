@@ -138,4 +138,6 @@
     <string name="biometrics_message_description">ستتمكن من استخدام بيانات بصمة الخاصة بك لتسجيل الدخول التالي.</string>
     <string name="authentification">تسجيل الدخول</string>
     <string name="n_cin">رقم بطاقة الهوية :</string>
+    <string name="rooted_message_dialog">هذا الجهاز متجذر. لا يمكنك استخدام هذا التطبيق.</string>
+
 </resources>

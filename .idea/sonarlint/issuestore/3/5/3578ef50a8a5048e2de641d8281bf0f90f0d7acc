@@ -1,0 +1,21 @@
+
+Q	java:S125w"<This block of commented-out lines of code should be removed.(ŸÏ ±
+=	java:S131€""Add a default case to this switch.(øå´¡ÿÿÿÿÿ
+R	java:S125Ù"<This block of commented-out lines of code should be removed.(ô­¨ø
+˜
+java:S1186ï"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Îéºş
+B
+java:S1168ñ"+Return an empty collection instead of null.(¥¹ï
+8	java:S131 ""Add a default case to this switch.(ğĞì
+D
+java:S1604‡"(Make this anonymous inner class a lambda(‹ä×ùÿÿÿÿ
+D
+java:S1604”"(Make this anonymous inner class a lambda(É˜ÿıÿÿÿÿ
+?
+java:S1604€"(Make this anonymous inner class a lambda(¦úëÒ
+F
+java:S1604‘"(Make this anonymous inner class a lambda(÷İ”À8­’·ç/
+E
+java:S5411l"*Use the primitive boolean expression here.(Ò˜““ıÿÿÿÿ
+F
+java:S5411»"*Use the primitive boolean expression here.(çü‡ƒşÿÿÿÿ

@@ -1,0 +1,11 @@
+
+W
+java:S1118":Add a private constructor to hide the implicit public one.(œŸ€½8·şˆ˜ç/
+G
+java:S1181!"%Catch Exception instead of Throwable.(•”ø¾øÿÿÿÿ8¾şˆ˜ç/
+c
+java:S1126"AReplace this if-then-else statement by a single return statement.(¿ÃÎúÿÿÿÿ8Áşˆ˜ç/
+n
+java:S2677"LUse or store the value returned from "readLine" instead of throwing it away.(¿ÃÎúÿÿÿÿ8Áşˆ˜ç/
+L
+java:S2093"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ8Ãşˆ˜ç/
