@@ -17,6 +17,7 @@ public class AuthenticationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+
         if (getIntent().getExtras() != null && getIntent().getBooleanExtra("resetPasswordAction", false)) {
             addFragment(ResetPasswordFragment.newInstance(getIntent().getStringExtra("resetToken")));
         } else
