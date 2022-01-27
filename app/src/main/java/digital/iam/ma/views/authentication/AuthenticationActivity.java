@@ -25,6 +25,7 @@ public class AuthenticationActivity extends BaseActivity {
             addFragment(new LoginFragment());
     }
 
+
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 1)
