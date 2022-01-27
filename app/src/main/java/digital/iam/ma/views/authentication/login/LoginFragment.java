@@ -146,6 +146,7 @@ public class LoginFragment extends Fragment {
     }
 
 
+
     private void login(String username, String password) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         //((DashboardActivity) requireActivity()).deactivateUserInteraction();
