@@ -145,6 +145,7 @@ public class LoginFragment extends Fragment {
         return !fragmentBinding.username.getText().toString().equalsIgnoreCase("") && !fragmentBinding.password.getText().toString().equalsIgnoreCase("");
     }
 
+
     private void login(String username, String password) {
         fragmentBinding.loader.setVisibility(View.VISIBLE);
         //((DashboardActivity) requireActivity()).deactivateUserInteraction();
