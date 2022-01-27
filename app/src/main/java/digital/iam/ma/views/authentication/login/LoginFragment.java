@@ -137,6 +137,7 @@ public class LoginFragment extends Fragment {
         fragmentBinding.discoverOffersBtn.setOnClickListener(v -> ((AuthenticationActivity) requireActivity()).addFragment(new DiscoverOffersFragment()));
     }
 
+
     private Boolean checkInputs() {
         return !fragmentBinding.username.getText().toString().equalsIgnoreCase("") && !fragmentBinding.password.getText().toString().equalsIgnoreCase("");
     }
