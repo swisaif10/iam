@@ -23,6 +23,7 @@ public class AuthenticationActivity extends BaseActivity {
             addFragment(ResetPasswordFragment.newInstance(getIntent().getStringExtra("resetToken")));
         } else
             addFragment(new LoginFragment());
+
     }
 
     @Override
